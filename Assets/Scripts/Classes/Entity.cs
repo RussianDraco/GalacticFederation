@@ -12,6 +12,8 @@ public class Entity
     public int Health { get; set; }
     public float MaxMovePoints { get; set; }
     public float MovePoints { get; set; }
+    public Vector2Int Position { get; set; }
+    public GameObject GameObject { get; set; }
 
     public Entity(string name, string description, int entityid, string iconpath, int health, float maxMovePoints)
     {
