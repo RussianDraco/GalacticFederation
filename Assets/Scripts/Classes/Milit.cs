@@ -8,7 +8,7 @@ public class Milit : Entity
     public int MaxAttackPoints { get; set; }
     public int AttackPoints { get; set; }
 
-    public Milit(string name, string description, int entityid, string iconpath, int health, float maxMovePoints, int maxAttackPoints) : base(name, description, entityid, iconpath, health, maxMovePoints)
+    public Milit(string name, string description, int entityid, string iconpath, float health, float maxMovePoints, int maxAttackPoints) : base(name, description, entityid, iconpath, health, maxMovePoints)
     {
         MaxAttackPoints = maxAttackPoints;
         AttackPoints = maxAttackPoints;

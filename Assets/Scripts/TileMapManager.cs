@@ -3,42 +3,13 @@ using UnityEngine.Tilemaps;
 
 public class TileMapManager : MonoBehaviour
 {
-    private static TileMapManager instance;
+    public GameManager gameManager;
+    public EntityManager entityManager;
 
     public Tilemap tilemap;
     public TileBase basicMarsTile;
 
     private TileMap tileMap;
-
-    public static TileMapManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<TileMapManager>();
-                if (instance == null)
-                {
-                    GameObject singleton = new GameObject();
-                    instance = singleton.AddComponent<TileMapManager>();
-                    singleton.name = "TileMapManager";
-                }
-            }
-            return instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
-    }
 
     public void Initialize(TileMap tileMap)
     {
@@ -65,8 +36,6 @@ public class TileMapManager : MonoBehaviour
                 return null;
         }
     }
-
-
 
     public void AddBuilding(Vector2Int position, string buildingType)
     {

@@ -6,43 +6,19 @@ public class GameManager : MonoBehaviour
 {
     public int mapWidth = 10;
     public int mapHeight = 10;
-    private static GameManager instance;
-    private TileMap tileMap;
+    public TileMap tileMap;
+    public TileMapManager tileMapManager;
+    public EntityManager entityManager;
 
-    public static GameManager Instance
+    void Awake()
     {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameManager>();
-                if (instance == null)
-                {
-                    GameObject singleton = new GameObject();
-                    instance = singleton.AddComponent<GameManager>();
-                    singleton.name = "GameManager";
-                }
-            }
-            return instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
+        tileMap = new TileMap(mapWidth, mapHeight);   
     }
 
     private void Start()
     {
-        tileMap = new TileMap(mapWidth, mapHeight);
-        TileMapManager.Instance.Initialize(tileMap);
+        tileMapManager.Initialize(tileMap);
+        Debug.Log(entityManager.civils[0].Name); //need to fix civil importing so that they get their entity attributes
     }
 
     private void Update()
@@ -52,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateGame()
     {
-        TileMapManager.Instance.RenderTiles();
+        tileMapManager.RenderTiles();
+        entityManager.UpdateEntities();
     }
 }

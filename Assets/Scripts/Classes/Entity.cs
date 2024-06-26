@@ -9,13 +9,13 @@ public class Entity
     public string Description { get; set; }
     public int EntityId { get; set; }
     public string IconPath { get; set; }
-    public int Health { get; set; }
+    public float Health { get; set; }
     public float MaxMovePoints { get; set; }
     public float MovePoints { get; set; }
     public Vector2Int Position { get; set; }
     public GameObject GameObject { get; set; }
 
-    public Entity(string name, string description, int entityid, string iconpath, int health, float maxMovePoints)
+    public Entity(string name, string description, int entityid, string iconpath, float health, float maxMovePoints)
     {
         Name = name;
         Description = description;

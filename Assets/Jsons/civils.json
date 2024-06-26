@@ -1,5 +1,13 @@
 {
     "civils": [
-
+        {
+            "Name": "Stick Man",
+            "Description": "",
+            "EntityId": 0,
+            "IconPath": "Sprites/stickman",
+            "Health": 5,
+            "MaxMovePoints": 3,
+            "MaxActionPoints": 3
+        }
     ]
 }
