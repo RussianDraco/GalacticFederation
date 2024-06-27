@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
     public int mapWidth = 10;
     public int mapHeight = 10;
     public TileMap tileMap;
-    public TileMapManager tileMapManager;
-    public EntityManager entityManager;
+    private TileMapManager tileMapManager;
+    private EntityManager entityManager;
+    private ActionManager actionManager;
 
     void Awake()
     {
@@ -17,6 +18,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        tileMapManager = GetComponent<TileMapManager>();
+        entityManager = GetComponent<EntityManager>();
+        actionManager = GetComponent<ActionManager>();
+
         tileMapManager.Initialize(tileMap);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(0, 0));
     }

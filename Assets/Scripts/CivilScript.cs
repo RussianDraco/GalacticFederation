@@ -8,4 +8,8 @@ public class CivilScript : MonoBehaviour {
         this.gameObject.name = civil.Name;
         this.gameObject.GetComponent<SpriteRenderer>().sprite = icon;
     }
+
+    private void OnMouseDown() {
+        GameObject.Find("MANAGER").GetComponent<ActionManager>().SelectCivilian(civil);
+    }
 }

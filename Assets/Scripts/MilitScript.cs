@@ -1,3 +1,5 @@
+//Need to be derived from CivilScript.cs
+
 using UnityEngine;
 
 public class MilitScript : MonoBehaviour {

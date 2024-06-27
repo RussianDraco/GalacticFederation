@@ -3,13 +3,19 @@ using UnityEngine.Tilemaps;
 
 public class TileMapManager : MonoBehaviour
 {
-    public GameManager gameManager;
-    public EntityManager entityManager;
+    private GameManager gameManager;
+    private EntityManager entityManager;
 
     public Tilemap tilemap;
     public TileBase basicMarsTile;
 
     private TileMap tileMap;
+
+    void Start()
+    {
+        gameManager = GetComponent<GameManager>();
+        entityManager = GetComponent<EntityManager>();
+    }
 
     public void Initialize(TileMap tileMap)
     {

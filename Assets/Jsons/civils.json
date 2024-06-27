@@ -7,7 +7,14 @@
             "IconPath": "Sprites/stickman",
             "Health": 5,
             "MaxMovePoints": 3,
-            "MaxActionPoints": 3
+            "MaxActionPoints": 3,
+            "Actions": [
+                {
+                    "FunctionName": "Stick",
+                    "Description": "Wow thats pretty cool",
+                    "ActionPoints": 1
+                }
+            ]
         }
     ]
 }

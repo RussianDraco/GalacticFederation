@@ -7,8 +7,8 @@ using System.IO;
 
 public class EntityManager : MonoBehaviour
 {
-    public GameManager gameManager;
-    public TileMapManager tileMapManager;
+    private GameManager gameManager;
+    private TileMapManager tileMapManager;
 
     public float movementSpeed = 5f;
     private TileMap tileMap;
@@ -50,10 +50,12 @@ public class EntityManager : MonoBehaviour
             Debug.LogError("JSON file not found: " + jsonPath);
         }
 
+        gameManager = GetComponent<GameManager>();
+        tileMapManager = GetComponent<TileMapManager>();
         tileMap = gameManager.tileMap;
     }
 
-    private Sprite GrabIcon(string iconPath) {
+    public Sprite GrabIcon(string iconPath) {
         if (Resources.Load<Sprite>(iconPath) == null) {
             Debug.LogError("Icon not found at " + iconPath);
         }
@@ -62,7 +64,7 @@ public class EntityManager : MonoBehaviour
     }
 
     public void SpawnCivil(Civil civil, Vector2Int position) {
-        var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints);
+        var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions);
         newCivil.Position = position;
         newCivil.GameObject = Instantiate(civilPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
@@ -139,8 +141,9 @@ public class Civil
     public GameObject GameObject;
     public int MaxActionPoints;
     public int ActionPoints;
+    public List<CivilAction> Actions = new List<CivilAction>();
 
-    public Civil(string Name, string Description, string IconPath, float Health, float MaxMovePoints, int MaxActionPoints)
+    public Civil(string Name, string Description, string IconPath, float Health, float MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions)
     {
         this.Name = Name;
         this.Description = Description;
@@ -150,6 +153,26 @@ public class Civil
         this.MovePoints = MaxMovePoints;
         this.MaxActionPoints = MaxActionPoints;
         this.ActionPoints = MaxActionPoints;
+        this.Actions = Actions;
+    }
+}
+[System.Serializable]
+public class CivilActionWrapper
+{
+    public List<CivilAction> civilActions = new List<CivilAction>();
+}
+[System.Serializable]
+public class CivilAction
+{
+    public string FunctionName;
+    public string Description;
+    public int ActionPoints;
+
+    public CivilAction(string FunctionName, string Description, int ActionPoints)
+    {
+        this.FunctionName = FunctionName;
+        this.Description = Description;
+        this.ActionPoints = ActionPoints;
     }
 }
 
