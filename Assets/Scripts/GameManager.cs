@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         tileMapManager.Initialize(tileMap);
-        Debug.Log(entityManager.civils[0].Name); //need to fix civil importing so that they get their entity attributes
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(0, 0));
     }
 
     private void Update()
