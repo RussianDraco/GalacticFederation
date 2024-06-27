@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class CivilActionGod
 {
-    public static void CallCivilAction(string methodName, List<object> parameters = null)
+    public static void CallCivilAction(string methodName, object[] parameters = null) //first parameter is casting Civil
     {
         // Get the type of the current class
         Type type = typeof(CivilActionGod);
@@ -17,14 +17,11 @@ public static class CivilActionGod
         {
             if (parameters == null)
             {
-                parameters = new List<object>();
+                Debug.LogWarning("No parameters provided(first parameter needs to be casting Civil object) for method: " + methodName);
             }
 
-            // Convert the List<object> to an array
-            object[] parametersArray = parameters.ToArray();
-
             // Invoke the method with the parameters
-            method.Invoke(null, parametersArray);
+            method.Invoke(null, parameters);
         }
         else
         {
@@ -32,8 +29,10 @@ public static class CivilActionGod
         }
     }
 
-    public static void Stick()
+    //all civil actions require parameter 1: Civil caster
+    public static void Stick(Civil caster)
     {
+        Debug.Log(caster.Name + " used Stick!");
         Debug.Log("Wow, it's a stick. Pretty neat!");
     }
 }

@@ -27,7 +27,6 @@ public class SelectEntityScript : MonoBehaviour
         }
         foreach (CivilAction act in actions) {
             GameObject action = Instantiate(actionPrefab, actionsHolder.transform);
-            action.GetComponent<TMP_Text>().text = act.FunctionName + " - " + act.Description + " - " + act.ActionPoints + " AP";
             action.GetComponent<ActionOptionScript>().SetAction(act);
             action.transform.SetParent(actionsHolder.transform);
         }
