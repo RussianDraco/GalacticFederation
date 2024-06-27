@@ -10,15 +10,26 @@ public class SelectEntityScript : MonoBehaviour
     public TMP_Text nameText;
     public TMP_Text descText;
     public Image icon;
+    public GameObject actionsHolder;
+    public GameObject actionPrefab;
 
     public void Deselect() {
         selectHolder.SetActive(false);
     }
 
-    public void SetCivil(string name, string desc, Sprite icon) {
+    public void SetCivil(string name, string desc, Sprite icon, List<CivilAction> actions) {
         selectHolder.SetActive(true);
         nameText.text = name;
         descText.text = desc;
         this.icon.sprite = icon;
+        foreach (Transform child in actionsHolder.transform) {
+            Destroy(child.gameObject);
+        }
+        foreach (CivilAction act in actions) {
+            GameObject action = Instantiate(actionPrefab, actionsHolder.transform);
+            action.GetComponent<TMP_Text>().text = act.FunctionName + " - " + act.Description + " - " + act.ActionPoints + " AP";
+            action.GetComponent<ActionOptionScript>().SetAction(act);
+            action.transform.SetParent(actionsHolder.transform);
+        }
     }
 }

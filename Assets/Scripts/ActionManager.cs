@@ -15,7 +15,7 @@ public class ActionManager : MonoBehaviour {
 
     public void SelectCivilian(Civil civil) { //milit needs to be integrated next from this
         selectedEntity = civil;
-        selectEntityScript.SetCivil(civil.Name, civil.Description, entityManager.GrabIcon(civil.IconPath));
+        selectEntityScript.SetCivil(civil.Name, civil.Description, entityManager.GrabIcon(civil.IconPath), civil.Actions);
         Debug.Log("Selected civilian: " + civil.Name);
     }
 }
