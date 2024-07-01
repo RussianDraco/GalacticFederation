@@ -12,12 +12,13 @@ public class SelectEntityScript : MonoBehaviour
     public Image icon;
     public GameObject actionsHolder;
     public GameObject actionPrefab;
+    public TMP_Text pointsText;
 
     public void Deselect() {
         selectHolder.SetActive(false);
     }
 
-    public void SetCivil(string name, string desc, Sprite icon, List<CivilAction> actions) {
+    public void SetCivil(string name, string desc, int movePoints, int actionPoints, Sprite icon, List<CivilAction> actions) {
         selectHolder.SetActive(true);
         nameText.text = name;
         descText.text = desc;
@@ -30,5 +31,10 @@ public class SelectEntityScript : MonoBehaviour
             action.GetComponent<ActionOptionScript>().SetAction(act);
             action.transform.SetParent(actionsHolder.transform);
         }
+        pointsText.text = movePoints + " MP\n" + actionPoints + " AP";
+    }
+
+    public void CivilReload(int movePoints, int actionPoints) {
+        pointsText.text = movePoints + " MP\n" + actionPoints + " AP";
     }
 }

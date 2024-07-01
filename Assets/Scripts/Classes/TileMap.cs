@@ -47,15 +47,19 @@ public class TileMap
         return new Vector2Int(x, y);
     }
 
-    public void AddTileExtra(Vector2Int position, string extraType) //null for remove
+    public bool AddTileExtra(Vector2Int position, string extraType, bool overwrite = false) //null for remove
     {
         var tile = GetTile(position);
-        
+
+        if (tile.HasExtra && !overwrite)
+            return false;
+
         if (extraType == null)
             tile.HasExtra = false;
         else
             tile.HasExtra = true;
         tile.ExtraType = extraType;
         SetTile(position, tile);
+        return true;
     }
 }

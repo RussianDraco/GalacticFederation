@@ -11,11 +11,14 @@ public class LineScript : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
     }
 
-    public void DrawLine(List<Vector2> points)
+    public void DrawLine(List<Vector2> points, Color color)
     {
         lineRenderer.positionCount = points.Count;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
+
+        // Set the color of the line
+        lineRenderer.material.color = color;
 
         for (int i = 0; i < points.Count; i++)
         {

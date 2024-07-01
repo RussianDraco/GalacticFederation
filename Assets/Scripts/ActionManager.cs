@@ -26,22 +26,35 @@ public class ActionManager : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(1) && !isMoving) {
+            selectedEntity = null;
+            selectEntityScript.Deselect();
+        }
+
         if (isMoving && selectedEntity != null && selectedEntity is Civil) {
             lineObj.gameObject.SetActive(true);
 
             TileMap tileMap = gameManager.tileMap;
             List<Vector2Int> path = Pathfinding.FindPath(tileMap, (((Civil)selectedEntity).Position), tileMap.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
-            lineObj.DrawLine(RealWorldPositions(tileMap, path));
+            if (((Civil)selectedEntity).MovePoints > 0) {
+                lineObj.DrawLine(RealWorldPositions(tileMap, path), Color.green);
+            } else {
+                lineObj.DrawLine(RealWorldPositions(tileMap, path), Color.red);
+            }
             if (Input.GetMouseButtonDown(0) && ((Civil)selectedEntity).MovePoints > 0) {
                 int moveQuant = ((Civil)selectedEntity).MovePoints;
 
-                if (path.Count < ((Civil)selectedEntity).MovePoints) {
-                    moveQuant = path.Count;
+                if (path.Count - 1 < ((Civil)selectedEntity).MovePoints) {
+                    moveQuant = path.Count - 1;
                 }
 
                 Vector2Int dest = path[moveQuant];
                 entityManager.MoveEntity(((Civil)selectedEntity), dest);
                 ((Civil)selectedEntity).MovePoints -= moveQuant;
+                selectEntityScript.CivilReload(((Civil)selectedEntity).MovePoints, ((Civil)selectedEntity).ActionPoints);
+            }
+            if (Input.GetMouseButtonDown(1)) {
+                isMoving = false;
             }
         }
 
@@ -52,15 +65,19 @@ public class ActionManager : MonoBehaviour {
 
     public void SelectCivilian(Civil civil) { //milit needs to be integrated next from this
         selectedEntity = civil;
-        selectEntityScript.SetCivil(civil.Name, civil.Description, entityManager.GrabIcon(civil.IconPath), civil.Actions);
+        selectEntityScript.SetCivil(civil.Name, civil.Description, civil.MovePoints, civil.ActionPoints, entityManager.GrabIcon(civil.IconPath), civil.Actions);
     }
 
     public void RequestCivilAction(CivilAction civilAction) {
         if (selectedEntity != null || !(selectedEntity is Civil)) {
             Civil civil = (Civil)selectedEntity;
             if (civilAction.ActionPoints <= civil.ActionPoints) {
-                civil.ActionPoints -= civilAction.ActionPoints;
-                CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil });
+                if (CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil })) {
+                    civil.ActionPoints -= civilAction.ActionPoints;
+                    selectEntityScript.CivilReload(((Civil)selectedEntity).MovePoints, ((Civil)selectedEntity).ActionPoints);
+                } else {
+                    Debug.Log("Action failed!");
+                }
             } else {
                 Debug.Log("Not enough action points!");
             }
