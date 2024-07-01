@@ -138,6 +138,19 @@ public class EntityManager : MonoBehaviour
             UpdateEntityPosition(entity);
         }
     }
+
+    public void NextTurn()
+    {
+        foreach (var entity in activeCivils)
+        {
+            entity.MovePoints = entity.MaxMovePoints;
+        }
+        foreach (var entity in activeMilits)
+        {
+            entity.MovePoints = entity.MaxMovePoints;
+            entity.hasAttacked = false;
+        }
+    }
 }
 
 

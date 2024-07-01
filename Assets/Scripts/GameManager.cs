@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     private TileMapManager tileMapManager;
     private EntityManager entityManager;
     private ActionManager actionManager;
+    private ScienceManager scienceManager;
+    int turnNumber = 0;
 
     void Awake()
     {
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
         tileMapManager = GetComponent<TileMapManager>();
         entityManager = GetComponent<EntityManager>();
         actionManager = GetComponent<ActionManager>();
+        scienceManager = GetComponent<ScienceManager>();
 
         tileMapManager.Initialize(tileMap);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0));
@@ -36,5 +39,14 @@ public class GameManager : MonoBehaviour
     {
         tileMapManager.RenderTiles();
         entityManager.UpdateEntities();
+    }
+
+    public void NextTurn()
+    {
+        turnNumber++;
+        Debug.Log("Turn " + turnNumber);
+        //actionManager.NextTurn();
+        scienceManager.NextTurn();
+        entityManager.NextTurn();
     }
 }

@@ -1,0 +1,12 @@
+{
+    "innovations": [
+        {
+            "Name": "Innovation 1",
+            "Description": "Description 1",
+            "Id": 0,
+            "IconPath": "Innovations/default.png",
+            "Cost": 1,
+            "Prerequisites": []
+        }
+    ]
+}
