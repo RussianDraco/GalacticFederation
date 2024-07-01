@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
         actionManager = GetComponent<ActionManager>();
 
         tileMapManager.Initialize(tileMap);
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(0, 0));
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0));
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0));
     }
 
     private void Update()

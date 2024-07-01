@@ -74,15 +74,15 @@ public class EntityManager : MonoBehaviour
     public void SpawnCivil(Civil civil, Vector2Int position) {
         var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions);
         newCivil.Position = position;
-        newCivil.GameObject = Instantiate(civilPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+        newCivil.GameObject = Instantiate(civilPrefab, CoordToPosition(position), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
         activeCivils.Add(newCivil);
     }
     public void SpawnMilit(Milit milit, Vector2Int position) {
-        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.MaxAttackPoints);
+        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage);
         newMilit.Position = position;
-        newMilit.GameObject = Instantiate(militPrefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
-        newMilit.GameObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(newMilit.IconPath);
+        newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
+        newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
         activeMilits.Add(newMilit);
     }
 
@@ -97,13 +97,34 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public void MoveEntity(Civil civil, Vector2Int targetPosition) {
+    private bool IsOccupied(Vector2Int position) {
+        foreach (var entity in activeCivils) {
+            if (entity.Position == position) {
+                return true;
+            }
+        }
+        foreach (var entity in activeMilits) {
+            if (entity.Position == position) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool MoveEntity(Civil civil, Vector2Int targetPosition) {
+        if (IsOccupied(targetPosition)) {
+            return false;
+        }
         civil.Position = targetPosition;
         civil.GameObject.transform.position = CoordToPosition(targetPosition);
+        return true;
     }
-    public void MoveEntity(Milit milit, Vector2Int targetPosition) {
+    public bool MoveEntity(Milit milit, Vector2Int targetPosition) {
+        if (IsOccupied(targetPosition)) {
+            return false;
+        }
         milit.Position = targetPosition;
         milit.GameObject.transform.position = CoordToPosition(targetPosition);
+        return true;
     }
 
     public void UpdateEntities()
@@ -189,14 +210,14 @@ public class Milit
     public int EntityId;
     public string IconPath;
     public float Health;
-    public float MaxMovePoints;
-    public float MovePoints;
+    public int MaxMovePoints;
+    public int MovePoints;
     public Vector2Int Position;
     public GameObject GameObject;
-    public int MaxAttackPoints;
-    public int AttackPoints;
+    public bool hasAttacked;
+    public int AttackDamage;
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, float MaxMovePoints, int MaxAttackPoints)
+    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage)
     {
         this.Name = Name;
         this.Description = Description;
@@ -205,8 +226,7 @@ public class Milit
         this.Health = Health;
         this.MaxMovePoints = MaxMovePoints;
         this.MovePoints = MaxMovePoints;
-        this.MaxAttackPoints = MaxAttackPoints;
-        this.AttackPoints = MaxAttackPoints;
+        this.AttackDamage = AttackDamage;
     }
 
     public void Attack(Milit target)

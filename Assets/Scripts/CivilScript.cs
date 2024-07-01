@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class CivilScript : MonoBehaviour {
-    public Civil civil;
+    [HideInInspector] public Civil civil;
 
     public void SetCivil(Civil civil, Sprite icon) {
         this.civil = civil;
@@ -10,6 +10,6 @@ public class CivilScript : MonoBehaviour {
     }
 
     private void OnMouseDown() {
-        GameObject.Find("MANAGER").GetComponent<ActionManager>().SelectCivilian(civil);
+        GameObject.Find("MANAGER").GetComponent<ActionManager>().SelectCivil(civil);
     }
 }

@@ -34,7 +34,22 @@ public class SelectEntityScript : MonoBehaviour
         pointsText.text = movePoints + " MP\n" + actionPoints + " AP";
     }
 
+    public void SetMilit(string name, string desc, int movePoints, Sprite icon) {
+        foreach (Transform child in actionsHolder.transform) {
+            Destroy(child.gameObject);
+        }
+
+        selectHolder.SetActive(true);
+        nameText.text = name;
+        descText.text = desc;
+        this.icon.sprite = icon;
+        pointsText.text = movePoints + " MP";
+    }
+
     public void CivilReload(int movePoints, int actionPoints) {
         pointsText.text = movePoints + " MP\n" + actionPoints + " AP";
+    }
+    public void MilitReload(int movePoints) {
+        pointsText.text = movePoints + " MP";
     }
 }

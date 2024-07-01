@@ -1,5 +1,13 @@
 {
     "milits": [
-
+        {
+            "Name": "War stickman",
+            "Description": "RAH",
+            "EntityId": 2,
+            "IconPath": "Sprites/stickmanwar",
+            "Health": 5,
+            "MaxMovePoints": 4,
+            "AttackDamage": 3
+        }
     ]
 }
