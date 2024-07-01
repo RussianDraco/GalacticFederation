@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     private EntityManager entityManager;
     private ActionManager actionManager;
 
+    public 
+
     void Awake()
     {
         tileMap = new TileMap(mapWidth, mapHeight);   
@@ -24,6 +26,15 @@ public class GameManager : MonoBehaviour
 
         tileMapManager.Initialize(tileMap);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(0, 0));
+
+        
+        for (int x = 0; x < 10; x++)
+        {
+            for (int y = 0; y < 10; y++)
+            {
+                
+            }
+        }
     }
 
     private void Update()
