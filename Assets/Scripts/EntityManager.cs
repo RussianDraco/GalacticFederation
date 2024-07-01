@@ -63,6 +63,14 @@ public class EntityManager : MonoBehaviour
         return Resources.Load<Sprite>(iconPath);
     }
 
+    Vector3 CoordToPosition(Vector2Int coord) {
+        Vector2 worldPosition = tileMap.GetWorldPosition(coord);
+        return new Vector3(worldPosition.x, worldPosition.y, 0f);
+    }
+    Vector2Int PositionToCoord(Vector3 position) {
+        return tileMap.GetGridPosition(position);
+    }
+
     public void SpawnCivil(Civil civil, Vector2Int position) {
         var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions);
         newCivil.Position = position;
@@ -79,26 +87,23 @@ public class EntityManager : MonoBehaviour
     }
 
     private void UpdateEntityPosition(Civil civil) {
-        if (civil.Position != new Vector2Int((int)civil.GameObject.transform.position.x, (int)civil.GameObject.transform.position.y))
-        {
-            Vector3 targetPosition = new Vector3(civil.Position.x, civil.Position.y, 0);
-            civil.GameObject.transform.position = Vector3.MoveTowards(civil.GameObject.transform.position, targetPosition, movementSpeed * Time.deltaTime);
+        if (civil.Position != PositionToCoord(civil.GameObject.transform.position)) {
+            civil.GameObject.transform.position = Vector3.MoveTowards(civil.GameObject.transform.position, CoordToPosition(civil.Position), movementSpeed * Time.deltaTime);
         }
     }
     private void UpdateEntityPosition(Milit milit) {
-        if (milit.Position != new Vector2Int((int)milit.GameObject.transform.position.x, (int)milit.GameObject.transform.position.y)) {
-            Vector3 targetPosition = new Vector3(milit.Position.x, milit.Position.y, 0);
-            milit.GameObject.transform.position = Vector3.MoveTowards(milit.GameObject.transform.position, targetPosition, movementSpeed * Time.deltaTime);
+        if (milit.Position != PositionToCoord(milit.GameObject.transform.position)) {
+            milit.GameObject.transform.position = Vector3.MoveTowards(milit.GameObject.transform.position, CoordToPosition(milit.Position), movementSpeed * Time.deltaTime);
         }
     }
 
     public void MoveEntity(Civil civil, Vector2Int targetPosition) {
         civil.Position = targetPosition;
-        civil.GameObject.transform.position = new Vector3(targetPosition.x, targetPosition.y, 0);
+        civil.GameObject.transform.position = CoordToPosition(targetPosition);
     }
     public void MoveEntity(Milit milit, Vector2Int targetPosition) {
         milit.Position = targetPosition;
-        milit.GameObject.transform.position = new Vector3(targetPosition.x, targetPosition.y, 0);
+        milit.GameObject.transform.position = CoordToPosition(targetPosition);
     }
 
     public void UpdateEntities()
@@ -135,15 +140,15 @@ public class Civil
     public string Description;
     public string IconPath;
     public float Health;
-    public float MaxMovePoints;
-    public float MovePoints;
+    public int MaxMovePoints;
+    public int MovePoints;
     public Vector2Int Position;
     public GameObject GameObject;
     public int MaxActionPoints;
     public int ActionPoints;
     public List<CivilAction> Actions = new List<CivilAction>();
 
-    public Civil(string Name, string Description, string IconPath, float Health, float MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions)
+    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions)
     {
         this.Name = Name;
         this.Description = Description;

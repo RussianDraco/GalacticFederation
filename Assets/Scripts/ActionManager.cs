@@ -28,7 +28,21 @@ public class ActionManager : MonoBehaviour {
     {
         if (isMoving && selectedEntity != null && selectedEntity is Civil) {
             lineObj.gameObject.SetActive(true);
-            lineObj.DrawLine(RealWorldPositions(gameManager.tileMap, Pathfinding.FindPath(gameManager.tileMap, (((Civil)selectedEntity).Position), new Vector2Int(2, 2))));//Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+
+            TileMap tileMap = gameManager.tileMap;
+            List<Vector2Int> path = Pathfinding.FindPath(tileMap, (((Civil)selectedEntity).Position), tileMap.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+            lineObj.DrawLine(RealWorldPositions(tileMap, path));
+            if (Input.GetMouseButtonDown(0) && ((Civil)selectedEntity).MovePoints > 0) {
+                int moveQuant = ((Civil)selectedEntity).MovePoints;
+
+                if (path.Count < ((Civil)selectedEntity).MovePoints) {
+                    moveQuant = path.Count - 1;
+                }
+
+                Vector2Int dest = path[moveQuant];
+                entityManager.MoveEntity(((Civil)selectedEntity), dest);
+                ((Civil)selectedEntity).MovePoints -= moveQuant;
+            }
         }
 
         if (!isMoving) {

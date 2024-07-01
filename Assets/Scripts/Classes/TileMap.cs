@@ -33,9 +33,19 @@ public class TileMap
 
     public Vector2 GetWorldPosition(Vector2Int position)
     {
-        if (position.x % 2 == 0)
-            return new Vector2(position.x * gridCellX, position.y * gridCellY);
+        if (position.y % 2 == 0)
+            return new Vector2(position.x * gridCellX, position.y * 0.75f * gridCellY);
         else
-            return new Vector2(0.5f * gridCellX + position.x * gridCellX, position.y * gridCellY);
+            return new Vector2(position.x * gridCellX + gridCellX / 2, position.y * 0.75f * gridCellY);
+    }
+
+    public Vector2Int GetGridPosition(Vector2 worldPosition)
+    {
+        var y = Mathf.FloorToInt((worldPosition.y + gridCellY / 2) / gridCellY / 0.75f);
+        var x = Mathf.FloorToInt((worldPosition.x + gridCellX / 2 - (y % 2 == 0 ? 0 : gridCellX / 2)) / gridCellX);
+
+        //var x = Mathf.FloorToInt(worldPosition.x / gridCellX);
+        //var y = Mathf.FloorToInt(worldPosition.y / gridCellY / 0.75f);
+        return new Vector2Int(x, y);
     }
 }

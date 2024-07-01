@@ -65,27 +65,57 @@ public static class Pathfinding
 
     private static float Heuristic(Vector2Int a, Vector2Int b)
     {
-        // Manhattan distance for hexagonal grids
-        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        return HexDistance(a, b);
     }
 
     private static float Distance(Vector2Int a, Vector2Int b)
     {
-        return Vector2Int.Distance(a, b);
+        return HexDistance(a, b);
+    }
+
+    private static float HexDistance(Vector2Int a, Vector2Int b)
+    {
+        // Convert axial to cube coordinates
+        var ac = AxialToCube(a);
+        var bc = AxialToCube(b);
+
+        // Calculate the distance in cube coordinates
+        return (Mathf.Abs(ac.x - bc.x) + Mathf.Abs(ac.y - bc.y) + Mathf.Abs(ac.z - bc.z)) / 2;
+    }
+
+    private static Vector3Int AxialToCube(Vector2Int hex)
+    {
+        var x = hex.x;
+        var z = hex.y;
+        var y = -x - z;
+        return new Vector3Int(x, y, z);
     }
 
     private static IEnumerable<Vector2Int> GetNeighbors(Vector2Int current)
     {
-        // Define the six possible directions in a hexagonal grid
-        var directions = new List<Vector2Int>
-        {
-            new Vector2Int(1, 0),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(0, -1),
-            new Vector2Int(1, -1),
-            new Vector2Int(-1, 1)
-        };
+        List<Vector2Int> directions;
+        if (current.y % 2 == 0) {
+            directions = new List<Vector2Int>
+            {
+                new Vector2Int(-1, 0),
+                new Vector2Int(-1, 1),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 0),
+                new Vector2Int(-1, -1),
+                new Vector2Int(0, -1),
+            };
+        }
+        else {
+            directions = new List<Vector2Int>
+            {
+                new Vector2Int(-1, 0),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 1),
+                new Vector2Int(1, 0),
+                new Vector2Int(1, -1),
+                new Vector2Int(0, -1),
+            };
+        }
 
         foreach (var direction in directions)
         {
