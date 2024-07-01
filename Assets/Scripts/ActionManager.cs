@@ -36,7 +36,7 @@ public class ActionManager : MonoBehaviour {
                 int moveQuant = ((Civil)selectedEntity).MovePoints;
 
                 if (path.Count < ((Civil)selectedEntity).MovePoints) {
-                    moveQuant = path.Count - 1;
+                    moveQuant = path.Count;
                 }
 
                 Vector2Int dest = path[moveQuant];
@@ -60,7 +60,7 @@ public class ActionManager : MonoBehaviour {
             Civil civil = (Civil)selectedEntity;
             if (civilAction.ActionPoints <= civil.ActionPoints) {
                 civil.ActionPoints -= civilAction.ActionPoints;
-                CivilActionGod.CallCivilAction(civilAction.FunctionName, new object[] { civil });
+                CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil });
             } else {
                 Debug.Log("Not enough action points!");
             }

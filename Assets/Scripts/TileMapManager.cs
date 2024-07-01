@@ -7,7 +7,10 @@ public class TileMapManager : MonoBehaviour
     private EntityManager entityManager;
 
     public Tilemap tilemap;
+    public Tilemap extrasTilemap;
     public TileBase basicMarsTile;
+
+    public TileBase farmBuilding;
 
     private TileMap tileMap;
 
@@ -29,6 +32,10 @@ public class TileMapManager : MonoBehaviour
         {
             TileBase tileBase = GetTileBase(tile);
             tilemap.SetTile(new Vector3Int(tile.Position.x, tile.Position.y, 0), tileBase);
+            if (tile.HasExtra)
+            {
+                extrasTilemap.SetTile(new Vector3Int(tile.Position.x, tile.Position.y, 0), GetTileExtra(tile.ExtraType));
+            }
         }
     }
 
@@ -42,14 +49,14 @@ public class TileMapManager : MonoBehaviour
                 return null;
         }
     }
-
-    public void AddBuilding(Vector2Int position, string buildingType)
+    TileBase GetTileExtra(string extraType)
     {
-        var tile = tileMap.GetTile(position);
-        if (tile != null && !tile.HasBuilding)
+        switch (extraType)
         {
-            tile.HasBuilding = true;
-            tile.BuildingType = buildingType;
+            case "Farm":
+                return farmBuilding;
+            default:
+                return null;
         }
     }
 
@@ -59,16 +66,6 @@ public class TileMapManager : MonoBehaviour
         if (tile != null)
         {
             tile.TerrainType = newTerrainType;
-        }
-    }
-
-    public void HarvestResource(Vector2Int position)
-    {
-        var tile = tileMap.GetTile(position);
-        if (tile != null && tile.HasResource)
-        {
-            tile.HasResource = false;
-            tile.ResourceType = null;
         }
     }
 }

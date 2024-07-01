@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
     private EntityManager entityManager;
     private ActionManager actionManager;
 
-    public GameObject dotPrefab;
-
     void Awake()
     {
         tileMap = new TileMap(mapWidth, mapHeight);   

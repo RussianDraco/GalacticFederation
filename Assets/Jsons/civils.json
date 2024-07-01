@@ -10,8 +10,8 @@
             "MaxActionPoints": 3,
             "Actions": [
                 {
-                    "FunctionName": "Stick",
-                    "Description": "Wow thats pretty cool",
+                    "FunctionName": "Build Farm",
+                    "Description": "Add a farm here",
                     "ActionPoints": 1
                 }
             ]

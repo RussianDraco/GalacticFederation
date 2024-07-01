@@ -44,8 +44,18 @@ public class TileMap
         var y = Mathf.FloorToInt((worldPosition.y + gridCellY / 2) / gridCellY / 0.75f);
         var x = Mathf.FloorToInt((worldPosition.x + gridCellX / 2 - (y % 2 == 0 ? 0 : gridCellX / 2)) / gridCellX);
 
-        //var x = Mathf.FloorToInt(worldPosition.x / gridCellX);
-        //var y = Mathf.FloorToInt(worldPosition.y / gridCellY / 0.75f);
         return new Vector2Int(x, y);
+    }
+
+    public void AddTileExtra(Vector2Int position, string extraType) //null for remove
+    {
+        var tile = GetTile(position);
+        
+        if (extraType == null)
+            tile.HasExtra = false;
+        else
+            tile.HasExtra = true;
+        tile.ExtraType = extraType;
+        SetTile(position, tile);
     }
 }

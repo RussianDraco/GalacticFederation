@@ -30,9 +30,9 @@ public static class CivilActionGod
     }
 
     //all civil actions require parameter 1: Civil caster
-    public static void Stick(Civil caster)
+
+    public static void Build_Farm(Civil civil) 
     {
-        Debug.Log(caster.Name + " used Stick!");
-        Debug.Log("Wow, it's a stick. Pretty neat!");
+        GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(civil.Position, "Farm");
     }
 }
