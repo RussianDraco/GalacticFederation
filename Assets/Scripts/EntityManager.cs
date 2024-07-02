@@ -151,6 +151,20 @@ public class EntityManager : MonoBehaviour
             entity.hasAttacked = false;
         }
     }
+
+    public void KillEntity(object entity)
+    {
+        if (entity is Civil)
+        {
+            activeCivils.Remove((Civil)entity);
+            Destroy(((Civil)entity).GameObject);
+        }
+        else if (entity is Milit)
+        {
+            activeMilits.Remove((Milit)entity);
+            Destroy(((Milit)entity).GameObject);
+        }
+    }
 }
 
 
@@ -174,6 +188,7 @@ public class Civil
     public string Description;
     public string IconPath;
     public float Health;
+    public float MaxHealth;
     public int MaxMovePoints;
     public int MovePoints;
     public Vector2Int Position;
@@ -188,6 +203,7 @@ public class Civil
         this.Description = Description;
         this.IconPath = IconPath;
         this.Health = Health;
+        this.MaxHealth = Health;
         this.MaxMovePoints = MaxMovePoints;
         this.MovePoints = MaxMovePoints;
         this.MaxActionPoints = MaxActionPoints;
@@ -223,6 +239,7 @@ public class Milit
     public int EntityId;
     public string IconPath;
     public float Health;
+    public float MaxHealth;
     public int MaxMovePoints;
     public int MovePoints;
     public Vector2Int Position;
@@ -237,6 +254,7 @@ public class Milit
         this.EntityId = EntityId;
         this.IconPath = IconPath;
         this.Health = Health;
+        this.MaxHealth = Health;
         this.MaxMovePoints = MaxMovePoints;
         this.MovePoints = MaxMovePoints;
         this.AttackDamage = AttackDamage;

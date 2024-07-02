@@ -50,7 +50,7 @@ public class ScienceManager : MonoBehaviour {
     }
     public void StartResearch(int innovId) {
         Innovation innovation = innovations[innovId];
-        if (CanResearch(innovation)) {
+        if (CanResearch(innovation) && !innovation.isResearched) {
             currentResearch = innovation;
             researchProgress = 0;
             progressImg.gameObject.SetActive(true);

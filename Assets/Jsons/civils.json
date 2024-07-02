@@ -1,20 +1,30 @@
 {
     "civils": [
         {
+            "Name": "Settlers",
+            "Description": "Construct settlements from scratch",
+            "EntityId": 0,
+            "IconPath": "Sprites/settlers",
+            "Health": 2,
+            "MaxMovePoints": 2,
+            "MaxActionPoints": 1,
+            "Actions": [
+                {
+                    "FunctionName": "Settle",
+                    "Description": "Settle here",
+                    "ActionPoints": 1
+                }
+            ]
+        },
+        {
             "Name": "Stick Man",
             "Description": "",
-            "EntityId": 0,
+            "EntityId": 1,
             "IconPath": "Sprites/stickman",
             "Health": 5,
             "MaxMovePoints": 3,
             "MaxActionPoints": 3,
-            "Actions": [
-                {
-                    "FunctionName": "Build Farm",
-                    "Description": "Add a farm here",
-                    "ActionPoints": 1
-                }
-            ]
+            "Actions": []
         }
     ]
 }

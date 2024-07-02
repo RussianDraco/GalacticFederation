@@ -8,6 +8,7 @@ public class ScienceMenu : MonoBehaviour
     public GameObject holder;
     public TMP_Text innovationName;
     public TMP_Text innovationDescription;
+    public GameObject innovationPropertyPanel;
     [HideInInspector] public int selectedInnovation;
     public ScienceManager scienceManager;
 
@@ -21,6 +22,7 @@ public class ScienceMenu : MonoBehaviour
 
     public void IsActive(bool active)
     {
+        selectedInnovation = -1;
         holder.SetActive(active);
 
         if (active) {
@@ -44,12 +46,14 @@ public class ScienceMenu : MonoBehaviour
             selectedInnovation = -1;
             innovationName.gameObject.SetActive(false);
             innovationDescription.gameObject.SetActive(false);
+            innovationPropertyPanel.SetActive(false);
             scienceManager.StartResearch(id);
             GameObject.Find("MANAGER").GetComponent<MenuManager>().XButton();
             return;
         }
 
         selectedInnovation = id;
+        innovationPropertyPanel.SetActive(true);
         innovationName.gameObject.SetActive(true);
         innovationDescription.gameObject.SetActive(true);
         innovationName.text = scienceManager.innovations[id].Name;

@@ -8,9 +8,12 @@ public class TileMapManager : MonoBehaviour
 
     public Tilemap tilemap;
     public Tilemap extrasTilemap;
+    
+    [Header("Terrain Tiles")]
     public TileBase basicMarsTile;
 
-    public TileBase farmBuilding;
+    [Header("Building Tiles")]
+    public TileBase settlementBuilding;
 
     private TileMap tileMap;
 
@@ -53,8 +56,8 @@ public class TileMapManager : MonoBehaviour
     {
         switch (extraType)
         {
-            case "Farm":
-                return farmBuilding;
+            case "Settlement":
+                return settlementBuilding;
             default:
                 return null;
         }

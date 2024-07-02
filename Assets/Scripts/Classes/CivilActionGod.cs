@@ -40,11 +40,14 @@ public static class CivilActionGod
         return false;
     }
 
+
     //all civil actions require parameter 1: Civil caster
 
-    public static bool Build_Farm(Civil civil) 
+    public static bool Settle(Civil civil)
     {
-        if (GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(civil.Position, "Farm")) {
+        if (GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(civil.Position, "Settlement")) {
+            GameObject.Find("MANAGER").GetComponent<EntityManager>().KillEntity(civil);
+            GameObject.Find("MANAGER").GetComponent<ActionManager>().Deselection();
             return true;
         } else {
             return false;

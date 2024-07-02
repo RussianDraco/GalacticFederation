@@ -123,6 +123,11 @@ public class ActionManager : MonoBehaviour {
         isMoving = true;
     }
 
+    public void Deselection() {
+        selectedEntity = null;
+        isMoving = false;
+    }
+
     public void NextTurn() {
         selectedEntity = null;
         isMoving = false;
