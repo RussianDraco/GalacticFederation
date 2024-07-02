@@ -122,4 +122,9 @@ public class ActionManager : MonoBehaviour {
     public void MoveButton() {
         isMoving = true;
     }
+
+    public void NextTurn() {
+        selectedEntity = null;
+        isMoving = false;
+    }
 }

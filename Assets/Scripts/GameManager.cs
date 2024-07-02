@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     {
         turnNumber++;
         Debug.Log("Turn " + turnNumber);
-        //actionManager.NextTurn();
+        actionManager.NextTurn();
         scienceManager.NextTurn();
         entityManager.NextTurn();
     }

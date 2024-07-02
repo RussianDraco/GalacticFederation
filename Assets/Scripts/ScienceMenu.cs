@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ScienceMenu : MonoBehaviour
 {   
     public GameObject holder;
+    public TMP_Text innovationName;
+    public TMP_Text innovationDescription;
+    [HideInInspector] public int selectedInnovation;
+    public ScienceManager scienceManager;
 
     Sprite GrabIcon(string iconPath) {
         if (Resources.Load<Sprite>(iconPath) == null) {
@@ -19,14 +24,15 @@ public class ScienceMenu : MonoBehaviour
         holder.SetActive(active);
 
         if (active) {
-            ScienceManager sm = GameObject.Find("GameManager").GetComponent<ScienceManager>();
             foreach(Transform child in holder.transform)
             {
                 InnovationOptionScript ios = child.GetComponent<InnovationOptionScript>();
-                Innovation innovation = sm.innovations[ios.id];
+                if (ios == null) continue;
+                Innovation innovation = scienceManager.innovations[ios.id];
                 ios.UpdateOption(
                     innovation.isResearched,
-                    GrabIcon(innovation.IconPath)
+                    GrabIcon(innovation.IconPath),
+                    innovation.Id
                 );
             }
         }
@@ -34,6 +40,19 @@ public class ScienceMenu : MonoBehaviour
 
     public void ResearchClicked(int id)
     {
-        // do something
+        if (selectedInnovation == id) {
+            selectedInnovation = -1;
+            innovationName.gameObject.SetActive(false);
+            innovationDescription.gameObject.SetActive(false);
+            scienceManager.StartResearch(id);
+            GameObject.Find("MANAGER").GetComponent<MenuManager>().XButton();
+            return;
+        }
+
+        selectedInnovation = id;
+        innovationName.gameObject.SetActive(true);
+        innovationDescription.gameObject.SetActive(true);
+        innovationName.text = scienceManager.innovations[id].Name;
+        innovationDescription.text = scienceManager.innovations[id].Description;
     }
 }

@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class ScienceManager : MonoBehaviour {
     [HideInInspector] public List<Innovation> innovations = new List<Innovation>(); //starts with id 0; should be ordered by id
     Innovation currentResearch;
     int researchProgress = 0;
+    public TMP_Text progressText;
+    public Image progressImg;
 
-    void Awake()
-    {
+    void Awake() {
         string jsonPath = Application.dataPath + "/Jsons/innovations.json";
         if (System.IO.File.Exists(jsonPath))
         {
@@ -20,7 +23,11 @@ public class ScienceManager : MonoBehaviour {
         {
             Debug.LogError("JSON file not found: " + jsonPath);
         }
-    
+    }
+    void Start() {
+        progressImg.sprite = null;
+        progressImg.gameObject.SetActive(false);
+        progressText.text = "";
     }
 
     public bool IsResearched(int innovId) {return innovations[innovId].isResearched;}
@@ -34,21 +41,35 @@ public class ScienceManager : MonoBehaviour {
         return true;
     }
 
+    Sprite GrabIcon(string iconPath) {
+        if (Resources.Load<Sprite>(iconPath) == null) {
+            Debug.LogError("Icon not found at " + iconPath);
+        }
+
+        return Resources.Load<Sprite>(iconPath);
+    }
     public void StartResearch(int innovId) {
         Innovation innovation = innovations[innovId];
         if (CanResearch(innovation)) {
             currentResearch = innovation;
             researchProgress = 0;
+            progressImg.gameObject.SetActive(true);
+            progressImg.sprite = GrabIcon(innovation.IconPath);
+            progressText.text = (Mathf.Round(researchProgress / (float)currentResearch.Cost * 100)).ToString() + "%";
         }
     }
 
     public void NextTurn() {
         if (currentResearch != null) {
             researchProgress++;
+            progressText.text = (Mathf.Round(researchProgress / (float)currentResearch.Cost * 100)).ToString() + "%";
             if (researchProgress >= currentResearch.Cost) {
                 currentResearch.isResearched = true;
                 currentResearch = null;
                 researchProgress = 0;
+                progressImg.sprite = null;
+                progressText.text = "";
+                progressImg.gameObject.SetActive(false);
             }
         }
     }
