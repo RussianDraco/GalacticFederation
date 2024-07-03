@@ -7,13 +7,13 @@ public class MenuManager : MonoBehaviour {
 
     public GameObject xButton;
 
-    bool scienceMenuOpen = false;
+    //bool scienceMenuOpen = false;
 
     public ScienceMenu scienceMenu;
 
     void Start()
     {
-        scienceMenuOpen = false;
+        //scienceMenuOpen = false;
         scienceMenu.IsActive(false);
 
 
@@ -27,14 +27,14 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void XButton() {
-        scienceMenuOpen = false;
+        //scienceMenuOpen = false;
         scienceMenu.IsActive(false);
 
         MenuChange(false);
     }
 
     public void ScienceMenuButton() {
-        scienceMenuOpen = true;
+        //scienceMenuOpen = true;
         scienceMenu.IsActive(true);
 
         MenuChange(true);

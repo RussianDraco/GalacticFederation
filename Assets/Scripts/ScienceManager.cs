@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 
 public class ScienceManager : MonoBehaviour {
+    private YieldManager yieldManager;
     [HideInInspector] public List<Innovation> innovations = new List<Innovation>(); //starts with id 0; should be ordered by id
     Innovation currentResearch;
     int researchProgress = 0;
@@ -25,6 +26,7 @@ public class ScienceManager : MonoBehaviour {
         }
     }
     void Start() {
+        yieldManager = GetComponent<YieldManager>();
         progressImg.sprite = null;
         progressImg.gameObject.SetActive(false);
         progressText.text = "";
@@ -61,7 +63,7 @@ public class ScienceManager : MonoBehaviour {
 
     public void NextTurn() {
         if (currentResearch != null) {
-            researchProgress++;
+            researchProgress += yieldManager.sciencePoints;
             progressText.text = (Mathf.Round(researchProgress / (float)currentResearch.Cost * 100)).ToString() + "%";
             if (researchProgress >= currentResearch.Cost) {
                 currentResearch.isResearched = true;

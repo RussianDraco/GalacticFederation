@@ -5,16 +5,16 @@
             "Description": "Description 1",
             "Id": 0,
             "IconPath": "Innovations/default",
-            "Cost": 4,
+            "Cost": 6,
             "Prerequisites": []
         },
         {
-            "Name":"Innovation 2",
-            "Description":"Description 2",
-            "Id":1,
-            "IconPath":"Innovations/default",
-            "Cost":4,
-            "Prerequisites":[0]
+            "Name": "Innovation 2",
+            "Description": "Description 2",
+            "Id": 1,
+            "IconPath": "Innovations/default",
+            "Cost": 7,
+            "Prerequisites": [0]
         }
     ]
 }

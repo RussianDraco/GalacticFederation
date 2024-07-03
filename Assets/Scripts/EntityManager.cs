@@ -110,6 +110,19 @@ public class EntityManager : MonoBehaviour
         }
         return false;
     }
+    public object EntityOn(Vector2Int position) {
+        foreach (var entity in activeCivils) {
+            if (entity.Position == position) {
+                return entity;
+            }
+        }
+        foreach (var entity in activeMilits) {
+            if (entity.Position == position) {
+                return entity;
+            }
+        }
+        return null;
+    }
     public bool MoveEntity(Civil civil, Vector2Int targetPosition) {
         if (IsOccupied(targetPosition)) {
             return false;

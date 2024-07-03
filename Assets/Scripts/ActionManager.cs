@@ -106,6 +106,10 @@ public class ActionManager : MonoBehaviour {
             Civil civil = (Civil)selectedEntity;
             if (civilAction.ActionPoints <= civil.ActionPoints) {
                 if (CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil })) {
+                    if (selectedEntity == null) {
+                        return;
+                    }
+
                     civil.ActionPoints -= civilAction.ActionPoints;
                     selectEntityScript.CivilReload(((Civil)selectedEntity).MovePoints, ((Civil)selectedEntity).ActionPoints);
                 } else {
@@ -126,10 +130,12 @@ public class ActionManager : MonoBehaviour {
     public void Deselection() {
         selectedEntity = null;
         isMoving = false;
+        selectEntityScript.Deselect();
     }
 
     public void NextTurn() {
         selectedEntity = null;
         isMoving = false;
+        selectEntityScript.Deselect();
     }
 }
