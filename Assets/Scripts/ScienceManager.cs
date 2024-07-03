@@ -27,8 +27,12 @@ public class ScienceManager : MonoBehaviour {
     }
     void Start() {
         yieldManager = GetComponent<YieldManager>();
-        progressImg.sprite = null;
-        progressImg.gameObject.SetActive(false);
+        progressImg.sprite = GrabIcon("Innovations/default");
+
+        Color imageColor = progressImg.color;
+        imageColor.a = 1.0f;
+        progressImg.color = imageColor;
+        
         progressText.text = "";
     }
 
@@ -55,8 +59,12 @@ public class ScienceManager : MonoBehaviour {
         if (CanResearch(innovation) && !innovation.isResearched) {
             currentResearch = innovation;
             researchProgress = 0;
-            progressImg.gameObject.SetActive(true);
             progressImg.sprite = GrabIcon(innovation.IconPath);
+
+            Color imageColor = progressImg.color;
+            imageColor.a = 0.5f;
+            progressImg.color = imageColor;
+
             progressText.text = (Mathf.Round(researchProgress / (float)currentResearch.Cost * 100)).ToString() + "%";
         }
     }
@@ -69,9 +77,13 @@ public class ScienceManager : MonoBehaviour {
                 currentResearch.isResearched = true;
                 currentResearch = null;
                 researchProgress = 0;
-                progressImg.sprite = null;
+                progressImg.sprite = GrabIcon("Innovations/default");
+
+                Color imageColor = progressImg.color;
+                imageColor.a = 1.0f;
+                progressImg.color = imageColor;
+
                 progressText.text = "";
-                progressImg.gameObject.SetActive(false);
             }
         }
     }

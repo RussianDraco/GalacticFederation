@@ -45,9 +45,10 @@ public static class CivilActionGod
 
     public static bool Settle(Civil civil)
     {
-        if (GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(civil.Position, "Settlement")) {
+        if (GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(civil.Position, "City")) {
             GameObject.Find("MANAGER").GetComponent<EntityManager>().KillEntity(civil);
             GameObject.Find("MANAGER").GetComponent<ActionManager>().Deselection();
+            GameObject.Find("MANAGER").GetComponent<CityManager>().AddCity(civil.Position);
             return true;
         } else {
             return false;

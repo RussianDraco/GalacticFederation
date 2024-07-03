@@ -209,6 +209,7 @@ public class Civil
     public int MaxActionPoints;
     public int ActionPoints;
     public List<CivilAction> Actions = new List<CivilAction>();
+    public string Owner;
 
     public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions)
     {
@@ -222,6 +223,7 @@ public class Civil
         this.MaxActionPoints = MaxActionPoints;
         this.ActionPoints = MaxActionPoints;
         this.Actions = Actions;
+        this.Owner = "Player";
     }
 }
 [System.Serializable]
@@ -259,6 +261,7 @@ public class Milit
     public GameObject GameObject;
     public bool hasAttacked;
     public int AttackDamage;
+    public string Owner;
 
     public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage)
     {
@@ -271,6 +274,7 @@ public class Milit
         this.MaxMovePoints = MaxMovePoints;
         this.MovePoints = MaxMovePoints;
         this.AttackDamage = AttackDamage;
+        this.Owner = "Player";
     }
 
     public void Attack(Milit target)

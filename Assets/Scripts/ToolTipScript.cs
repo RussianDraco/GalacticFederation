@@ -29,7 +29,8 @@ public class ToolTipScript : MonoBehaviour {
     }
 
     void DisplayTileTip() {
-        TileMap tilemap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
+        GameObject manager = GameObject.Find("MANAGER");
+        TileMap tilemap = manager.GetComponent<GameManager>().tileMap;
         Tile tile;
         try {
             tile = tilemap.Tiles[tilemap.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition))];
@@ -38,20 +39,25 @@ public class ToolTipScript : MonoBehaviour {
             return;
         }
 
-        EntityManager entityManager = GameObject.Find("MANAGER").GetComponent<EntityManager>();
+        EntityManager entityManager = manager.GetComponent<EntityManager>();
         object entity = entityManager.EntityOn(tile.Position);
 
-        string finalToolTip = tile.TerrainType;
+        string finalToolTip = tile.TerrainType.Replace("basicmars", "Mars Plains");
 
         if (tile.ExtraType != null) {
-            finalToolTip += "\n" + tile.ExtraType;
+            if (tile.ExtraType == "City") {
+                City city = manager.GetComponent<CityManager>().CityOnPosition(tile.Position);
+                finalToolTip += "\n" + city.Name + " (" + city.Owner + ")";
+            } else {
+                finalToolTip += "\n" + tile.ExtraType;
+            }
         }
 
         if (entity != null) {
             if (entity is Civil) {
-                finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name;
+                finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name + " (" + ((Civil)entityManager.EntityOn(tile.Position)).Owner + ")";
             } else {
-                finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name;
+                finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name + " (" + ((Milit)entityManager.EntityOn(tile.Position)).Owner + ")";
             }
         }
 

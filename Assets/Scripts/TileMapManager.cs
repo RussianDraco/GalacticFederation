@@ -13,7 +13,7 @@ public class TileMapManager : MonoBehaviour
     public TileBase basicMarsTile;
 
     [Header("Building Tiles")]
-    public TileBase settlementBuilding;
+    public TileBase cityBuilding;
 
     private TileMap tileMap;
 
@@ -56,8 +56,8 @@ public class TileMapManager : MonoBehaviour
     {
         switch (extraType)
         {
-            case "Settlement":
-                return settlementBuilding;
+            case "City":
+                return cityBuilding;
             default:
                 return null;
         }
