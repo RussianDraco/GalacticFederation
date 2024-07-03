@@ -5,6 +5,8 @@ using UnityEngine;
 public class ActionManager : MonoBehaviour {
     private GameManager gameManager;
     private EntityManager entityManager;
+    private SelectionManager selectionManager;
+
     [HideInInspector] public object selectedEntity;
     public SelectEntityScript selectEntityScript;
     private bool isMoving = false;
@@ -22,6 +24,7 @@ public class ActionManager : MonoBehaviour {
     {
         gameManager = GetComponent<GameManager>();
         entityManager = GetComponent<EntityManager>();
+        selectionManager = GetComponent<SelectionManager>();
     }
 
     void Update()
@@ -94,11 +97,13 @@ public class ActionManager : MonoBehaviour {
         selectedEntity = civil;
         selectEntityScript.SetCivil(civil.Name, civil.Description, civil.MovePoints, civil.ActionPoints, entityManager.GrabIcon(civil.IconPath), civil.Actions);
         isMoving = false;
+        selectionManager.EntitySelected(civil);
     }
     public void SelectMilit(Milit milit) {
         selectedEntity = milit;
         selectEntityScript.SetMilit(milit.Name, milit.Description, milit.MovePoints, entityManager.GrabIcon(milit.IconPath));
         isMoving = false;
+        selectionManager.EntitySelected(milit);
     }
 
     public void RequestCivilAction(CivilAction civilAction) {
@@ -131,6 +136,7 @@ public class ActionManager : MonoBehaviour {
         selectedEntity = null;
         isMoving = false;
         selectEntityScript.Deselect();
+        selectionManager.EntityDeselected();
     }
 
     public void NextTurn() {

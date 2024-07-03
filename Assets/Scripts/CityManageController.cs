@@ -16,13 +16,20 @@ public class CityManageController : MonoBehaviour {
         cityManager = GameObject.Find("MANAGER").GetComponent<CityManager>();
     }
 
+    GameObject GetChild(GameObject parent) {
+        foreach (Transform child in parent.transform) {
+            return child.gameObject;
+        }
+        return null;
+    }
+
     public void SelectCity(City city) {
         selectedCity = city;
         cityName.text = city.Name;
         foreach (Building building in city.buildings)
         {
             GameObject buildingObj = Instantiate(buildingPrefab, buildingList);
-            buildingObj.GetComponent<TMPro.TMP_Text>().text = building.Name;
+            GetChild(buildingObj).GetComponent<TMPro.TMP_Text>().text = building.Name;
         }
         foreach (object cityOption in cityManager.CityOptions())
         {
