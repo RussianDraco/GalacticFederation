@@ -7,7 +7,11 @@
             "BuildingFeature": "",
             "researchRequirement": -1,
             "requiredBuildings": [],
-            "resourceRequirements": []
+            "resourceRequirements": [],
+            "YieldsHolder": {
+                "Housing": 2,
+                "Food": 1
+            }
         }
     ]
 }

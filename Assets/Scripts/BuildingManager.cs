@@ -55,6 +55,31 @@ public class BuildingWrapper {
     public List<Building> buildings;
 }
 
+[System.Serializable]
+public class YieldsHolder {
+    public int Housing = 0;
+    public int Food = 0;
+    public int ProductionPoints = 0;
+    public int Science = 0;
+    public int Gold = 0;
+
+    public YieldsHolder(int Housing = 0, int Food = 0, int ProductionPoints = 0, int Science = 0, int Gold = 0) {
+        this.Housing = Housing;
+        this.Food = Food;
+        this.ProductionPoints = ProductionPoints;
+        this.Science = Science;
+        this.Gold = Gold;
+    }
+
+    public void AddYields(YieldsHolder yieldsHolder) {
+        Housing += yieldsHolder.Housing;
+        Food += yieldsHolder.Food;
+        ProductionPoints += yieldsHolder.ProductionPoints;
+        Science += yieldsHolder.Science;
+        Gold += yieldsHolder.Gold;
+    }    
+}
+
 //buildings that are inside cities
 [System.Serializable]
 public class Building {
@@ -65,8 +90,9 @@ public class Building {
     public int researchRequirement; //research required to build, -1 if none
     public List<string> requiredBuildings; //list of buildings required to build
     public List<ResourceRequirement> resourceRequirements; //list of resources required to build //NOT ADDED YET
+    public YieldsHolder Yields = new YieldsHolder();
 
-    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements)
+    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields)
     {
         this.Name = Name;
         this.Description = Description;
@@ -75,6 +101,14 @@ public class Building {
         this.researchRequirement = researchRequirement;
         this.requiredBuildings = requiredBuildings;
         this.resourceRequirements = resourceRequirements;
+        this.Yields = Yields;
+    }
+
+    public void ApplyBuildingEffects(City city) {
+        city.Yields.AddYields(Yields);
+
+        //apply specific building effects per name
+        //if (Name == "...") {...}
     }
 }
 

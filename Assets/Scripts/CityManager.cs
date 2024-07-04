@@ -36,13 +36,7 @@ public class CityManager : MonoBehaviour {
         city.Owner = "Player";
         city.Production = null;
 
-        city.Population = 1;
-        city.Housing = 1;
-        city.Food = 1;
-        city.ProductionPoints = 1;
-        city.Science = 1;
-        city.Gold = 1;
-
+        city.Yields = new CityYieldsHolder();
 
         cities.Add(city);
     }
@@ -123,7 +117,7 @@ public class CityManager : MonoBehaviour {
 
     public void AddCityYields() {
         foreach (City city in cities) {
-            city.AddYields(yieldManager);
+            city.AddSumYields(yieldManager);
         }
     }
 }
@@ -137,16 +131,11 @@ public class City {
     public ICityProduction Production;
     public int ProductionProgress;
 
-    public int Population;
-    public int Housing;
-    public int Food;
-    public int ProductionPoints;
-    public int Science;
-    public int Gold;
+    public CityYieldsHolder Yields;
 
-    public void AddYields(YieldManager yieldManager) {
-        yieldManager.sciencePoints += Science;
-        yieldManager.goldPoints += Gold;
+    public void AddSumYields(YieldManager yieldManager) {
+        yieldManager.sciencePoints += Yields.Science;
+        yieldManager.goldPoints += Yields.Gold;
     }
 }
 
@@ -165,6 +154,7 @@ public class BuildingProduction : ICityProduction {
     public void Complete(City city) {
         Debug.Log("Building " + Name + " completed in " + city.Name);
         city.buildings.Add((Building)Production);
+        ((Building)Production).ApplyBuildingEffects(city);
     }
 
     public BuildingProduction(Building building) {
@@ -204,5 +194,13 @@ public class MilitProduction : ICityProduction {
         Name = milit.Name;
         Cost = milit.Cost;
         Production = milit;
+    }
+}
+
+public class CityYieldsHolder : YieldsHolder {
+    public int Population = 0;
+
+    public CityYieldsHolder(int Population = 1, int Housing = 2, int Food = 1, int ProductionPoints = 1, int Science = 1, int Gold = 1) : base(Housing, Food, ProductionPoints, Science, Gold) {
+        this.Population = Population;
     }
 }

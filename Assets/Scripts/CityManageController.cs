@@ -4,12 +4,21 @@ using UnityEngine;
 public class CityManageController : MonoBehaviour {
     [HideInInspector] public City selectedCity;
     public TMPro.TMP_Text cityName;
+
     public TMPro.TMP_Text productionText;
+    public TMPro.TMP_Text housingText;
+    public TMPro.TMP_Text populationText;
+    public TMPro.TMP_Text foodText;
+    public TMPro.TMP_Text productionText;
+    public TMPro.TMP_Text goldText;
+    public TMPro.TMP_Text scienceText;
+    
     public Transform buildingList;
     public Transform cityOptions;
     public GameObject cityControllerHolder;
     public GameObject buildingPrefab;
     public GameObject cityOptionPrefab;
+
     private CityManager cityManager;
 
     void Start()
@@ -52,6 +61,8 @@ public class CityManageController : MonoBehaviour {
             cityOptionObj.GetComponent<CityOptionScript>().SetCityOption(cityManager, cityOption);
             GetChild(cityOptionObj).GetComponent<TMPro.TMP_Text>().text = cityManager.ParseLiteralCityOption(cityOption);
         }
+        productionText.text = city.Yields.ProductionPoints.ToString();
+        
 
         cityControllerHolder.SetActive(true);
     }
