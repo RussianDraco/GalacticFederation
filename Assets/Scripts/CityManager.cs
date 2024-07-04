@@ -49,6 +49,31 @@ public class CityManager : MonoBehaviour {
         return cityOption.Replace("B-", "Build the ").Replace("CU-", "Train a ").Replace("MU-", "Train a ");
     }
 
+    Sprite GrabIcon(string iconPath) {
+        if (Resources.Load<Sprite>(iconPath) == null) {
+            Debug.LogError("Icon not found at " + iconPath);
+        }
+
+        return Resources.Load<Sprite>(iconPath);
+    }
+    public Sprite CityOptionIcon(string cityOption) {
+        string[] optionParts = cityOption.Split('-');
+        string optionType = optionParts[0];
+        string optionValue = optionParts[1];
+
+        switch (optionType) {
+            case "B":
+                return GrabIcon(buildingManager.GetBuilding(optionValue).IconPath);
+            case "CU":
+                return GrabIcon(entityManager.GetCivil(optionValue).IconPath);
+            case "MU":
+                return GrabIcon(entityManager.GetMilit(optionValue).IconPath);
+            default:
+                Debug.LogError("Invalid city option type: " + optionType);
+                return null;
+        }
+    }
+
     public List<string> CityOptions(City city) {
         List<string> cityOptions = new List<string>();
 
@@ -74,6 +99,7 @@ public class CityManager : MonoBehaviour {
     Make Civil Unit - "CU-{UnitName}"
     Make Milit Unit - "MU-{UnitName}"
     */
+    
     public void CityOptionFunction(string option) {
         string[] optionParts = option.Split('-');
         string optionType = optionParts[0];

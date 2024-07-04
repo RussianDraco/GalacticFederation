@@ -1952,7 +1952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &540650360
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2236,7 +2236,7 @@ GameObject:
   - component: {fileID: 640277888}
   - component: {fileID: 640277887}
   m_Layer: 5
-  m_Name: ProductionText
+  m_Name: ProductionPointsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4324,6 +4324,12 @@ MonoBehaviour:
     ProductionProgress: 0
   cityName: {fileID: 1175296691}
   productionText: {fileID: 1306088231}
+  housingText: {fileID: 266552124}
+  populationText: {fileID: 229387532}
+  foodText: {fileID: 288853763}
+  productionPointsText: {fileID: 640277887}
+  goldText: {fileID: 1207047163}
+  scienceText: {fileID: 1183928554}
   buildingList: {fileID: 1853961106}
   cityOptions: {fileID: 1364466169}
   cityControllerHolder: {fileID: 540650359}
@@ -4752,7 +4758,7 @@ GameObject:
   - component: {fileID: 1794365150}
   - component: {fileID: 1794365149}
   m_Layer: 5
-  m_Name: ProductionIcon
+  m_Name: ProductionPointsIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

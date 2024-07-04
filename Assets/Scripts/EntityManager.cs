@@ -68,6 +68,17 @@ public class EntityManager : MonoBehaviour
         return Resources.Load<Sprite>(iconPath);
     }
 
+    public string UnitToolTip(object entity) {
+        if (entity is Civil) {
+            Civil civil = (Civil)entity;
+            return civil.Name + "\n" + civil.Description + "\nHealth: " + civil.Health + "\nMove Points: " + civil.MovePoints + "\nAction Points: " + civil.ActionPoints;
+        } else if (entity is Milit) {
+            Milit milit = (Milit)entity;
+            return milit.Name + "\n" + milit.Description + "\nHealth: " + milit.Health + "\nMove Points: " + milit.MovePoints + "\nAttack Damage: " + milit.AttackDamage;
+        }
+        return "No tooltip available";
+    }
+
     Vector3 CoordToPosition(Vector2Int coord) {
         Vector2 worldPosition = tileMap.GetWorldPosition(coord);
         return new Vector3(worldPosition.x, worldPosition.y, 0f);
@@ -198,7 +209,6 @@ public class EntityManager : MonoBehaviour
         List<Milit> possibleMilits = new List<Milit>();
 
         foreach (Civil civil in civils) {
-            Debug.Log(civil.researchRequirement);
             if (civil.researchRequirement != -1) {
                 if (!scienceManager.IsResearched(civil.researchRequirement)) {
                     continue;

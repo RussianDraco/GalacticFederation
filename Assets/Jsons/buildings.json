@@ -8,10 +8,11 @@
             "researchRequirement": -1,
             "requiredBuildings": [],
             "resourceRequirements": [],
-            "YieldsHolder": {
+            "Yields": {
                 "Housing": 2,
                 "Food": 1
-            }
+            },
+            "IconPath": "Buildings/habitatdome"
         }
     ]
 }

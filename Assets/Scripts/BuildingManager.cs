@@ -24,6 +24,11 @@ public class BuildingManager : MonoBehaviour {
         scienceManager = GetComponent<ScienceManager>();
     }
 
+    public Building GetBuilding(string buildingName) {return buildings.Find(x => x.Name == buildingName);}
+    public string BuildingToolTip(Building building) {
+        return building.Name + "\n" + building.Description;
+    }
+
     public List<Building> PossibleBuildings(City city) {
         List<Building> possibleBuildings = new List<Building>();
         foreach (Building building in buildings) {
@@ -72,11 +77,11 @@ public class YieldsHolder {
     }
 
     public void AddYields(YieldsHolder yieldsHolder) {
-        Housing += yieldsHolder.Housing;
-        Food += yieldsHolder.Food;
-        ProductionPoints += yieldsHolder.ProductionPoints;
-        Science += yieldsHolder.Science;
-        Gold += yieldsHolder.Gold;
+        this.Housing += yieldsHolder.Housing;
+        this.Food += yieldsHolder.Food;
+        this.ProductionPoints += yieldsHolder.ProductionPoints;
+        this.Science += yieldsHolder.Science;
+        this.Gold += yieldsHolder.Gold;
     }    
 }
 
@@ -91,8 +96,9 @@ public class Building {
     public List<string> requiredBuildings; //list of buildings required to build
     public List<ResourceRequirement> resourceRequirements; //list of resources required to build //NOT ADDED YET
     public YieldsHolder Yields = new YieldsHolder();
+    public string IconPath = "Buildings/default";
 
-    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields)
+    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields, string IconPath = null)
     {
         this.Name = Name;
         this.Description = Description;
@@ -102,13 +108,16 @@ public class Building {
         this.requiredBuildings = requiredBuildings;
         this.resourceRequirements = resourceRequirements;
         this.Yields = Yields;
+        if (IconPath != null) {
+            this.IconPath = IconPath;
+        }
     }
 
     public void ApplyBuildingEffects(City city) {
-        city.Yields.AddYields(Yields);
+        city.Yields.AddYields(this.Yields);
 
         //apply specific building effects per name
-        //if (Name == "...") {...}
+        //match (Name) {case "...": ...}
     }
 }
 

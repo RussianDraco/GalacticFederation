@@ -1,9 +1,12 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using TMPro;
 
-public class ToolTipScript : MonoBehaviour {
+public class ToolTipScript : MonoBehaviour
+{
     public GameObject toolTip;
-    public TMPro.TMP_Text toolTipText;
+    public TMP_Text toolTipText;
 
     private Vector3 previousMousePosition;
     private float idleTime;
@@ -13,28 +16,44 @@ public class ToolTipScript : MonoBehaviour {
         toolTip.SetActive(false);
     }
 
-    void Update() {
-        if (Input.mousePosition != previousMousePosition) {
+    void Update()
+    {
+        if (Input.mousePosition != previousMousePosition)
+        {
             idleTime = 0f; // Reset idle time
             HideToolTip();
         }
-        else {
+        else
+        {
             idleTime += Time.deltaTime; // Increment idle time
-            if (idleTime >= 1f) {
-                DisplayTileTip();
+            if (idleTime >= 1f)
+            {
+                List<RaycastResult> results = PointerOverUIElements();
+                if (results.Count > 0)
+                {
+                    DisplayUIToolTip(results);
+                }
+                else
+                {
+                    DisplayTileTip();
+                }
             }
         }
 
         previousMousePosition = Input.mousePosition; // Update previous mouse position
     }
 
-    void DisplayTileTip() {
+    void DisplayTileTip()
+    {
         GameObject manager = GameObject.Find("MANAGER");
         TileMap tilemap = manager.GetComponent<GameManager>().tileMap;
         Tile tile;
-        try {
+        try
+        {
             tile = tilemap.Tiles[tilemap.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition))];
-        } catch {
+        }
+        catch
+        {
             HideToolTip();
             return;
         }
@@ -44,26 +63,36 @@ public class ToolTipScript : MonoBehaviour {
 
         string finalToolTip = tile.TerrainType.Replace("basicmars", "Mars Plains");
 
-        if (tile.ExtraType != null) {
-            if (tile.ExtraType == "City") {
+        if (tile.ExtraType != null)
+        {
+            if (tile.ExtraType == "City")
+            {
                 City city = manager.GetComponent<CityManager>().CityOnPosition(tile.Position);
                 finalToolTip += "\n" + city.Name + " (" + city.Owner + ")";
-                if (city.buildings.Count > 0) {
+                if (city.buildings.Count > 0)
+                {
                     finalToolTip += "\n[";
-                    foreach (Building building in city.buildings) {
+                    foreach (Building building in city.buildings)
+                    {
                         finalToolTip += building.Name + ", ";
                     }
                     finalToolTip = finalToolTip.Remove(finalToolTip.Length - 2) + "]";
                 }
-            } else {
+            }
+            else
+            {
                 finalToolTip += "\n" + tile.ExtraType;
             }
         }
 
-        if (entity != null) {
-            if (entity is Civil) {
+        if (entity != null)
+        {
+            if (entity is Civil)
+            {
                 finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name + " (" + ((Civil)entityManager.EntityOn(tile.Position)).Owner + ")";
-            } else {
+            }
+            else
+            {
                 finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name + " (" + ((Milit)entityManager.EntityOn(tile.Position)).Owner + ")";
             }
         }
@@ -71,14 +100,43 @@ public class ToolTipScript : MonoBehaviour {
         ShowToolTip(finalToolTip);
     }
 
-    void ShowToolTip(string text) {
+    void DisplayUIToolTip(List<RaycastResult> results)
+    {
+        foreach (RaycastResult result in results)
+        {
+            GameObject rgo = result.gameObject;
+            if (rgo.GetComponent<CitysBuildingScript>()) {
+                ShowToolTip(rgo.GetComponent<CitysBuildingScript>().ToolTipData);
+                return;
+            } else if (rgo.GetComponent<CityOptionScript>()) {
+                ShowToolTip(rgo.GetComponent<CityOptionScript>().ToolTipData);
+                return;
+            }
+        }
+    }
+
+    void ShowToolTip(string text)
+    {
         toolTipText.text = text;
         RectTransform toolTipRectTransform = toolTip.GetComponent<RectTransform>();
         toolTipRectTransform.position = Input.mousePosition + new Vector3(toolTipRectTransform.sizeDelta.x / 2, -toolTipRectTransform.sizeDelta.y / 2, 0);
         toolTip.SetActive(true);
     }
 
-    void HideToolTip() {
+    void HideToolTip()
+    {
         toolTip.SetActive(false);
+    }
+
+    List<RaycastResult> PointerOverUIElements()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        return results;
     }
 }
