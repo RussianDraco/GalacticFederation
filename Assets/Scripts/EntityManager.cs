@@ -9,6 +9,7 @@ public class EntityManager : MonoBehaviour
 {
     private GameManager gameManager;
     private TileMapManager tileMapManager;
+    private ScienceManager scienceManager;
 
     public float movementSpeed = 5f;
     private TileMap tileMap;
@@ -21,6 +22,9 @@ public class EntityManager : MonoBehaviour
     
     public GameObject civilPrefab;
     public GameObject militPrefab;
+
+    public Civil GetCivil(string name) {return civils.Find(x => x.Name == name);}
+    public Milit GetMilit(string name) {return milits.Find(x => x.Name == name);}
 
     private void Awake()
     {
@@ -53,6 +57,7 @@ public class EntityManager : MonoBehaviour
         gameManager = GetComponent<GameManager>();
         tileMapManager = GetComponent<TileMapManager>();
         tileMap = gameManager.tileMap;
+        scienceManager = GetComponent<ScienceManager>();
     }
 
     public Sprite GrabIcon(string iconPath) {
@@ -71,15 +76,19 @@ public class EntityManager : MonoBehaviour
         return tileMap.GetGridPosition(position);
     }
 
+    public void CitySpawn(City city, object entity) {
+
+    }
+
     public void SpawnCivil(Civil civil, Vector2Int position) {
-        var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions);
+        var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions, civil.Cost, civil.researchRequirement);
         newCivil.Position = position;
         newCivil.GameObject = Instantiate(civilPrefab, CoordToPosition(position), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
         activeCivils.Add(newCivil);
     }
     public void SpawnMilit(Milit milit, Vector2Int position) {
-        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage);
+        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
         newMilit.Position = position;
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
         newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
@@ -178,6 +187,32 @@ public class EntityManager : MonoBehaviour
             Destroy(((Milit)entity).GameObject);
         }
     }
+
+    public (List<Civil>, List<Milit>) PossibleUnits(City city)
+    {
+        List<Civil> possibleCivils = new List<Civil>();
+        List<Milit> possibleMilits = new List<Milit>();
+
+        foreach (Civil civil in civils) {
+            if (civil.researchRequirement != -1) {
+                if (!scienceManager.IsResearched(civil.researchRequirement)) {
+                    continue;
+                }
+            }
+            possibleCivils.Add(civil);
+        }
+
+        foreach (Milit milit in milits) {
+            if (milit.researchRequirement != -1) {
+                if (!scienceManager.IsResearched(milit.researchRequirement)) {
+                    continue;
+                }
+            }
+            possibleMilits.Add(milit);
+        }
+
+        return (possibleCivils, possibleMilits);
+    }
 }
 
 
@@ -211,8 +246,9 @@ public class Civil
     public List<CivilAction> Actions = new List<CivilAction>();
     public int researchRequirement;
     public string Owner;
+    public int Cost;
 
-    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int researchRequirement = null)
+    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int researchRequirement = -1)
     {
         this.Name = Name;
         this.Description = Description;
@@ -226,6 +262,7 @@ public class Civil
         this.Actions = Actions;
         this.researchRequirement = researchRequirement; //-1 if no research requirement
         this.Owner = "Player";
+        this.Cost = Cost;
     }
 }
 [System.Serializable]
@@ -265,8 +302,9 @@ public class Milit
     public int AttackDamage;
     public int researchRequirement; //-1 if no research requirement
     public string Owner;
+    public int Cost;
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int researchRequirement = -1)
+    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int researchRequirement = -1)
     {
         this.Name = Name;
         this.Description = Description;
@@ -279,6 +317,7 @@ public class Milit
         this.AttackDamage = AttackDamage;
         this.Owner = "Player";
         this.researchRequirement = researchRequirement;
+        this.Cost = Cost;
     }
 
     public void Attack(Milit target)

@@ -37,9 +37,9 @@ public class CityManageController : MonoBehaviour {
             GameObject buildingObj = Instantiate(buildingPrefab, buildingList);
             GetChild(buildingObj).GetComponent<TMPro.TMP_Text>().text = building.Name;
         }
-        foreach (string cityOption in cityManager.CityOptions())
+        foreach (string cityOption in cityManager.CityOptions(city))
         {
-            GameObject cityOptionObj = Instantiate(cityManager, cityOptions);
+            GameObject cityOptionObj = Instantiate(cityOptionPrefab, cityOptions);
             cityOptionObj.GetComponent<CityOptionScript>().SetCityOption(cityManager, cityOption);
             GetChild(cityOptionObj).GetComponent<TMPro.TMP_Text>().text = cityManager.ParseLiteralCityOption(cityOption);
         }

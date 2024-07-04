@@ -32,7 +32,7 @@ public class CityManager : MonoBehaviour {
         city.Position = position;
         city.buildings = new List<Building>();
         city.Owner = "Player";
-        city.CurrentProduction = "";
+        city.Production = null;
         cities.Add(city);
     }
 
@@ -41,29 +41,73 @@ public class CityManager : MonoBehaviour {
     }
 
     public string ParseLiteralCityOption(string cityOption) {
-        
+        string[] optionParts = cityOption.Split('|');
+        string optionType = optionParts[0];
+        string optionValue = optionParts[1];
+
+        return optionType.Replace("B|", "Build the ").Replace("CU|", "Train a ").Replace("MU|", "Train a ") + optionValue;
     }
 
-    public List<string> CityOptions() {
-        
+    public List<string> CityOptions(City city) {
+        List<string> cityOptions = new List<string>();
 
-        return new List<string>();
+        foreach (Building building in buildingManager.PossibleBuildings(city)) {
+            cityOptions.Add("B|" + building.Name);
+        }
+
+        (List<Civil> civils, List<Milit> milits) = entityManager.PossibleUnits(city);
+
+        foreach (Civil civil in civils) {
+            cityOptions.Add("CU|" + civil.Name);
+        }
+        foreach (Milit milit in milits) {
+            cityOptions.Add("MU|" + milit.Name);
+        }
+
+        return cityOptions;
     }
 
     //City options operate and are stored as strings for the functions; the function parses and executes the respective functionality
     /*
     Make Building - "B|{BuildingName}"
-    Make Unit - "U|{UnitName}"
+    Make Civil Unit - "CU|{UnitName}"
+    Make Milit Unit - "MU|{UnitName}"
     */
     public void CityOptionFunction(string option) {
         string[] optionParts = option.Split('|');
         string optionType = optionParts[0];
         string optionValue = optionParts[1];
 
-        if (optionType == "B") {
-            //Make Building
-        } else if (optionType == "U") {
-            //Make Unit
+        City city = cityManageController.selectedCity;
+        city.ProductionProgress = 0;
+
+        switch (optionType) {
+            case "B":
+                Building building = buildingManager.buildings.Find(x => x.Name == optionValue);
+                city.Production = new BuildingProduction(building);
+                break;
+            case "CU":
+                city.Production = new CivilProduction(entityManager.GetCivil(optionValue));
+                break;
+            case "MU":
+                city.Production = new MilitProduction(entityManager.GetMilit(optionValue));
+                break;
+            default:
+                Debug.LogError("Invalid city option type: " + optionType);
+                break;
+        }
+    }
+
+    public void NextTurn() {
+        foreach (City city in cities) {
+            if (city.Production != null) {
+                city.ProductionProgress += 1; //production quantity will have to be calculated later
+                if (city.ProductionProgress >= city.Production.Cost) {
+                    city.Production.Complete(city);
+                    city.Production = null;
+                    city.ProductionProgress = 0;
+                }
+            }
         }
     }
 }
@@ -74,5 +118,63 @@ public class City {
     public Vector2Int Position;
     public List<Building> buildings;
     public string Owner;
-    public string CurrentProduction;
+    public ICityProduction Production;
+    public int ProductionProgress;
+}
+
+public interface ICityProduction {
+    string Name { get; }
+    int Cost { get; }
+    object Production { get; set; }
+    void Complete(City city);
+}
+
+public class BuildingProduction : ICityProduction {
+    public string Name { get; }
+    public int Cost { get; }
+    public object Production { get; set; }
+
+    public void Complete(City city) {
+        Debug.Log("Building " + Name + " completed in " + city.Name);
+        city.buildings.Add((Building)Production);
+    }
+
+    public BuildingProduction(Building building) {
+        Name = building.Name;
+        Cost = building.Cost;
+        Production = building;
+    }
+}
+
+public class CivilProduction : ICityProduction {
+    public string Name { get; }
+    public int Cost { get; }
+    public object Production { get; set; }
+
+    public void Complete(City city) {
+        Debug.Log("Civil " + Name + " completed in " + city.Name);
+        GameObject.Find("MANAGER").GetComponent<EntityManager>().CitySpawn(city, (Civil)Production);
+    }
+
+    public CivilProduction(Civil civil) {
+        Name = civil.Name;
+        Cost = civil.Cost;
+        Production = civil;
+    }
+}
+public class MilitProduction : ICityProduction {
+    public string Name { get; }
+    public int Cost { get; }
+    public object Production { get; set; }
+
+    public void Complete(City city) {
+        Debug.Log("Milit " + Name + " completed in " + city.Name);
+        GameObject.Find("MANAGER").GetComponent<EntityManager>().CitySpawn(city, (Milit)Production);
+    }
+
+    public MilitProduction(Milit milit) {
+        Name = milit.Name;
+        Cost = milit.Cost;
+        Production = milit;
+    }
 }

@@ -14,7 +14,8 @@
                     "Description": "Settle here",
                     "ActionPoints": 1
                 }
-            ]
+            ],
+            "Cost": 5
         },
         {
             "Name": "Stick Man",
@@ -24,7 +25,8 @@
             "Health": 5,
             "MaxMovePoints": 3,
             "MaxActionPoints": 3,
-            "Actions": []
+            "Actions": [],
+            "Cost": 5
         }
     ]
 }

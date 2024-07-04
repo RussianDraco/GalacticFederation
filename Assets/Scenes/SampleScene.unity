@@ -1399,7 +1399,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &540650360
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2993,7 +2993,7 @@ MonoBehaviour:
     Position: {x: 0, y: 0}
     buildings: []
     Owner: 
-    CurrentProduction: 
+    ProductionProgress: 0
   cityName: {fileID: 1175296691}
   buildingList: {fileID: 1853961106}
   cityOptions: {fileID: 1364466169}
@@ -3504,6 +3504,7 @@ GameObject:
   - component: {fileID: 1845061796}
   - component: {fileID: 1845061797}
   - component: {fileID: 1845061798}
+  - component: {fileID: 1845061799}
   m_Layer: 0
   m_Name: MANAGER
   m_TagString: Untagged
@@ -3588,6 +3589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectEntityScript: {fileID: 1903531681}
+  isMoving: 0
   lineObj: {fileID: 706533745}
 --- !u!114 &1845061794
 MonoBehaviour:
@@ -3659,6 +3661,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cities: []
+  cityManageController: {fileID: 1566704212}
+--- !u!114 &1845061799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845061787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 237dc07678879b64ba6854194fd5f2b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cityButton: {fileID: 2008006337}
   cityManageController: {fileID: 1566704212}
 --- !u!1 &1850062871
 GameObject:
@@ -4672,7 +4688,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2008006340}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1845061799}
+        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+        m_MethodName: CityButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2008006340
 MonoBehaviour:
   m_ObjectHideFlags: 0
