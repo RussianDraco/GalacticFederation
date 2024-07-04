@@ -209,9 +209,10 @@ public class Civil
     public int MaxActionPoints;
     public int ActionPoints;
     public List<CivilAction> Actions = new List<CivilAction>();
+    public int researchRequirement;
     public string Owner;
 
-    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions)
+    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int researchRequirement = null)
     {
         this.Name = Name;
         this.Description = Description;
@@ -223,6 +224,7 @@ public class Civil
         this.MaxActionPoints = MaxActionPoints;
         this.ActionPoints = MaxActionPoints;
         this.Actions = Actions;
+        this.researchRequirement = researchRequirement; //-1 if no research requirement
         this.Owner = "Player";
     }
 }
@@ -261,9 +263,10 @@ public class Milit
     public GameObject GameObject;
     public bool hasAttacked;
     public int AttackDamage;
+    public int researchRequirement; //-1 if no research requirement
     public string Owner;
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage)
+    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int researchRequirement = -1)
     {
         this.Name = Name;
         this.Description = Description;
@@ -275,6 +278,7 @@ public class Milit
         this.MovePoints = MaxMovePoints;
         this.AttackDamage = AttackDamage;
         this.Owner = "Player";
+        this.researchRequirement = researchRequirement;
     }
 
     public void Attack(Milit target)

@@ -1,15 +1,15 @@
 using UnityEngine;
 
 public class CityOptionScript : MonoBehaviour {
-    private object cityOption;
-    CityManageController cityManageController;
+    string cityOption;
+    CityManager cityManager;
 
-    public void SetCityOption(CityManageController cmc, object cityOption) {
-        cityManageController = cmc;
+    public void SetCityOption(CityManager cityManager, string cityOption) {
+        this.cityManager = cityManager;
         this.cityOption = cityOption;
     }
 
     public void OnClick() {
-        cityManageController.CityOptionClicked(cityOption);
+        cityManager.CityOptionFunction(cityOption);
     }
 }

@@ -16,6 +16,12 @@ public class CityManageController : MonoBehaviour {
         cityManager = GameObject.Find("MANAGER").GetComponent<CityManager>();
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(1) && selectedCity != null)
+            Deselect();
+    }
+
     GameObject GetChild(GameObject parent) {
         foreach (Transform child in parent.transform) {
             return child.gameObject;
@@ -31,11 +37,11 @@ public class CityManageController : MonoBehaviour {
             GameObject buildingObj = Instantiate(buildingPrefab, buildingList);
             GetChild(buildingObj).GetComponent<TMPro.TMP_Text>().text = building.Name;
         }
-        foreach (object cityOption in cityManager.CityOptions())
+        foreach (string cityOption in cityManager.CityOptions())
         {
-            GameObject cityOptionObj = Instantiate(cityOptionPrefab, cityOptions);
-
-            cityOptionObj.GetComponent<TMPro.TMP_Text>().text = cityOption.ToString();
+            GameObject cityOptionObj = Instantiate(cityManager, cityOptions);
+            cityOptionObj.GetComponent<CityOptionScript>().SetCityOption(cityManager, cityOption);
+            GetChild(cityOptionObj).GetComponent<TMPro.TMP_Text>().text = cityManager.ParseLiteralCityOption(cityOption);
         }
 
         cityControllerHolder.SetActive(true);
@@ -53,9 +59,5 @@ public class CityManageController : MonoBehaviour {
             Destroy(child.gameObject);
         }
         cityControllerHolder.SetActive(false);
-    }
-
-    public void CityOptionClicked(object cityOption) {
-        //handle city option click
     }
 }

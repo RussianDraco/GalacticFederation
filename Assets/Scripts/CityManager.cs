@@ -5,6 +5,13 @@ using UnityEngine;
 public class CityManager : MonoBehaviour {
     [HideInInspector] public List<City> cities = new List<City>();
     public CityManageController cityManageController;
+    private BuildingManager buildingManager;
+    private EntityManager entityManager;
+
+    private void Start() {
+        buildingManager = GetComponent<BuildingManager>();
+        entityManager = GetComponent<EntityManager>();
+    }
 
     string GenerateCityName() {
         return "City " + (cities.Count + 1);
@@ -33,9 +40,31 @@ public class CityManager : MonoBehaviour {
         cityManageController.SelectCity(city);
     }
 
-    public List<object> CityOptions() {
-        //calculate city options on selected city
-        return null;
+    public string ParseLiteralCityOption(string cityOption) {
+        
+    }
+
+    public List<string> CityOptions() {
+        
+
+        return new List<string>();
+    }
+
+    //City options operate and are stored as strings for the functions; the function parses and executes the respective functionality
+    /*
+    Make Building - "B|{BuildingName}"
+    Make Unit - "U|{UnitName}"
+    */
+    public void CityOptionFunction(string option) {
+        string[] optionParts = option.Split('|');
+        string optionType = optionParts[0];
+        string optionValue = optionParts[1];
+
+        if (optionType == "B") {
+            //Make Building
+        } else if (optionType == "U") {
+            //Make Unit
+        }
     }
 }
 

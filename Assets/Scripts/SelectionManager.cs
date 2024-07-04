@@ -9,6 +9,7 @@ public class SelectionManager : MonoBehaviour {
     TileMap tileMap;
     Tile currentTile;
     public GameObject cityButton;
+    public CityManageController cityManageController;
 
     void Start()
     {
@@ -17,7 +18,17 @@ public class SelectionManager : MonoBehaviour {
         tileMap = GetComponent<GameManager>().tileMap;
     }
 
+    private void Update() {
+        if (Input.GetMouseButtonDown(0) && !actionManager.isMoving) {
+            City city = cityManager.CityOnPosition(tileMap.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+            if (city != null) {
+                cityManageController.SelectCity(city);
+            }
+        }
+    }
+
     public void EntitySelected(object entity) {
+        cityManageController.Deselect();
         if (entity is Civil)
             currentTile = tileMap.Tiles[((Civil)entity).Position];
         else

@@ -9,7 +9,7 @@ public class ActionManager : MonoBehaviour {
 
     [HideInInspector] public object selectedEntity;
     public SelectEntityScript selectEntityScript;
-    private bool isMoving = false;
+    [HideInInspector] public bool isMoving = false;
     public LineScript lineObj;
 
     private List<Vector2> RealWorldPositions(TileMap tileMap, List<Vector2Int> positions) {
