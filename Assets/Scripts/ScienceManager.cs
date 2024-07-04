@@ -8,7 +8,7 @@ public class ScienceManager : MonoBehaviour {
     private YieldManager yieldManager;
     [HideInInspector] public List<Innovation> innovations = new List<Innovation>(); //starts with id 0; should be ordered by id
     Innovation currentResearch;
-    int researchProgress = 0;
+    float researchProgress = 0;
     public TMP_Text progressText;
     public Image progressImg;
 
@@ -75,6 +75,7 @@ public class ScienceManager : MonoBehaviour {
             progressText.text = (Mathf.Round(researchProgress / (float)currentResearch.Cost * 100)).ToString() + "%";
             if (researchProgress >= currentResearch.Cost) {
                 currentResearch.isResearched = true;
+                Debug.Log("Research: " + currentResearch.Name + " completed!");
                 currentResearch = null;
                 researchProgress = 0;
                 progressImg.sprite = GrabIcon("Innovations/default");

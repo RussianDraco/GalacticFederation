@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private ActionManager actionManager;
     private ScienceManager scienceManager;
     private CityManager cityManager;
+    private YieldManager yieldManager;
     int turnNumber = 0;
 
     void Awake()
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
         actionManager = GetComponent<ActionManager>();
         scienceManager = GetComponent<ScienceManager>();
         cityManager = GetComponent<CityManager>();
+        yieldManager = GetComponent<YieldManager>();
 
         tileMapManager.Initialize(tileMap);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0));
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         turnNumber++;
         Debug.Log("Turn " + turnNumber);
+        yieldManager.NextTurn();
         actionManager.NextTurn();
         scienceManager.NextTurn();
         entityManager.NextTurn();

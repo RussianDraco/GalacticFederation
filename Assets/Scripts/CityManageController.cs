@@ -90,7 +90,7 @@ public class CityManageController : MonoBehaviour {
         }
 
         housingText.text = city.Yields.Housing.ToString();
-        populationText.text = city.Yields.Population.ToString();
+        populationText.text = Mathf.Floor(city.Yields.Population).ToString();
         foodText.text = city.Yields.Food.ToString();
         goldText.text = city.Yields.Gold.ToString();
         productionPointsText.text = city.Yields.ProductionPoints.ToString();

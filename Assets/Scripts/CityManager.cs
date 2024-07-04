@@ -39,6 +39,7 @@ public class CityManager : MonoBehaviour {
         city.Yields = new CityYieldsHolder();
 
         cities.Add(city);
+        yieldManager.RecalculateYields(false);
     }
 
     public void SelectCity(City city) {
@@ -131,13 +132,14 @@ public class CityManager : MonoBehaviour {
         cityManageController.Deselect();
         foreach (City city in cities) {
             if (city.Production != null) {
-                city.ProductionProgress += 1; //production quantity will have to be calculated later
+                city.ProductionProgress += city.Yields.ProductionPoints;
                 if (city.ProductionProgress >= city.Production.Cost) {
                     city.Production.Complete(city);
                     city.Production = null;
                     city.ProductionProgress = 0;
                 }
             }
+            city.PopulationGrowth();
         }
     }
 
@@ -155,13 +157,17 @@ public class City {
     public List<Building> buildings;
     public string Owner;
     public ICityProduction Production;
-    public int ProductionProgress;
+    public float ProductionProgress;
 
     public CityYieldsHolder Yields;
 
     public void AddSumYields(YieldManager yieldManager) {
         yieldManager.sciencePoints += Yields.Science;
         yieldManager.goldPoints += Yields.Gold;
+    }
+
+    public void PopulationGrowth() {
+        Yields.Population = Mathf.Min(Yields.Housing, Yields.Population + (Yields.Food / (4 * Yields.Population + Mathf.Pow(Yields.Population, 1.5f))));
     }
 }
 
@@ -224,9 +230,9 @@ public class MilitProduction : ICityProduction {
 }
 
 public class CityYieldsHolder : YieldsHolder {
-    public int Population = 0;
+    public float Population = 0;
 
-    public CityYieldsHolder(int Population = 1, int Housing = 2, int Food = 1, int ProductionPoints = 1, int Science = 1, int Gold = 1) : base(Housing, Food, ProductionPoints, Science, Gold) {
+    public CityYieldsHolder(float Population = 1, int Housing = 2, int Food = 1, int ProductionPoints = 1, int Science = 1, int Gold = 1) : base(Housing, Food, ProductionPoints, Science, Gold) {
         this.Population = Population;
     }
 }

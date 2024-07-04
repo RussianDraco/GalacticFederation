@@ -63,12 +63,12 @@ public class BuildingWrapper {
 [System.Serializable]
 public class YieldsHolder {
     public int Housing = 0;
-    public int Food = 0;
-    public int ProductionPoints = 0;
-    public int Science = 0;
-    public int Gold = 0;
+    public float Food = 0;
+    public float ProductionPoints = 0;
+    public float Science = 0;
+    public float Gold = 0;
 
-    public YieldsHolder(int Housing = 0, int Food = 0, int ProductionPoints = 0, int Science = 0, int Gold = 0) {
+    public YieldsHolder(int Housing = 0, float Food = 0, float ProductionPoints = 0, float Science = 0, float Gold = 0) {
         this.Housing = Housing;
         this.Food = Food;
         this.ProductionPoints = ProductionPoints;
