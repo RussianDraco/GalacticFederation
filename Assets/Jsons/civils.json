@@ -15,7 +15,9 @@
                     "ActionPoints": 1
                 }
             ],
-            "Cost": 5
+            "Cost": 5,
+            "researchRequirement": -1
+
         },
         {
             "Name": "Stick Man",
@@ -26,7 +28,8 @@
             "MaxMovePoints": 3,
             "MaxActionPoints": 3,
             "Actions": [],
-            "Cost": 5
+            "Cost": 5,
+            "researchRequirement": -1
         }
     ]
 }

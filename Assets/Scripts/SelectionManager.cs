@@ -19,7 +19,7 @@ public class SelectionManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0) && !actionManager.isMoving) {
+        if (Input.GetMouseButtonDown(0) && !actionManager.isMoving && actionManager.selectedEntity == null) {
             City city = cityManager.CityOnPosition(tileMap.GetGridPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)));
             if (city != null) {
                 cityManageController.SelectCity(city);
@@ -41,6 +41,10 @@ public class SelectionManager : MonoBehaviour {
     }
 
     public void EntityDeselected() {
+        cityButton.SetActive(false);
+    }
+
+    public void HideCityButton() {
         cityButton.SetActive(false);
     }
 

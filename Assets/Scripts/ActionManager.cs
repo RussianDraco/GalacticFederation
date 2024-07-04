@@ -32,6 +32,7 @@ public class ActionManager : MonoBehaviour {
         if (Input.GetMouseButtonDown(1) && !isMoving) {
             selectedEntity = null;
             selectEntityScript.Deselect();
+            selectionManager.HideCityButton();
         }
 
         if (isMoving && selectedEntity != null && selectedEntity is Civil) {

@@ -1,7 +1,13 @@
 {
     "buildings": [
         {
-            
+            "Name": "Habitat Dome",
+            "Description": "A dome that can house settlers",
+            "Cost": 4,
+            "BuildingFeature": "",
+            "researchRequirement": -1,
+            "requiredBuildings": [],
+            "resourceRequirements": []
         }
     ]
 }

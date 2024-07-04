@@ -4,6 +4,7 @@ using UnityEngine;
 public class CityManageController : MonoBehaviour {
     [HideInInspector] public City selectedCity;
     public TMPro.TMP_Text cityName;
+    public TMPro.TMP_Text productionText;
     public Transform buildingList;
     public Transform cityOptions;
     public GameObject cityControllerHolder;
@@ -30,8 +31,16 @@ public class CityManageController : MonoBehaviour {
     }
 
     public void SelectCity(City city) {
+        Deselect();
+
         selectedCity = city;
         cityName.text = city.Name;
+
+        if (city.Production == null)
+            productionText.text = "Producing: None";
+        else
+            productionText.text = "Producing: " + city.Production.Name + " (" + Mathf.Round(((float)city.ProductionProgress / (float)city.Production.Cost) * 100) + "%)";
+
         foreach (Building building in city.buildings)
         {
             GameObject buildingObj = Instantiate(buildingPrefab, buildingList);

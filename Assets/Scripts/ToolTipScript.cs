@@ -48,6 +48,13 @@ public class ToolTipScript : MonoBehaviour {
             if (tile.ExtraType == "City") {
                 City city = manager.GetComponent<CityManager>().CityOnPosition(tile.Position);
                 finalToolTip += "\n" + city.Name + " (" + city.Owner + ")";
+                if (city.buildings.Count > 0) {
+                    finalToolTip += "\n[";
+                    foreach (Building building in city.buildings) {
+                        finalToolTip += building.Name + ", ";
+                    }
+                    finalToolTip = finalToolTip.Remove(finalToolTip.Length - 2) + "]";
+                }
             } else {
                 finalToolTip += "\n" + tile.ExtraType;
             }

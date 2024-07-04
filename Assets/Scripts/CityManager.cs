@@ -7,10 +7,12 @@ public class CityManager : MonoBehaviour {
     public CityManageController cityManageController;
     private BuildingManager buildingManager;
     private EntityManager entityManager;
+    private YieldManager yieldManager;
 
     private void Start() {
         buildingManager = GetComponent<BuildingManager>();
         entityManager = GetComponent<EntityManager>();
+        yieldManager = GetComponent<YieldManager>();
     }
 
     string GenerateCityName() {
@@ -33,6 +35,15 @@ public class CityManager : MonoBehaviour {
         city.buildings = new List<Building>();
         city.Owner = "Player";
         city.Production = null;
+
+        city.Population = 1;
+        city.Housing = 1;
+        city.Food = 1;
+        city.ProductionPoints = 1;
+        city.Science = 1;
+        city.Gold = 1;
+
+
         cities.Add(city);
     }
 
@@ -41,27 +52,23 @@ public class CityManager : MonoBehaviour {
     }
 
     public string ParseLiteralCityOption(string cityOption) {
-        string[] optionParts = cityOption.Split('|');
-        string optionType = optionParts[0];
-        string optionValue = optionParts[1];
-
-        return optionType.Replace("B|", "Build the ").Replace("CU|", "Train a ").Replace("MU|", "Train a ") + optionValue;
+        return cityOption.Replace("B-", "Build the ").Replace("CU-", "Train a ").Replace("MU-", "Train a ");
     }
 
     public List<string> CityOptions(City city) {
         List<string> cityOptions = new List<string>();
 
         foreach (Building building in buildingManager.PossibleBuildings(city)) {
-            cityOptions.Add("B|" + building.Name);
+            cityOptions.Add("B-" + building.Name);
         }
 
         (List<Civil> civils, List<Milit> milits) = entityManager.PossibleUnits(city);
 
         foreach (Civil civil in civils) {
-            cityOptions.Add("CU|" + civil.Name);
+            cityOptions.Add("CU-" + civil.Name);
         }
         foreach (Milit milit in milits) {
-            cityOptions.Add("MU|" + milit.Name);
+            cityOptions.Add("MU-" + milit.Name);
         }
 
         return cityOptions;
@@ -69,12 +76,12 @@ public class CityManager : MonoBehaviour {
 
     //City options operate and are stored as strings for the functions; the function parses and executes the respective functionality
     /*
-    Make Building - "B|{BuildingName}"
-    Make Civil Unit - "CU|{UnitName}"
-    Make Milit Unit - "MU|{UnitName}"
+    Make Building - "B-{BuildingName}"
+    Make Civil Unit - "CU-{UnitName}"
+    Make Milit Unit - "MU-{UnitName}"
     */
     public void CityOptionFunction(string option) {
-        string[] optionParts = option.Split('|');
+        string[] optionParts = option.Split('-');
         string optionType = optionParts[0];
         string optionValue = optionParts[1];
 
@@ -96,9 +103,12 @@ public class CityManager : MonoBehaviour {
                 Debug.LogError("Invalid city option type: " + optionType);
                 break;
         }
+
+        cityManageController.Deselect();
     }
 
     public void NextTurn() {
+        cityManageController.Deselect();
         foreach (City city in cities) {
             if (city.Production != null) {
                 city.ProductionProgress += 1; //production quantity will have to be calculated later
@@ -108,6 +118,12 @@ public class CityManager : MonoBehaviour {
                     city.ProductionProgress = 0;
                 }
             }
+        }
+    }
+
+    public void AddCityYields() {
+        foreach (City city in cities) {
+            city.AddYields(yieldManager);
         }
     }
 }
@@ -120,6 +136,18 @@ public class City {
     public string Owner;
     public ICityProduction Production;
     public int ProductionProgress;
+
+    public int Population;
+    public int Housing;
+    public int Food;
+    public int ProductionPoints;
+    public int Science;
+    public int Gold;
+
+    public void AddYields(YieldManager yieldManager) {
+        yieldManager.sciencePoints += Science;
+        yieldManager.goldPoints += Gold;
+    }
 }
 
 public interface ICityProduction {

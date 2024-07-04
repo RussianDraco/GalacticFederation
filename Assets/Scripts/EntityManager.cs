@@ -77,7 +77,11 @@ public class EntityManager : MonoBehaviour
     }
 
     public void CitySpawn(City city, object entity) {
-
+        if (entity is Civil) {
+            SpawnCivil((Civil)entity, city.Position);
+        } else if (entity is Milit) {
+            SpawnMilit((Milit)entity, city.Position);
+        }
     }
 
     public void SpawnCivil(Civil civil, Vector2Int position) {
@@ -194,6 +198,7 @@ public class EntityManager : MonoBehaviour
         List<Milit> possibleMilits = new List<Milit>();
 
         foreach (Civil civil in civils) {
+            Debug.Log(civil.researchRequirement);
             if (civil.researchRequirement != -1) {
                 if (!scienceManager.IsResearched(civil.researchRequirement)) {
                     continue;
@@ -248,7 +253,7 @@ public class Civil
     public string Owner;
     public int Cost;
 
-    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int researchRequirement = -1)
+    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int researchRequirement)
     {
         this.Name = Name;
         this.Description = Description;
@@ -304,7 +309,7 @@ public class Milit
     public string Owner;
     public int Cost;
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int researchRequirement = -1)
+    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int researchRequirement)
     {
         this.Name = Name;
         this.Description = Description;
