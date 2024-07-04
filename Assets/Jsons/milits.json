@@ -8,7 +8,9 @@
             "Health": 5,
             "MaxMovePoints": 4,
             "AttackDamage": 3,
-            "Cost": 5
+            "Cost": 5,
+            "researchRequirement": 1,
+            "buildingRequirement": 
         }
     ]
 }

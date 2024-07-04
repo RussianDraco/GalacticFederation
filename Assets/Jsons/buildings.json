@@ -2,7 +2,7 @@
     "buildings": [
         {
             "Name": "Habitat Dome",
-            "Description": "A dome that can house settlers",
+            "Description": "A dome that can house settlers and generate food",
             "Cost": 4,
             "BuildingFeature": "",
             "researchRequirement": -1,
@@ -13,6 +13,29 @@
                 "Food": 1
             },
             "IconPath": "Buildings/habitatdome"
+        },
+        {
+            "Name": "Research Lab",
+            "Description": "A lab that can help research new technologies",
+            "Cost": 5,
+            "BuildingFeature": "",
+            "researchRequirement": -1,
+            "requiredBuildings": [],
+            "resourceRequirements": [],
+            "Yields": {
+                "Science": 2
+            },
+            "IconPath": "Buildings/researchlab"
+        },
+        {
+            "Name": "Barracks",
+            "Description": "A place to train soldiers",
+            "Cost": 6,
+            "BuildingFeature": "",
+            "researchRequirement": -1,
+            "requiredBuildings": [],
+            "resourceRequirements": [],
+            "IconPath": "Buildings/barracks"
         }
     ]
 }

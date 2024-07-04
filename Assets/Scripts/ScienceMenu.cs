@@ -34,7 +34,8 @@ public class ScienceMenu : MonoBehaviour
                 ios.UpdateOption(
                     innovation.isResearched,
                     GrabIcon(innovation.IconPath),
-                    innovation.Id
+                    innovation.Id,
+                    scienceManager.CanResearch(innovation)
                 );
             }
         }

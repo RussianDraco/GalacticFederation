@@ -38,7 +38,9 @@ public class ScienceManager : MonoBehaviour {
 
     public bool IsResearched(int innovId) {return innovations[innovId].isResearched;}
 
-    bool CanResearch(Innovation innovation) {
+    public bool CanResearch(Innovation innovation) {
+        if (innovation.isResearched) return false; //already researched
+
         foreach (int id in innovation.Prerequisites) {
             if (!innovations[id].isResearched) { //INNOVATIONS.JSON MUST BE ORDERED BY ID
                 return false;
@@ -56,7 +58,7 @@ public class ScienceManager : MonoBehaviour {
     }
     public void StartResearch(int innovId) {
         Innovation innovation = innovations[innovId];
-        if (CanResearch(innovation) && !innovation.isResearched) {
+        if (CanResearch(innovation)) {
             currentResearch = innovation;
             researchProgress = 0;
             progressImg.sprite = GrabIcon(innovation.IconPath);

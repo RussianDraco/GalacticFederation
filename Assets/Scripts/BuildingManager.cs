@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+//probably need to add a secondary building system (like civ6 districts) or something
+
 public class BuildingManager : MonoBehaviour {
     [HideInInspector] public List<Building> buildings = new List<Building>();
     private ScienceManager scienceManager;

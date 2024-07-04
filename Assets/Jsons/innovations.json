@@ -1,18 +1,18 @@
 {
     "innovations": [
         {
-            "Name": "Innovation 1",
-            "Description": "Description 1",
+            "Name": "Basic Mining",
+            "Description": "Allows the extraction of basic resources from the ground",
             "Id": 0,
-            "IconPath": "Innovations/default",
+            "IconPath": "Innovations/basicmining",
             "Cost": 6,
             "Prerequisites": []
         },
         {
-            "Name": "Innovation 2",
-            "Description": "Description 2",
+            "Name": "Laser Weapons",
+            "Description": "Permits the creation of laser-based weaponry",
             "Id": 1,
-            "IconPath": "Innovations/default",
+            "IconPath": "Innovations/laserweapons",
             "Cost": 7,
             "Prerequisites": [0]
         }

@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
+//resizeable panel prob. needs to be fixed
+
 public class ToolTipScript : MonoBehaviour
 {
     public GameObject toolTip;

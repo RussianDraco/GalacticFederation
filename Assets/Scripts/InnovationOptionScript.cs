@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class InnovationOptionScript : MonoBehaviour {
     public int id;
 
-    public void UpdateOption(bool researched, Sprite icon, int id) {
+    public void UpdateOption(bool researched, Sprite icon, int id, bool canResearch) {
         GetComponent<Image>().sprite = icon;
         this.id = id;
     }

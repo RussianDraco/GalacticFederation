@@ -214,12 +214,22 @@ public class EntityManager : MonoBehaviour
                     continue;
                 }
             }
+            if (civil.buildingRequirement != "") {
+                if (!city.buildings.Contains(civil.buildingRequirement)) {
+                    continue;
+                }
+            }
             possibleCivils.Add(civil);
         }
 
         foreach (Milit milit in milits) {
             if (milit.researchRequirement != -1) {
                 if (!scienceManager.IsResearched(milit.researchRequirement)) {
+                    continue;
+                }
+            }
+            if (milit.buildingRequirement != "") {
+                if (!city.buildings.Contains(milit.buildingRequirement)) {
                     continue;
                 }
             }
@@ -259,11 +269,12 @@ public class Civil
     public int MaxActionPoints;
     public int ActionPoints;
     public List<CivilAction> Actions = new List<CivilAction>();
-    public int researchRequirement;
+    public int researchRequirement = -1;
     public string Owner;
     public int Cost;
+    public string buildingRequirement = "";
 
-    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int researchRequirement)
+    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int researchRequirement = -1, string buildingRequirement = "")
     {
         this.Name = Name;
         this.Description = Description;
@@ -275,7 +286,12 @@ public class Civil
         this.MaxActionPoints = MaxActionPoints;
         this.ActionPoints = MaxActionPoints;
         this.Actions = Actions;
-        this.researchRequirement = researchRequirement; //-1 if no research requirement
+        if (researchRequirement != -1) {
+            this.researchRequirement = researchRequirement;
+        }
+        if (buildingRequirement != "") {
+            this.buildingRequirement = buildingRequirement;
+        }
         this.Owner = "Player";
         this.Cost = Cost;
     }
@@ -315,11 +331,12 @@ public class Milit
     public GameObject GameObject;
     public bool hasAttacked;
     public int AttackDamage;
-    public int researchRequirement; //-1 if no research requirement
+    public int researchRequirement = -1; //-1 if no research requirement
     public string Owner;
     public int Cost;
+    public string buildingRequirement = "";
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int researchRequirement)
+    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int researchRequirement = -1, string buildingRequirement = "")
     {
         this.Name = Name;
         this.Description = Description;
@@ -331,7 +348,12 @@ public class Milit
         this.MovePoints = MaxMovePoints;
         this.AttackDamage = AttackDamage;
         this.Owner = "Player";
-        this.researchRequirement = researchRequirement;
+        if (researchRequirement != -1) {
+            this.researchRequirement = researchRequirement;
+        }
+        if (buildingRequirement != "") {
+            this.buildingRequirement = buildingRequirement;
+        }
         this.Cost = Cost;
     }
 
