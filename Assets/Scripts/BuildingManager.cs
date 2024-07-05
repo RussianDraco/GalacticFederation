@@ -31,7 +31,7 @@ public class BuildingManager : MonoBehaviour {
         return building.Name + "\n" + building.Description;
     }
 
-    private HasBuilding(List<Building> buildings, string buildingName) {
+    private bool HasBuilding(List<Building> buildings, string buildingName) {
         foreach (Building b in buildings) {
             if (b.Name == buildingName) {
                 return true;
@@ -42,8 +42,10 @@ public class BuildingManager : MonoBehaviour {
     public List<Building> PossibleBuildings(City city) {
         List<Building> possibleBuildings = new List<Building>();
         foreach (Building building in buildings) {
-            if (HasBuilding(city.buildings, building.Name)) {
-                continue;
+            if (!building.IsRepeatable) {
+                if (HasBuilding(city.buildings, building.Name)) {
+                    continue;
+                }
             }
             if (building.researchRequirement != -1) {
                 if (!scienceManager.IsResearched(building.researchRequirement)) {
@@ -102,21 +104,22 @@ public class Building {
     public string Name;
     public string Description;
     public int Cost; //production cost
-    public string BuildingFeature; //reference to BuildingGod.cs for the building's feature (thats the plan at least)
+    public string ExtraType; //reference to name of tile in TileMapManager
     public int researchRequirement; //research required to build, -1 if none
     public List<string> requiredBuildings; //list of buildings required to build
     public List<ResourceRequirement> resourceRequirements; //list of resources required to build //NOT ADDED YET
+    public string TerrainType = ""; //terrain type the building can be built on
     public YieldsHolder Yields = new YieldsHolder();
     public string IconPath = "Buildings/default";
     public bool IsRepeatable = false;
     public Vector2Int Position;
 
-    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields, string IconPath = null, bool IsRepeatable = false)
+    public Building(string Name, string Description, int Cost, string ExtraType, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields, string IconPath = null, bool IsRepeatable = false, string TerrainType = "")
     {
         this.Name = Name;
         this.Description = Description;
         this.Cost = Cost;
-        this.BuildingFeature = BuildingFeature;
+        this.ExtraType = ExtraType;
         this.researchRequirement = researchRequirement;
         this.requiredBuildings = requiredBuildings;
         this.resourceRequirements = resourceRequirements;
@@ -126,6 +129,9 @@ public class Building {
         }
         if (IsRepeatable) {
             this.IsRepeatable = IsRepeatable;
+        }
+        if (TerrainType != "") {
+            this.TerrainType = TerrainType;
         }
     }
 

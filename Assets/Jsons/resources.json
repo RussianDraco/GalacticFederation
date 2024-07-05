@@ -4,7 +4,8 @@
             "Name": "Iron",
             "TerrainType": "ironmars",
             "Id": 0,
-            "innovationRequirement": 0
+            "innovationRequirement": 0,
+            "extractionBuilding": "Basic Mine"
         }
     ]
 }

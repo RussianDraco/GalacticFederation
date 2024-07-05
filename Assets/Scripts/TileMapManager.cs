@@ -18,6 +18,7 @@ public class TileMapManager : MonoBehaviour
     public TileBase ironMarsTile;
 
     [Header("Building Tiles")]
+    public TileBase construction;
     public TileBase cityBuilding;
 
     private TileMap tileMap;
@@ -43,7 +44,7 @@ public class TileMapManager : MonoBehaviour
         }
         return false;
     }
-    private bool IsResourceType(string terrainType) {
+    public bool IsResourceType(string terrainType) {
         try {
             return resourceTerrainTypes[terrainType];
         } catch {
@@ -94,9 +95,11 @@ public class TileMapManager : MonoBehaviour
     }
     TileBase GetTileExtra(string extraType)
     {
-        switch (extraType)
+        switch (extraType.ToLower())
         {
-            case "City":
+            case "construction":
+                return construction;
+            case "city":
                 return cityBuilding;
             default:
                 return null;

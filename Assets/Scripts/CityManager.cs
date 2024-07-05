@@ -5,23 +5,67 @@ using UnityEngine;
 public class CityManager : MonoBehaviour {
     [HideInInspector] public List<City> cities = new List<City>();
     public CityManageController cityManageController;
+    private ResourceManager resourceManager;
     private BuildingManager buildingManager;
     private EntityManager entityManager;
     private YieldManager yieldManager;
+    private TileMapManager tileMapManager;
     private GameManager gameManager;
     private TileMap tileMap;
     public GameObject LineDrawerPrefab;
 
     private const int CITY_MIN_DIST = 5;
 
-    public GameObject dotPrefab;
-
     private void Start() {
         buildingManager = GetComponent<BuildingManager>();
         entityManager = GetComponent<EntityManager>();
         yieldManager = GetComponent<YieldManager>();
         gameManager = GetComponent<GameManager>();
+        resourceManager = GetComponent<ResourceManager>();
+        tileMapManager = GetComponent<TileMapManager>();
         tileMap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
+    }
+
+    private bool IsBuildingOn(City city, Vector2Int position) {
+        foreach (Building building in city.buildings) {
+            if (building.Position == position) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public Vector2Int? ChooseBuildTile(City city, Building building) {
+        List<Vector2Int> buildableTiles = new List<Vector2Int>();
+        List<Vector2Int> buildableTiles_unideals = new List<Vector2Int>();
+        if (building.TerrainType == "") {
+            foreach (Tile tile in city.cityTiles) {
+                if (tile.Position == city.Position) { continue; }
+                if (!IsBuildingOn(city, tile.Position)) {
+                    if (tileMapManager.IsResourceType(tile.TerrainType)) {
+                        buildableTiles_unideals.Add(tile.Position);
+                    } else {
+                        buildableTiles.Add(tile.Position);
+                    }
+                }
+            }
+        } else {
+            foreach (Tile tile in city.cityTiles) {
+                if (tile.Position == city.Position) { continue; }
+                if (tile.TerrainType == building.TerrainType && !IsBuildingOn(city, tile.Position)) {
+                    buildableTiles.Add(tile.Position);
+                }
+            }
+        }
+
+        if (building.TerrainType == "" && buildableTiles.Count == 0 && buildableTiles_unideals.Count > 0) {
+            return buildableTiles_unideals[Random.Range(0, buildableTiles_unideals.Count)];
+        }
+        if (buildableTiles.Count == 0) {
+            Debug.Log("No buildable tiles for " + building.Name + " in " + city.Name);
+            return null;
+        }
+
+        return buildableTiles[Random.Range(0, buildableTiles.Count)];
     }
 
     string GenerateCityName() {
@@ -130,8 +174,11 @@ public class CityManager : MonoBehaviour {
         switch (optionType) {
             case "B":
                 Building building = buildingManager.buildings.Find(x => x.Name == optionValue);
-                Vector2Int location = ~;
+                Vector2Int? position = ChooseBuildTile(city, building); //add a function to let user choose/recieve a position within city borders to build the Building there & functionality for Buildings to stand on their own tiles & removing buildings (BUT NOT IF OTHER BUILDINGS REQUIRE THEIR EXISTENCE)
+                if (position == null) {return;}
+                building.Position = position.Value;
                 city.Production = new BuildingProduction(building);
+                tileMap.AddTileExtra(building.Position, "construction");
                 break;
             case "CU":
                 city.Production = new CivilProduction(entityManager.GetCivil(optionValue));
@@ -219,17 +266,20 @@ public class BuildingProduction : ICityProduction {
     public string Name { get; }
     public int Cost { get; }
     public object Production { get; set; }
+    public Vector2Int Position;
 
     public void Complete(City city) {
         Debug.Log("Building " + Name + " completed in " + city.Name);
         city.buildings.Add((Building)Production);
         ((Building)Production).ApplyBuildingEffects(city);
+        GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(Position, ((Building)Production).ExtraType, true);
     }
 
     public BuildingProduction(Building building) {
         Name = building.Name;
         Cost = building.Cost;
         Production = building;
+        Position = building.Position;
     }
 }
 
