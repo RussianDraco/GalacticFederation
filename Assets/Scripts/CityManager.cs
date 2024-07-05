@@ -9,6 +9,8 @@ public class CityManager : MonoBehaviour {
     private EntityManager entityManager;
     private YieldManager yieldManager;
 
+    private const int CITY_MIN_DIST = 5;
+
     private void Start() {
         buildingManager = GetComponent<BuildingManager>();
         entityManager = GetComponent<EntityManager>();
@@ -126,6 +128,15 @@ public class CityManager : MonoBehaviour {
         }
 
         cityManageController.Deselect();
+    }
+
+    public bool CanDistBuildCity(Vector2Int position) {
+        foreach (City city in cities) {
+            if (Vector2Int.Distance(city.Position, position) < CITY_MIN_DIST) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void NextTurn() {

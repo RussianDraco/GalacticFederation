@@ -11,6 +11,20 @@ public class ScienceMenu : MonoBehaviour
     public GameObject innovationPropertyPanel;
     [HideInInspector] public int selectedInnovation;
     public ScienceManager scienceManager;
+    public RectTransform innovationsHolder;
+
+    void Update()
+    {
+        if (!holder.activeSelf) return;
+
+        float scrollDelta = Input.mouseScrollDelta.y;
+        if (scrollDelta > 0 && innovationsHolder.localPosition.x < 20)
+        {
+            innovationsHolder.localPosition += new Vector3(20, 0, 0);
+        } else if (scrollDelta < 0) {
+            innovationsHolder.localPosition -= new Vector3(20, 0, 0);
+        }
+    }
 
     Sprite GrabIcon(string iconPath) {
         if (Resources.Load<Sprite>(iconPath) == null) {
@@ -26,7 +40,9 @@ public class ScienceMenu : MonoBehaviour
         holder.SetActive(active);
 
         if (active) {
-            foreach(Transform child in holder.transform)
+            innovationsHolder.localPosition = new Vector3(0, 0, 0);
+
+            foreach(Transform child in innovationsHolder.gameObject.transform)
             {
                 InnovationOptionScript ios = child.GetComponent<InnovationOptionScript>();
                 if (ios == null) continue;
@@ -43,7 +59,7 @@ public class ScienceMenu : MonoBehaviour
 
     public void ResearchClicked(int id)
     {
-        if (selectedInnovation == id) {
+        if (selectedInnovation == id && !scienceManager.innovations[id].isResearched && scienceManager.CanResearch(scienceManager.innovations[id])) {
             selectedInnovation = -1;
             innovationName.gameObject.SetActive(false);
             innovationDescription.gameObject.SetActive(false);
@@ -57,7 +73,11 @@ public class ScienceMenu : MonoBehaviour
         innovationPropertyPanel.SetActive(true);
         innovationName.gameObject.SetActive(true);
         innovationDescription.gameObject.SetActive(true);
-        innovationName.text = scienceManager.innovations[id].Name;
+        if (scienceManager.innovations[id].isResearched) {
+            innovationName.text = scienceManager.innovations[id].Name + " (Researched)";
+        } else {
+            innovationName.text = scienceManager.innovations[id].Name;
+        }
         innovationDescription.text = scienceManager.innovations[id].Description;
     }
 }

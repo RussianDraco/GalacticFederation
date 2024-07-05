@@ -10,7 +10,7 @@
             "AttackDamage": 3,
             "Cost": 5,
             "researchRequirement": 1,
-            "buildingRequirement": 
+            "buildingRequirement": "Barracks"
         }
     ]
 }

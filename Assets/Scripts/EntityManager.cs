@@ -10,6 +10,7 @@ public class EntityManager : MonoBehaviour
     private GameManager gameManager;
     private TileMapManager tileMapManager;
     private ScienceManager scienceManager;
+    private BuildingManager buildingManager;
 
     public float movementSpeed = 5f;
     private TileMap tileMap;
@@ -58,6 +59,7 @@ public class EntityManager : MonoBehaviour
         tileMapManager = GetComponent<TileMapManager>();
         tileMap = gameManager.tileMap;
         scienceManager = GetComponent<ScienceManager>();
+        buildingManager = GetComponent<BuildingManager>();
     }
 
     public Sprite GrabIcon(string iconPath) {
@@ -215,7 +217,7 @@ public class EntityManager : MonoBehaviour
                 }
             }
             if (civil.buildingRequirement != "") {
-                if (!city.buildings.Contains(civil.buildingRequirement)) {
+                if (!city.buildings.Contains(buildingManager.GetBuilding(civil.buildingRequirement))) {
                     continue;
                 }
             }
@@ -229,7 +231,7 @@ public class EntityManager : MonoBehaviour
                 }
             }
             if (milit.buildingRequirement != "") {
-                if (!city.buildings.Contains(milit.buildingRequirement)) {
+                if (!city.buildings.Contains(buildingManager.GetBuilding(milit.buildingRequirement))) {
                     continue;
                 }
             }

@@ -49,10 +49,16 @@ public class TileMap
 
     public bool AddTileExtra(Vector2Int position, string extraType, bool overwrite = false) //null for remove
     {
+        // if extraType is "City"; add extra city build check (dist from other cities)
         var tile = GetTile(position);
 
         if (tile.HasExtra && !overwrite)
             return false;
+
+        if (extraType == "City") {
+            if (!GameObject.Find("MANAGER").GetComponent<CityManager>().CanDistBuildCity(position))
+                return false;
+        }
 
         if (extraType == null)
             tile.HasExtra = false;
