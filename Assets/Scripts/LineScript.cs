@@ -8,6 +8,10 @@ public class LineScript : MonoBehaviour
 
     void Start()
     {
+        SetRenderer();
+    }
+
+    public void SetRenderer() {
         lineRenderer = GetComponent<LineRenderer>();
     }
 

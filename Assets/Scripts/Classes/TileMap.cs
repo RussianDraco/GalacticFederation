@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TileMap
 {
@@ -67,5 +68,55 @@ public class TileMap
         tile.ExtraType = extraType;
         SetTile(position, tile);
         return true;
+    }
+
+    public Tile CheckTile(Vector2Int position) {
+        if (Tiles.ContainsKey(position)) {
+            return Tiles[position];
+        } else {
+            return null;
+        }
+    }
+
+    public List<Tile> GetNeighbours(Tile tile) { //need to integrate consideration of location as neighbours arent always the same relative positions away
+        List<Tile> neighbours = new List<Tile>();
+        Vector2Int[] directions = new Vector2Int[] {
+            new Vector2Int(1, 0),
+            new Vector2Int(-1, 0),
+            new Vector2Int(0, 1),
+            new Vector2Int(0, -1),
+            new Vector2Int(1, -1),
+            new Vector2Int(-1, 1)
+        };
+
+        foreach (Vector2Int direction in directions) {
+            Vector2Int neighbourPosition = tile.Position + direction;
+            Tile neighbour = CheckTile(neighbourPosition);
+            if (neighbour != null) {
+                neighbours.Add(neighbour);
+            }
+        }
+
+        return neighbours;
+    }
+
+    public List<Vector2> SurroundingPoints(List<Tile> tiles) {
+        Vector2[] hexagonPoints = new Vector2[] {
+            new Vector2(-gridCellX / 2, gridCellY * 0.25f),    // Bottom-left
+            new Vector2(0, gridCellY * 0.5f),                  // Top
+            new Vector2(gridCellX / 2, gridCellY * 0.25f),     // Bottom-right
+            new Vector2(gridCellX / 2, -gridCellY * 0.25f),    // Top-right
+            new Vector2(0, -gridCellY * 0.5f),                 // Bottom
+            new Vector2(-gridCellX / 2, -gridCellY * 0.25f)    // Top-left
+        };
+
+        List<Vector2> positions = new List<Vector2>();
+        foreach (Tile tile in tiles) {
+            foreach (Vector2 hexagonPoint in hexagonPoints) {
+                Vector2 position = GetWorldPosition(tile.Position) + hexagonPoint;
+                positions.Add(position);
+            }
+        }
+        return positions;
     }
 }

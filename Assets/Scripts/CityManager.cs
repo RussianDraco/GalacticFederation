@@ -8,13 +8,18 @@ public class CityManager : MonoBehaviour {
     private BuildingManager buildingManager;
     private EntityManager entityManager;
     private YieldManager yieldManager;
+    private TileMap tileMap;
+    public GameObject LineDrawerPrefab;
 
     private const int CITY_MIN_DIST = 5;
+
+    public GameObject dotPrefab;
 
     private void Start() {
         buildingManager = GetComponent<BuildingManager>();
         entityManager = GetComponent<EntityManager>();
         yieldManager = GetComponent<YieldManager>();
+        tileMap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
     }
 
     string GenerateCityName() {
@@ -40,8 +45,16 @@ public class CityManager : MonoBehaviour {
 
         city.Yields = new CityYieldsHolder();
 
+        Tile center = tileMap.GetTile(position);
+        city.cityTiles = tileMap.GetNeighbours(center);
+        city.cityTiles.Add(center);
+
+        city.borderLine = Instantiate(LineDrawerPrefab, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<LineScript>();
+        city.borderLine.SetRenderer();
+
         cities.Add(city);
         yieldManager.RecalculateYields(false);
+        RedrawCityBorders();
     }
 
     public void SelectCity(City city) {
@@ -139,6 +152,12 @@ public class CityManager : MonoBehaviour {
         return true;
     }
 
+    public void RedrawCityBorders() {
+        foreach (City city in cities) {
+            city.borderLine.DrawLine(tileMap.SurroundingPoints(city.cityTiles), Color.magenta);
+        }
+    }
+
     public void NextTurn() {
         cityManageController.Deselect();
         foreach (City city in cities) {
@@ -169,6 +188,8 @@ public class City {
     public string Owner;
     public ICityProduction Production;
     public float ProductionProgress;
+    public List<Tile> cityTiles;
+    public LineScript borderLine;
 
     public CityYieldsHolder Yields;
 
