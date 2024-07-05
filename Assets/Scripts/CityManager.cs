@@ -152,7 +152,7 @@ public class CityManager : MonoBehaviour {
         return true;
     }
 
-    public void RedrawCityBorders() {
+    public void RedrawCityBorders() { //sucks right now
         foreach (City city in cities) {
             city.borderLine.DrawLine(tileMap.SurroundingPoints(city.cityTiles), Color.magenta);
         }

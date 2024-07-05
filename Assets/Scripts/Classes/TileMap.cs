@@ -5,8 +5,8 @@ using System.Linq;
 public class TileMap
 {
     public Dictionary<Vector2Int, Tile> Tiles { get; private set; }
-    private float gridCellX = 2.39f;
-    private float gridCellY = 2.77f;
+    public float gridCellX = 2.39f;
+    public float gridCellY = 2.77f;
 
     public TileMap(int width, int height)
     {
@@ -19,6 +19,7 @@ public class TileMap
                 Tiles[position] = new Tile(position, "basicmars"); // Initialize with default terrain type
             }
         }
+        Tiles[new Vector2Int(1, 1)].TerrainType = "ironmars";
     }
 
     public Tile GetTile(Vector2Int position)
@@ -78,20 +79,34 @@ public class TileMap
         }
     }
 
-    public List<Tile> GetNeighbours(Tile tile) { //need to integrate consideration of location as neighbours arent always the same relative positions away
-        List<Tile> neighbours = new List<Tile>();
-        Vector2Int[] directions = new Vector2Int[] {
-            new Vector2Int(1, 0),
-            new Vector2Int(-1, 0),
-            new Vector2Int(0, 1),
-            new Vector2Int(0, -1),
-            new Vector2Int(1, -1),
-            new Vector2Int(-1, 1)
-        };
+    public List<Tile> GetNeighbours(Tile tile) {
+        List<Vector2Int> directions;
+        if (tile.Position.y % 2 == 0) {
+            directions = new List<Vector2Int>
+            {
+                new Vector2Int(-1, 0),
+                new Vector2Int(-1, 1),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 0),
+                new Vector2Int(-1, -1),
+                new Vector2Int(0, -1),
+            };
+        }
+        else {
+            directions = new List<Vector2Int>
+            {
+                new Vector2Int(-1, 0),
+                new Vector2Int(0, 1),
+                new Vector2Int(1, 1),
+                new Vector2Int(1, 0),
+                new Vector2Int(1, -1),
+                new Vector2Int(0, -1),
+            };
+        }
 
+        List<Tile> neighbours = new List<Tile>();
         foreach (Vector2Int direction in directions) {
-            Vector2Int neighbourPosition = tile.Position + direction;
-            Tile neighbour = CheckTile(neighbourPosition);
+            Tile neighbour = CheckTile(direction + tile.Position);
             if (neighbour != null) {
                 neighbours.Add(neighbour);
             }
@@ -100,6 +115,7 @@ public class TileMap
         return neighbours;
     }
 
+    //this function will need to be upgraded to find neighbours from vector2int without conversion; this is also used in Pathfinding.cs
     public List<Vector2> SurroundingPoints(List<Tile> tiles) {
         Vector2[] hexagonPoints = new Vector2[] {
             new Vector2(-gridCellX / 2, gridCellY * 0.25f),    // Bottom-left

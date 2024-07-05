@@ -63,7 +63,7 @@ public class ToolTipScript : MonoBehaviour
         EntityManager entityManager = manager.GetComponent<EntityManager>();
         object entity = entityManager.EntityOn(tile.Position);
 
-        string finalToolTip = tile.TerrainType.Replace("basicmars", "Mars Plains");
+        string finalToolTip = tile.TerrainType.Replace("basicmars", "Mars Plains") + "{" + tile.Position.x + "," + tile.Position.y + "}";
 
         if (tile.ExtraType != null)
         {

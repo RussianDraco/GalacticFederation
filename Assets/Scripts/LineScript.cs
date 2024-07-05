@@ -28,5 +28,5 @@ public class LineScript : MonoBehaviour
         {
             lineRenderer.SetPosition(i, new Vector3(points[i].x, points[i].y, 0));
         }
-    }
+    }    
 }
