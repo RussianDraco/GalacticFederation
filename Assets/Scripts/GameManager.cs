@@ -35,12 +35,7 @@ public class GameManager : MonoBehaviour
         entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0));
     }
 
-    private void Update()
-    {
-        UpdateGame();
-    }
-
-    private void UpdateGame()
+    public void UpdateGame()
     {
         tileMapManager.RenderTiles();
         entityManager.UpdateEntities();
@@ -55,5 +50,6 @@ public class GameManager : MonoBehaviour
         scienceManager.NextTurn();
         entityManager.NextTurn();
         cityManager.NextTurn();
+        UpdateGame();
     }
 }

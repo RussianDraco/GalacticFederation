@@ -31,10 +31,18 @@ public class BuildingManager : MonoBehaviour {
         return building.Name + "\n" + building.Description;
     }
 
+    private HasBuilding(List<Building> buildings, string buildingName) {
+        foreach (Building b in buildings) {
+            if (b.Name == buildingName) {
+                return true;
+            }
+        }
+        return false;
+    }
     public List<Building> PossibleBuildings(City city) {
         List<Building> possibleBuildings = new List<Building>();
         foreach (Building building in buildings) {
-            if (city.buildings.Contains(building)) {
+            if (HasBuilding(city.buildings, building.Name)) {
                 continue;
             }
             if (building.researchRequirement != -1) {
@@ -88,6 +96,7 @@ public class YieldsHolder {
 }
 
 //buildings that are inside cities
+/*IF ERROR W/ BUILDING: ok listen myself in the future, there is a potential problem with Building class; i think that somewhere in my code i am == comparing a Building from buildings List in BuildingManager to a real building thats part of a city; that might stop working bc now i have parameters in the building class that dont remain the same relative to their original state as recieved from the json file, i.e. position*/
 [System.Serializable]
 public class Building {
     public string Name;
@@ -99,8 +108,10 @@ public class Building {
     public List<ResourceRequirement> resourceRequirements; //list of resources required to build //NOT ADDED YET
     public YieldsHolder Yields = new YieldsHolder();
     public string IconPath = "Buildings/default";
+    public bool IsRepeatable = false;
+    public Vector2Int Position;
 
-    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields, string IconPath = null)
+    public Building(string Name, string Description, int Cost, string BuildingFeature, int researchRequirement, List<string> requiredBuildings, List<ResourceRequirement> resourceRequirements, YieldsHolder Yields, string IconPath = null, bool IsRepeatable = false)
     {
         this.Name = Name;
         this.Description = Description;
@@ -112,6 +123,9 @@ public class Building {
         this.Yields = Yields;
         if (IconPath != null) {
             this.IconPath = IconPath;
+        }
+        if (IsRepeatable) {
+            this.IsRepeatable = IsRepeatable;
         }
     }
 

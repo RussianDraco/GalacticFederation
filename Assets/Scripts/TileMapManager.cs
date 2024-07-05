@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections.Generic;
 
 public class TileMapManager : MonoBehaviour
 {
     private GameManager gameManager;
     private EntityManager entityManager;
+    private ResourceManager resourceManager;
+
+    private Dictionary<string, bool> resourceTerrainTypes = new Dictionary<string, bool>();
 
     public Tilemap tilemap;
     public Tilemap extrasTilemap;
@@ -18,15 +22,42 @@ public class TileMapManager : MonoBehaviour
 
     private TileMap tileMap;
 
+    void Awake()
+    {
+        resourceManager = GetComponent<ResourceManager>();
+    }
+
     void Start()
     {
         gameManager = GetComponent<GameManager>();
         entityManager = GetComponent<EntityManager>();
     }
 
+    public bool ResourceHere(Vector2Int position, bool overrideToTrue = false) {
+        Tile tile = tileMap.GetTile(position);
+        if (IsResourceType(tile.TerrainType)) {
+            if (overrideToTrue)
+                return true;
+            else
+                return resourceManager.CanMakeTerrain(tile.TerrainType);
+        }
+        return false;
+    }
+    private bool IsResourceType(string terrainType) {
+        try {
+            return resourceTerrainTypes[terrainType];
+        } catch {
+            return false;
+        }
+    }
     public void Initialize(TileMap tileMap)
     {
         this.tileMap = tileMap;
+
+        foreach (Resource resource in resourceManager.resources) {
+            resourceTerrainTypes[resource.TerrainType] = true;
+        }
+
         RenderTiles();
     }
 
@@ -45,6 +76,12 @@ public class TileMapManager : MonoBehaviour
 
     TileBase GetTileBase(Tile tile)
     {
+        if (IsResourceType(tile.TerrainType)) {
+            if (!resourceManager.CanMakeTerrain(tile.TerrainType)) {
+                return basicMarsTile;
+            }
+        }
+
         switch (tile.TerrainType)
         {
             case "basicmars":

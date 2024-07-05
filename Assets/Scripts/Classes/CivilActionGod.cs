@@ -23,6 +23,8 @@ public static class CivilActionGod
             // Invoke the method with the parameters
             object result = method.Invoke(null, parameters);
 
+            GameObject.Find("MANAGER").GetComponent<GameManager>().UpdateGame();
+
             if (result is bool)
             {
                 return (bool)result;

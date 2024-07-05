@@ -8,6 +8,7 @@ public class CityManager : MonoBehaviour {
     private BuildingManager buildingManager;
     private EntityManager entityManager;
     private YieldManager yieldManager;
+    private GameManager gameManager;
     private TileMap tileMap;
     public GameObject LineDrawerPrefab;
 
@@ -19,6 +20,7 @@ public class CityManager : MonoBehaviour {
         buildingManager = GetComponent<BuildingManager>();
         entityManager = GetComponent<EntityManager>();
         yieldManager = GetComponent<YieldManager>();
+        gameManager = GetComponent<GameManager>();
         tileMap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
     }
 
@@ -55,6 +57,7 @@ public class CityManager : MonoBehaviour {
         cities.Add(city);
         yieldManager.RecalculateYields(false);
         RedrawCityBorders();
+        gameManager.UpdateGame();
     }
 
     public void SelectCity(City city) {
@@ -127,6 +130,7 @@ public class CityManager : MonoBehaviour {
         switch (optionType) {
             case "B":
                 Building building = buildingManager.buildings.Find(x => x.Name == optionValue);
+                Vector2Int location = ~;
                 city.Production = new BuildingProduction(building);
                 break;
             case "CU":
@@ -141,6 +145,7 @@ public class CityManager : MonoBehaviour {
         }
 
         cityManageController.Deselect();
+        gameManager.UpdateGame();
     }
 
     public bool CanDistBuildCity(Vector2Int position) {

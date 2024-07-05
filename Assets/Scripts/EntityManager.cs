@@ -95,6 +95,7 @@ public class EntityManager : MonoBehaviour
         } else if (entity is Milit) {
             SpawnMilit((Milit)entity, city.Position);
         }
+        gameManager.UpdateGame();
     }
 
     public void SpawnCivil(Civil civil, Vector2Int position) {
@@ -103,6 +104,7 @@ public class EntityManager : MonoBehaviour
         newCivil.GameObject = Instantiate(civilPrefab, CoordToPosition(position), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
         activeCivils.Add(newCivil);
+        gameManager.UpdateGame();
     }
     public void SpawnMilit(Milit milit, Vector2Int position) {
         var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
@@ -110,6 +112,7 @@ public class EntityManager : MonoBehaviour
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
         newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
         activeMilits.Add(newMilit);
+        gameManager.UpdateGame();
     }
 
     private void UpdateEntityPosition(Civil civil) {
@@ -155,6 +158,7 @@ public class EntityManager : MonoBehaviour
         }
         civil.Position = targetPosition;
         civil.GameObject.transform.position = CoordToPosition(targetPosition);
+        gameManager.UpdateGame();
         return true;
     }
     public bool MoveEntity(Milit milit, Vector2Int targetPosition) {
@@ -163,6 +167,7 @@ public class EntityManager : MonoBehaviour
         }
         milit.Position = targetPosition;
         milit.GameObject.transform.position = CoordToPosition(targetPosition);
+        gameManager.UpdateGame();
         return true;
     }
 
@@ -203,6 +208,7 @@ public class EntityManager : MonoBehaviour
             activeMilits.Remove((Milit)entity);
             Destroy(((Milit)entity).GameObject);
         }
+        gameManager.UpdateGame();
     }
 
     public (List<Civil>, List<Milit>) PossibleUnits(City city)

@@ -56,6 +56,7 @@ public class ActionManager : MonoBehaviour {
                 entityManager.MoveEntity(((Civil)selectedEntity), dest);
                 ((Civil)selectedEntity).MovePoints -= moveQuant;
                 selectEntityScript.CivilReload(((Civil)selectedEntity).MovePoints, ((Civil)selectedEntity).ActionPoints);
+                gameManager.UpdateGame();
             }
             if (Input.GetMouseButtonDown(1)) {
                 isMoving = false;

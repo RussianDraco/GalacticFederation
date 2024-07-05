@@ -1,0 +1,10 @@
+{
+    "resources": [
+        {
+            "Name": "Iron",
+            "TerrainType": "ironmars",
+            "Id": 0,
+            "innovationRequirement": 0
+        }
+    ]
+}
