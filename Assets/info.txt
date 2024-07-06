@@ -3,3 +3,4 @@
 Add a building;
 -add building to buildings.json (add "extratype" ; {extratype name})
 -create tilebase of building in palette and add the tile to Assets/Resources/ExtraTiles/{extratype name}
+-add building icon to (Resources/Buildings/{}) so that building.IconPath

@@ -269,6 +269,26 @@ public class City {
 
     public void PopulationGrowth() {
         Yields.Population = Mathf.Min(Yields.Housing, Yields.Population + (Yields.Food / (4 * Yields.Population + Mathf.Pow(Yields.Population, 1.5f))));
+        BorderGrowth();
+    }
+
+    public void BorderGrowth() {
+        if (cityTiles.Count >= 19) { return; }
+
+        int borderGrowth = ((int)Mathf.Floor(Yields.Population) + 6) - cityTiles.Count;
+        if (borderGrowth > 0) {
+            //add one tile to the city (if possible) (tile cannot exceed 2 tiles away from the city center)
+            //currently made to only expand to 2 tiles away (manually calculated directions for 2 away from center)
+            //there might be other conditions to stop tile from being added, i.e. part of another city
+            TileMap tileMap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
+            foreach (Tile tile in tileMap.GetSecondNeighbours(tileMap.GetTile(Position))) {
+                if (!cityTiles.Contains(tile)) {
+                    cityTiles.Add(tile);
+                    GameObject.Find("MANAGER").GetComponent<CityManager>().RedrawCityBorders();
+                    break;
+                }
+            }
+        }
     }
 }
 
