@@ -24,6 +24,10 @@ public class ToolTipScript : MonoBehaviour
         resourceManager = GameObject.Find("MANAGER").GetComponent<ResourceManager>();
         tileMapManager = GameObject.Find("MANAGER").GetComponent<TileMapManager>();
 
+        foreach (Building building in GameObject.Find("MANAGER").GetComponent<BuildingManager>().buildings) {
+            buildingTileTypes[building.ExtraType] = building.Name;
+        }
+
         toolTip.SetActive(false);
     }
 
@@ -100,8 +104,7 @@ public class ToolTipScript : MonoBehaviour
                     }
                     finalToolTip = finalToolTip.Remove(finalToolTip.Length - 2) + "]";
                 }
-            } else if (buildingTileTypes.ContainsKey(tile.ExtraType))
-            {
+            } else if (buildingTileTypes.ContainsKey(tile.ExtraType)) {
                 finalToolTip += "\n" + buildingTileTypes[tile.ExtraType] + " (" + cityManager.GetTileCityName(tile) + ")";
             } else {
                 finalToolTip += "\n" + tile.ExtraType;
