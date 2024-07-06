@@ -39,7 +39,7 @@ public class ResourceManager : MonoBehaviour {
             }
         }
         Debug.LogError("CanMakeTerrain called with non-resource terrain type");
-        return false;
+        return true;
     }
 }
 

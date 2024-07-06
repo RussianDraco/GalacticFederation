@@ -37,7 +37,7 @@ public class CityManager : MonoBehaviour {
     public Vector2Int? ChooseBuildTile(City city, Building building) {
         List<Vector2Int> buildableTiles = new List<Vector2Int>();
         List<Vector2Int> buildableTiles_unideals = new List<Vector2Int>();
-        if (building.TerrainType == "") {
+        if (building.TerrainType == "" || building.TerrainType == null) {
             foreach (Tile tile in city.cityTiles) {
                 if (tile.Position == city.Position) { continue; }
                 if (!IsBuildingOn(city, tile.Position)) {
@@ -57,7 +57,7 @@ public class CityManager : MonoBehaviour {
             }
         }
 
-        if (building.TerrainType == "" && buildableTiles.Count == 0 && buildableTiles_unideals.Count > 0) {
+        if ((building.TerrainType == "" || building.TerrainType == null) && buildableTiles.Count == 0 && buildableTiles_unideals.Count > 0) {
             return buildableTiles_unideals[Random.Range(0, buildableTiles_unideals.Count)];
         }
         if (buildableTiles.Count == 0) {
@@ -230,6 +230,23 @@ public class CityManager : MonoBehaviour {
             city.AddSumYields(yieldManager);
         }
     }
+
+    public string GetTileCityName(Tile tile) {
+        City closestCity = null;
+        float closestDist = 1000;
+        foreach (City city in cities) {
+            float dist = Vector2Int.Distance(city.Position, tile.Position);
+            if (dist < closestDist) {
+                closestCity = city;
+                closestDist = dist;
+            }
+        }
+        if (closestCity.cityTiles.Contains(tile)) {
+            return closestCity.Name;
+        }
+        Debug.LogError("Tile checked on " + tile.Position.ToString() + " is not in any city");
+        return null;
+    }
 }
 
 [System.Serializable]
@@ -269,7 +286,7 @@ public class BuildingProduction : ICityProduction {
     public Vector2Int Position;
 
     public void Complete(City city) {
-        Debug.Log("Building " + Name + " completed in " + city.Name);
+        Debug.Log("Building " + Name + " completed in " + city.Name + " at " + Position.ToString());
         city.buildings.Add((Building)Production);
         ((Building)Production).ApplyBuildingEffects(city);
         GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(Position, ((Building)Production).ExtraType, true);

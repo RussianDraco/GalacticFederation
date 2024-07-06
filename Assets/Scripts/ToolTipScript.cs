@@ -10,11 +10,20 @@ public class ToolTipScript : MonoBehaviour
     public GameObject toolTip;
     public TMP_Text toolTipText;
 
+    private ResourceManager resourceManager;
+    private CityManager cityManager;
+    private TileMapManager tileMapManager;
+
     private Vector3 previousMousePosition;
     private float idleTime;
+    private Dictionary<string, string> buildingTileTypes = new Dictionary<string, string>();
 
     void Start()
     {
+        cityManager = GameObject.Find("MANAGER").GetComponent<CityManager>();
+        resourceManager = GameObject.Find("MANAGER").GetComponent<ResourceManager>();
+        tileMapManager = GameObject.Find("MANAGER").GetComponent<TileMapManager>();
+
         toolTip.SetActive(false);
     }
 
@@ -63,8 +72,19 @@ public class ToolTipScript : MonoBehaviour
         EntityManager entityManager = manager.GetComponent<EntityManager>();
         object entity = entityManager.EntityOn(tile.Position);
 
-        string finalToolTip = tile.TerrainType.Replace("basicmars", "Mars Plains") + "{" + tile.Position.x + "," + tile.Position.y + "}";
+        string finalToolTip = "";
+        
+        if (tileMapManager.IsResourceType(tile.TerrainType)) {
+            if (resourceManager.CanMakeTerrain(tile.TerrainType)) {
+                finalToolTip = tile.TerrainType;
+            } else {
+                finalToolTip = "Mars Plains";
+            }
+        } else {
+            finalToolTip = tile.TerrainType.Replace("basicmars", "Mars Plains");
+        }
 
+        finalToolTip += "{" + tile.Position.x + "," + tile.Position.y + "}";
         if (tile.ExtraType != null)
         {
             if (tile.ExtraType == "City")
@@ -80,9 +100,10 @@ public class ToolTipScript : MonoBehaviour
                     }
                     finalToolTip = finalToolTip.Remove(finalToolTip.Length - 2) + "]";
                 }
-            }
-            else
+            } else if (buildingTileTypes.ContainsKey(tile.ExtraType))
             {
+                finalToolTip += "\n" + buildingTileTypes[tile.ExtraType] + " (" + cityManager.GetTileCityName(tile) + ")";
+            } else {
                 finalToolTip += "\n" + tile.ExtraType;
             }
         }

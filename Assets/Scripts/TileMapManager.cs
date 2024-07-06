@@ -95,6 +95,11 @@ public class TileMapManager : MonoBehaviour
     }
     TileBase GetTileExtra(string extraType)
     {
+        TileBase grabbedTile = Resources.Load<TileBase>("ExtraTiles/" + extraType);
+        if (grabbedTile != null) {
+            return grabbedTile;
+        }
+
         switch (extraType.ToLower())
         {
             case "construction":

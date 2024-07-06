@@ -5380,6 +5380,7 @@ MonoBehaviour:
   extrasTilemap: {fileID: 126418286}
   basicMarsTile: {fileID: 11400000, guid: ae19702a2e7870643b7380111c180b0e, type: 2}
   ironMarsTile: {fileID: 11400000, guid: 573f18ab030bb2740b64894d0b85dde6, type: 2}
+  construction: {fileID: 0}
   cityBuilding: {fileID: 11400000, guid: 79c535050c6f84b4fa95efc5cc1a9abb, type: 2}
 --- !u!114 &1845061792
 MonoBehaviour:
@@ -5491,7 +5492,6 @@ MonoBehaviour:
   cities: []
   cityManageController: {fileID: 1566704212}
   LineDrawerPrefab: {fileID: 7430760778934386094, guid: 50c1e88e3a00e2843a3778450366338e, type: 3}
-  dotPrefab: {fileID: 1979015952611249929, guid: 8c6cb9f06ca85854a98f74279fef625c, type: 3}
 --- !u!114 &1845061799
 MonoBehaviour:
   m_ObjectHideFlags: 0

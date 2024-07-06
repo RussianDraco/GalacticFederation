@@ -1,0 +1,5 @@
+//(; instead of :)
+
+Add a building;
+-add building to buildings.json (add "extratype" ; {extratype name})
+-create tilebase of building in palette and add the tile to Assets/Resources/ExtraTiles/{extratype name}
