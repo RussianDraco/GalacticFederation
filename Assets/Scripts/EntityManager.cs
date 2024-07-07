@@ -91,26 +91,28 @@ public class EntityManager : MonoBehaviour
 
     public void CitySpawn(City city, object entity) {
         if (entity is Civil) {
-            SpawnCivil((Civil)entity, city.Position);
+            SpawnCivil((Civil)entity, city.Position, city.Owner);
         } else if (entity is Milit) {
-            SpawnMilit((Milit)entity, city.Position);
+            SpawnMilit((Milit)entity, city.Position, city.Owner);
         }
         gameManager.UpdateGame();
     }
 
-    public void SpawnCivil(Civil civil, Vector2Int position) {
+    public void SpawnCivil(Civil civil, Vector2Int position, int ownerid) {
         var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions, civil.Cost, civil.researchRequirement);
         newCivil.Position = position;
         newCivil.GameObject = Instantiate(civilPrefab, CoordToPosition(position), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
+        newCivil.Owner = ownerid;
         activeCivils.Add(newCivil);
         gameManager.UpdateGame();
     }
-    public void SpawnMilit(Milit milit, Vector2Int position) {
+    public void SpawnMilit(Milit milit, Vector2Int position, int ownerid) {
         var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
         newMilit.Position = position;
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
         newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
+        newMilit.Owner = ownerid;
         activeMilits.Add(newMilit);
         gameManager.UpdateGame();
     }
@@ -278,7 +280,7 @@ public class Civil
     public int ActionPoints;
     public List<CivilAction> Actions = new List<CivilAction>();
     public int researchRequirement = -1;
-    public string Owner;
+    public int Owner;
     public int Cost;
     public string buildingRequirement = "";
 
@@ -300,7 +302,6 @@ public class Civil
         if (buildingRequirement != "") {
             this.buildingRequirement = buildingRequirement;
         }
-        this.Owner = "Player";
         this.Cost = Cost;
     }
 }
@@ -340,7 +341,7 @@ public class Milit
     public bool hasAttacked;
     public int AttackDamage;
     public int researchRequirement = -1; //-1 if no research requirement
-    public string Owner;
+    public int Owner;
     public int Cost;
     public string buildingRequirement = "";
 
@@ -355,7 +356,6 @@ public class Milit
         this.MaxMovePoints = MaxMovePoints;
         this.MovePoints = MaxMovePoints;
         this.AttackDamage = AttackDamage;
-        this.Owner = "Player";
         if (researchRequirement != -1) {
             this.researchRequirement = researchRequirement;
         }

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private ScienceManager scienceManager;
     private CityManager cityManager;
     private YieldManager yieldManager;
+    private CivilizationManager civilizationManager;
     int turnNumber = 0;
 
     void Awake()
@@ -28,11 +29,13 @@ public class GameManager : MonoBehaviour
         scienceManager = GetComponent<ScienceManager>();
         cityManager = GetComponent<CityManager>();
         yieldManager = GetComponent<YieldManager>();
+        civilizationManager = GetComponent<CivilizationManager>();
 
         tileMapManager.Initialize(tileMap);
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0));
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 1));
-        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0));
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0), -1);
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 1), -1);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0), -1);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(1, 2), 0);
     }
 
     public void UpdateGame()
@@ -46,6 +49,7 @@ public class GameManager : MonoBehaviour
         turnNumber++;
         Debug.Log("Turn " + turnNumber);
         yieldManager.NextTurn();
+        civilizationManager.NextTurn();
         actionManager.NextTurn();
         scienceManager.NextTurn();
         entityManager.NextTurn();

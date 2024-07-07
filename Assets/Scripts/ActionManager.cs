@@ -96,12 +96,14 @@ public class ActionManager : MonoBehaviour {
     }
 
     public void SelectCivil(Civil civil) { //milit needs to be integrated next from this
+        if (civil.Owner != -1) { return; }
         selectedEntity = civil;
         selectEntityScript.SetCivil(civil.Name, civil.Description, civil.MovePoints, civil.ActionPoints, entityManager.GrabIcon(civil.IconPath), civil.Actions);
         isMoving = false;
         selectionManager.EntitySelected(civil);
     }
     public void SelectMilit(Milit milit) {
+        if (milit.Owner != -1) { return; }
         selectedEntity = milit;
         selectEntityScript.SetMilit(milit.Name, milit.Description, milit.MovePoints, entityManager.GrabIcon(milit.IconPath));
         isMoving = false;
@@ -112,7 +114,7 @@ public class ActionManager : MonoBehaviour {
         if (selectedEntity != null || !(selectedEntity is Civil)) {
             Civil civil = (Civil)selectedEntity;
             if (civilAction.ActionPoints <= civil.ActionPoints) {
-                if (CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil })) {
+                if (CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil, civil.Owner })) {
                     if (selectedEntity == null) {
                         return;
                     }

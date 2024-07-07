@@ -81,12 +81,12 @@ public class CityManager : MonoBehaviour {
         return null;
     }
 
-    public void AddCity(Vector2Int position) {
+    public void AddCity(Vector2Int position, int owner) {
         City city = new City();
         city.Name = GenerateCityName();
         city.Position = position;
         city.buildings = new List<Building>();
-        city.Owner = "Player";
+        city.Owner = owner;
         city.Production = null;
 
         city.Yields = new CityYieldsHolder();
@@ -254,7 +254,7 @@ public class City {
     public string Name;
     public Vector2Int Position;
     public List<Building> buildings;
-    public string Owner;
+    public int Owner;
     public ICityProduction Production;
     public float ProductionProgress;
     public List<Tile> cityTiles;
@@ -268,7 +268,7 @@ public class City {
     }
 
     public void PopulationGrowth() {
-        Yields.Population = Mathf.Min(Yields.Housing, Yields.Population + (Yields.Food / (4 * Yields.Population + Mathf.Pow(Yields.Population, 1.5f))));
+        Yields.Population = Mathf.Min(Yields.Housing, Yields.Population + (Yields.Food / (6 * Yields.Population + Mathf.Pow(Yields.Population, 1.5f))));
         BorderGrowth();
     }
 
