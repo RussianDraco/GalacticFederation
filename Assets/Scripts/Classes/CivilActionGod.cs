@@ -17,7 +17,7 @@ public static class CivilActionGod
         {
             if (parameters == null)
             {
-                Debug.LogWarning("No parameters provided for CivilActionGod method: " + methodName);
+                Debug.LogWarning("No parameters provided (first parameter needs to be casting Civil object) for method: " + methodName);
             }
 
             // Invoke the method with the parameters
@@ -43,14 +43,14 @@ public static class CivilActionGod
     }
 
 
-    //all civil actions require parameter 1: Civil caster; parameter 2: int Owner
+    //all civil actions require parameter 1: Civil caster; parameter 2: Civilization owner
 
-    public static bool Settle(Civil civil, int Owner)
+    public static bool Settle(Civil civil, int ownerId)
     {
         if (GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(civil.Position, "City")) {
             GameObject.Find("MANAGER").GetComponent<EntityManager>().KillEntity(civil);
             GameObject.Find("MANAGER").GetComponent<ActionManager>().Deselection();
-            GameObject.Find("MANAGER").GetComponent<CityManager>().AddCity(civil.Position, Owner);
+            GameObject.Find("MANAGER").GetComponent<CityManager>().AddCity(civil.Position, ownerId);
             return true;
         } else {
             return false;

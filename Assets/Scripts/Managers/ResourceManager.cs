@@ -25,14 +25,14 @@ public class ResourceManager : MonoBehaviour {
         civilizationManager = GetComponent<CivilizationManager>();
     }
 
-    public bool CanMakeTerrain(string terrainType) {
+    public bool CanMakeTerrain(string terrainType, int ownerId) {
         foreach (Resource resource in resources) {
             if (resource.TerrainType == terrainType) {
                 if (resource.innovationRequirement == -1) {
                     return true;
                 }
                 //the ai might see resources bc of this
-                if (civilizationManager.Player.scienceIdentity.IsResearched(resource.innovationRequirement)) {
+                if (civilizationManager.GetCiv(ownerId).scienceIdentity.IsResearched(resource.innovationRequirement)) {
                     return true;
                 } else {
                     return false;

@@ -32,9 +32,9 @@ public class GameManager : MonoBehaviour
         civilizationManager = GetComponent<CivilizationManager>();
 
         tileMapManager.Initialize(tileMap);
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0));
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 1));
-        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0));
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0), -1);
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 1), 0);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0), -1);
     }
 
     public void UpdateGame()
@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
         turnNumber++;
         Debug.Log("Turn " + turnNumber);
         civilizationManager.NextTurn();
-        yieldManager.NextTurn();
         actionManager.NextTurn();
         entityManager.NextTurn();
         cityManager.NextTurn();

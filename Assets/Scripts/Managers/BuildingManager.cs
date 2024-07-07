@@ -9,6 +9,7 @@ public class BuildingManager : MonoBehaviour {
     [HideInInspector] public List<Building> buildings = new List<Building>();
     private ScienceManager scienceManager;
     private CivilizationManager CM;
+    [HideInInspector] public Dictionary<string, Resource> extractionBuildings = new Dictionary<string, Resource>();
 
     void Awake()
     {
@@ -26,6 +27,12 @@ public class BuildingManager : MonoBehaviour {
 
         scienceManager = GetComponent<ScienceManager>();
         CM = GetComponent<CivilizationManager>();
+    }
+
+    private void Start() {
+        foreach (Resource resource in resourceManager.resources) {
+            extractionBuildings[GetBuilding(resource.extractionBuilding).Name] = resource;
+        }
     }
 
     public Building GetBuilding(string buildingName) {return buildings.Find(x => x.Name == buildingName);}

@@ -34,13 +34,13 @@ public class TileMapManager : MonoBehaviour
         entityManager = GetComponent<EntityManager>();
     }
 
-    public bool ResourceHere(Vector2Int position, bool overrideToTrue = false) {
+    public bool ResourceHere(Vector2Int position, int ownerId, bool overrideToTrue = false) {
         Tile tile = tileMap.GetTile(position);
         if (IsResourceType(tile.TerrainType)) {
             if (overrideToTrue)
                 return true;
             else
-                return resourceManager.CanMakeTerrain(tile.TerrainType);
+                return resourceManager.CanMakeTerrain(tile.TerrainType, ownerId);
         }
         return false;
     }
@@ -78,7 +78,7 @@ public class TileMapManager : MonoBehaviour
     TileBase GetTileBase(Tile tile)
     {
         if (IsResourceType(tile.TerrainType)) {
-            if (!resourceManager.CanMakeTerrain(tile.TerrainType)) {
+            if (!resourceManager.CanMakeTerrain(tile.TerrainType, -1)) {
                 return basicMarsTile;
             }
         }

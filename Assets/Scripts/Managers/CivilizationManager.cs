@@ -36,6 +36,8 @@ public class Civilization { //class for a civ other than the player
     public ScienceIdentity scienceIdentity;
     public YieldIdentity yieldIdentity;
     public CityIdentity cityIdentity;
+    public EntityIdentity entityIdentity;
+    public ResourceIdentity resourceIdentity;
 
     public void Start(GameObject manager) {
         scienceIdentity = new ScienceIdentity(ownerId, manager, manager.GetComponent<ScienceManager>());
@@ -45,11 +47,17 @@ public class Civilization { //class for a civ other than the player
         yieldIdentity.Start();
 
         cityIdentity = new CityIdentity(ownerId);
+
+        entityIdentity = new EntityIdentity(ownerId);
+
+        resourceIdentity = new ResourceIdentity(ownerId, manager);
+        resourceIdentity.Start();
     }
 
     public void NextTurn() {
-        scienceIdentity.NextTurn();
+        scienceIdentity.NextTurn(yieldIdentity);
         yieldIdentity.NextTurn();
+        resourceIdentity.NextTurn();
     }
 }
 
@@ -74,9 +82,9 @@ public class ScienceIdentity {
             researchedInnovations.Add(false);
         }
     }
-    public void NextTurn() {
+    public void NextTurn(YieldIdentity yieldIdentity) {
         if (currentResearch != null) {
-            researchProgress += manager.GetComponent<YieldManager>().sciencePoints;
+            researchProgress += yieldIdentity.sciencePoints;
             
             if (Owner == -1) {scienceManager.progressText.text = (Mathf.Round(researchProgress / (float)currentResearch.Cost * 100)).ToString() + "%";}
             
@@ -165,9 +173,67 @@ public class YieldIdentity {
     }
 }
 public class CityIdentity {
-    public List<int> cities = new List<int>(); //WILL NEED TO IMPLEMENT REMOVAL OF CITIES (DECREASING INDICES ABOVE THE DELETED ID)
+    public List<City> cities = new List<City>(); //WILL NEED TO IMPLEMENT REMOVAL OF CITIES (DECREASING INDICES ABOVE THE DELETED ID)
+    
+    int Owner;
+    public CityIdentity(int Owner) {
+        this.Owner = Owner;
+    }
 
-    public void AddCity() {
-        cities.Add(cities.Count - 1);
+    public void AddCity(City city) {
+        cities.Add(city);
+    }
+}
+
+public class EntityIdentity {
+    public List<Civil> civils = new List<Civil>();
+    public List<Milit> milits = new List<Milit>();
+
+    int Owner;
+    public EntityIdentity(int Owner) {
+        this.Owner = Owner;
+    }
+
+    public void AddCivil(Civil civil) {
+        civils.Add(civil);
+    }
+    public void AddMilit(Milit milit) {
+        milits.Add(milit);
+    }
+
+    public void KillCivil(Civil civil) {
+        civils.Remove(civil);
+    }
+    public void KillMilit(Milit milit) {
+        milits.Remove(milit);
+    }
+}
+
+public class ResourceIdentity {
+    public Dictionary<Resource, int> resources = new Dictionary<Resource, int>();
+
+    int Owner;
+    GameObject manager;
+    public ResourceIdentity(int Owner, GameObject manager) {
+        this.Owner = Owner;
+        this.manager = manager;
+    }
+
+    public void Start() {
+        foreach (Resource resource in manager.GetComponent<ResourceManager>().resources) {
+            resources[resource] = 0;
+        }
+    }
+
+    //might need to optimize resource adding
+    public void NextTurn(CityIdentity cityIdentity) {
+        Dictionary<Building, Resource> extractionBuildings = manager.GetComponent<BuildingManager>().extractionBuildings;
+        foreach (City city in cityIdentity.cities) {
+            foreach (Building building in city.buildings) {
+                if (extractionBuildings.ContainsKey(building)) {
+                    resources[extractionBuildings[building]] += 1;
+                }
+            }
+        }
     }
 }

@@ -93,27 +93,31 @@ public class EntityManager : MonoBehaviour
 
     public void CitySpawn(City city, object entity) {
         if (entity is Civil) {
-            SpawnCivil((Civil)entity, city.Position);
+            SpawnCivil((Civil)entity, city.Position, city.Owner);
         } else if (entity is Milit) {
-            SpawnMilit((Milit)entity, city.Position);
+            SpawnMilit((Milit)entity, city.Position, city.Owner);
         }
         gameManager.UpdateGame();
     }
 
-    public void SpawnCivil(Civil civil, Vector2Int position) {
+    public void SpawnCivil(Civil civil, Vector2Int position, int ownerId) {
         var newCivil = new Civil(civil.Name, civil.Description, civil.IconPath, civil.Health, civil.MaxMovePoints, civil.MaxActionPoints, civil.Actions, civil.Cost, civil.researchRequirement);
         newCivil.Position = position;
+        newCivil.Owner = ownerId;
         newCivil.GameObject = Instantiate(civilPrefab, CoordToPosition(position), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
         activeCivils.Add(newCivil);
+        CM.GetCiv(ownerId).entityIdentity.AddCivil(civil);
         gameManager.UpdateGame();
     }
-    public void SpawnMilit(Milit milit, Vector2Int position) {
+    public void SpawnMilit(Milit milit, Vector2Int position, int ownerId) {
         var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
         newMilit.Position = position;
+        newMilit.Owner = ownerId;
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
         newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
         activeMilits.Add(newMilit);
+        CM.GetCiv(ownerId).entityIdentity.AddMilit(milit);
         gameManager.UpdateGame();
     }
 
@@ -175,11 +179,11 @@ public class EntityManager : MonoBehaviour
 
     public void UpdateEntities()
     {
-        foreach (var entity in activeCivils)
+        foreach (Civil entity in activeCivils)
         {
             UpdateEntityPosition(entity);
         }
-        foreach (var entity in activeMilits)
+        foreach (Milit entity in activeMilits)
         {
             UpdateEntityPosition(entity);
         }
@@ -187,11 +191,11 @@ public class EntityManager : MonoBehaviour
 
     public void NextTurn()
     {
-        foreach (var entity in activeCivils)
+        foreach (Civil entity in activeCivils)
         {
             entity.MovePoints = entity.MaxMovePoints;
         }
-        foreach (var entity in activeMilits)
+        foreach (Milit entity in activeMilits)
         {
             entity.MovePoints = entity.MaxMovePoints;
             entity.hasAttacked = false;
@@ -203,11 +207,13 @@ public class EntityManager : MonoBehaviour
         if (entity is Civil)
         {
             activeCivils.Remove((Civil)entity);
+            CM.GetCiv(((Civil)entity).Owner).entityIdentity.KillCivil((Civil)entity);
             Destroy(((Civil)entity).GameObject);
         }
         else if (entity is Milit)
         {
             activeMilits.Remove((Milit)entity);
+            CM.GetCiv(((Milit)entity).Owner).entityIdentity.KillMilit((Milit)entity);
             Destroy(((Milit)entity).GameObject);
         }
         gameManager.UpdateGame();
@@ -280,11 +286,11 @@ public class Civil
     public int ActionPoints;
     public List<CivilAction> Actions = new List<CivilAction>();
     public int researchRequirement = -1;
-    public string Owner;
+    public int Owner;
     public int Cost;
     public string buildingRequirement = "";
 
-    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int researchRequirement = -1, string buildingRequirement = "")
+    public Civil(string Name, string Description, string IconPath, float Health, int MaxMovePoints, int MaxActionPoints, List<CivilAction> Actions, int Cost, int Owner, int researchRequirement = -1, string buildingRequirement = "")
     {
         this.Name = Name;
         this.Description = Description;
@@ -302,7 +308,7 @@ public class Civil
         if (buildingRequirement != "") {
             this.buildingRequirement = buildingRequirement;
         }
-        this.Owner = "Player";
+        this.Owner = Owner;
         this.Cost = Cost;
     }
 }
@@ -342,11 +348,11 @@ public class Milit
     public bool hasAttacked;
     public int AttackDamage;
     public int researchRequirement = -1; //-1 if no research requirement
-    public string Owner;
+    public int Owner;
     public int Cost;
     public string buildingRequirement = "";
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int researchRequirement = -1, string buildingRequirement = "")
+    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int Owner, int researchRequirement = -1, string buildingRequirement = "")
     {
         this.Name = Name;
         this.Description = Description;
@@ -357,7 +363,7 @@ public class Milit
         this.MaxMovePoints = MaxMovePoints;
         this.MovePoints = MaxMovePoints;
         this.AttackDamage = AttackDamage;
-        this.Owner = "Player";
+        this.Owner = Owner;
         if (researchRequirement != -1) {
             this.researchRequirement = researchRequirement;
         }

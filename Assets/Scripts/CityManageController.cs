@@ -83,7 +83,7 @@ public class CityManageController : MonoBehaviour {
             GameObject buildingObj = Instantiate(buildingPrefab, buildingList);
             buildingObj.GetComponent<CitysBuildingScript>().SetBuilding(building.Name, GrabIcon(building.IconPath), buildingManager.BuildingToolTip(building));
         }
-        foreach (string cityOption in cityManager.CityOptions(city))
+        foreach (string cityOption in cityManager.CityOptions(city, -1))
         {
             GameObject cityOptionObj = Instantiate(cityOptionPrefab, cityOptions);
             cityOptionObj.GetComponent<CityOptionScript>().SetCityOption(cityManager, cityOption, cityManager.ParseLiteralCityOption(cityOption), cityManager.CityOptionIcon(cityOption), GetCustomToolTip(cityOption));

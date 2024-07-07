@@ -13,7 +13,6 @@ public class ToolTipScript : MonoBehaviour
     private ResourceManager resourceManager;
     private CityManager cityManager;
     private TileMapManager tileMapManager;
-    private CivilizationManager civilizationManager;
 
     private Vector3 previousMousePosition;
     private float idleTime;
@@ -24,7 +23,6 @@ public class ToolTipScript : MonoBehaviour
         cityManager = GameObject.Find("MANAGER").GetComponent<CityManager>();
         resourceManager = GameObject.Find("MANAGER").GetComponent<ResourceManager>();
         tileMapManager = GameObject.Find("MANAGER").GetComponent<TileMapManager>();
-        civilizationManager = GameObject.Find("MANAGER").GetComponent<CivilizationManager>();
 
         foreach (Building building in GameObject.Find("MANAGER").GetComponent<BuildingManager>().buildings) {
             buildingTileTypes[building.ExtraType] = building.Name;
@@ -39,7 +37,9 @@ public class ToolTipScript : MonoBehaviour
         {
             idleTime = 0f; // Reset idle time
             HideToolTip();
-        } else {
+        }
+        else
+        {
             idleTime += Time.deltaTime; // Increment idle time
             if (idleTime >= 1f)
             {
@@ -79,7 +79,7 @@ public class ToolTipScript : MonoBehaviour
         string finalToolTip = "";
         
         if (tileMapManager.IsResourceType(tile.TerrainType)) {
-            if (resourceManager.CanMakeTerrain(tile.TerrainType)) {
+            if (resourceManager.CanMakeTerrain(tile.TerrainType, -1)) {
                 finalToolTip = tile.TerrainType;
             } else {
                 finalToolTip = "Mars Plains";
@@ -115,11 +115,11 @@ public class ToolTipScript : MonoBehaviour
         {
             if (entity is Civil)
             {
-                finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name + " (" + civilizationManager.GetCivName(((Civil)entityManager.EntityOn(tile.Position)).Owner) + ")";
+                finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name + " (" + ((Civil)entityManager.EntityOn(tile.Position)).Owner + ")";
             }
             else
             {
-                finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name + " (" + civilizationManager.GetCivName(((Milit)entityManager.EntityOn(tile.Position)).Owner) + ")";
+                finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name + " (" + ((Milit)entityManager.EntityOn(tile.Position)).Owner + ")";
             }
         }
 

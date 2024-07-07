@@ -12,6 +12,11 @@ public class ScienceMenu : MonoBehaviour
     [HideInInspector] public int selectedInnovation;
     public ScienceManager scienceManager;
     public RectTransform innovationsHolder;
+    private CivilizationManager CM;
+
+    private void Awake() {
+        CM = GameObject.Find("MANAGER").GetComponent<CivilizationManager>();
+    }
 
     void Update()
     {
@@ -48,10 +53,10 @@ public class ScienceMenu : MonoBehaviour
                 if (ios == null) continue;
                 Innovation innovation = scienceManager.innovations[ios.id];
                 ios.UpdateOption(
-                    innovation.isResearched,
+                    CM.Player.scienceIdentity.IsResearched(innovation.Id),
                     GrabIcon(innovation.IconPath),
                     innovation.Id,
-                    scienceManager.CanResearch(innovation)
+                    CM.Player.scienceIdentity.CanResearch(innovation)
                 );
             }
         }
@@ -59,12 +64,12 @@ public class ScienceMenu : MonoBehaviour
 
     public void ResearchClicked(int id)
     {
-        if (selectedInnovation == id && !scienceManager.innovations[id].isResearched && scienceManager.CanResearch(scienceManager.innovations[id])) {
+        if (selectedInnovation == id && !CM.Player.scienceIdentity.IsResearched(id) && CM.Player.scienceIdentity.CanResearch(scienceManager.innovations[id])) {
             selectedInnovation = -1;
             innovationName.gameObject.SetActive(false);
             innovationDescription.gameObject.SetActive(false);
             innovationPropertyPanel.SetActive(false);
-            scienceManager.StartResearch(id);
+            CM.Player.scienceIdentity.StartResearch(id);
             GameObject.Find("MANAGER").GetComponent<MenuManager>().XButton();
             return;
         }
@@ -73,7 +78,7 @@ public class ScienceMenu : MonoBehaviour
         innovationPropertyPanel.SetActive(true);
         innovationName.gameObject.SetActive(true);
         innovationDescription.gameObject.SetActive(true);
-        if (scienceManager.innovations[id].isResearched) {
+        if (CM.Player.scienceIdentity.IsResearched(id)) {
             innovationName.text = scienceManager.innovations[id].Name + " (Researched)";
         } else {
             innovationName.text = scienceManager.innovations[id].Name;

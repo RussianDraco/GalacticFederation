@@ -84,6 +84,7 @@ public class CityManager : MonoBehaviour {
     }
 
     public void AddCity(Vector2Int position, int ownerId) {
+        Civilization civ = CM.GetCiv(ownerId);
         City city = new City();
         city.Name = GenerateCityName();
         city.Position = position;
@@ -101,8 +102,8 @@ public class CityManager : MonoBehaviour {
         city.borderLine.SetRenderer();
 
         cities.Add(city);
-        CM.GetCiv(ownerId).cityIdentity.AddCity();
-        yieldManager.RecalculateYields(false);
+        civ.cityIdentity.AddCity(city);
+        civ.yieldIdentity.RecalculateYields(false);
         RedrawCityBorders();
         gameManager.UpdateGame();
     }
@@ -229,7 +230,7 @@ public class CityManager : MonoBehaviour {
     }
 
     public void AddCityYields(int ownerId) {
-        foreach (City city in cities) {
+        foreach (City city in CM.GetCiv(ownerId).cityIdentity.cities) {
             city.AddSumYields(yieldManager);
         }
     }
