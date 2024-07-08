@@ -13,6 +13,7 @@ public class ToolTipScript : MonoBehaviour
     private ResourceManager resourceManager;
     private CityManager cityManager;
     private TileMapManager tileMapManager;
+    private CivilizationManager CM;
 
     private Vector3 previousMousePosition;
     private float idleTime;
@@ -23,6 +24,7 @@ public class ToolTipScript : MonoBehaviour
         cityManager = GameObject.Find("MANAGER").GetComponent<CityManager>();
         resourceManager = GameObject.Find("MANAGER").GetComponent<ResourceManager>();
         tileMapManager = GameObject.Find("MANAGER").GetComponent<TileMapManager>();
+        CM = GameObject.Find("MANAGER").GetComponent<CivilizationManager>();
 
         foreach (Building building in GameObject.Find("MANAGER").GetComponent<BuildingManager>().buildings) {
             buildingTileTypes[building.ExtraType] = building.Name;
@@ -57,6 +59,8 @@ public class ToolTipScript : MonoBehaviour
 
         previousMousePosition = Input.mousePosition; // Update previous mouse position
     }
+
+    private string OwnerName(int ownerId) {return CM.GetCiv(ownerId).Name;}
 
     void DisplayTileTip()
     {
@@ -94,7 +98,7 @@ public class ToolTipScript : MonoBehaviour
             if (tile.ExtraType == "City")
             {
                 City city = manager.GetComponent<CityManager>().CityOnPosition(tile.Position);
-                finalToolTip += "\n" + city.Name + " (" + city.Owner + ")";
+                finalToolTip += "\n" + city.Name + " (" + OwnerName(city.Owner) + ")";
                 if (city.buildings.Count > 0)
                 {
                     finalToolTip += "\n[";
@@ -115,11 +119,11 @@ public class ToolTipScript : MonoBehaviour
         {
             if (entity is Civil)
             {
-                finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name + " (" + ((Civil)entityManager.EntityOn(tile.Position)).Owner + ")";
+                finalToolTip += "\n" + ((Civil)entityManager.EntityOn(tile.Position)).Name + " (" + OwnerName(((Civil)entityManager.EntityOn(tile.Position)).Owner) + ")";
             }
             else
             {
-                finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name + " (" + ((Milit)entityManager.EntityOn(tile.Position)).Owner + ")";
+                finalToolTip += "\n" + ((Milit)entityManager.EntityOn(tile.Position)).Name + " (" + OwnerName(((Milit)entityManager.EntityOn(tile.Position)).Owner) + ")";
             }
         }
 

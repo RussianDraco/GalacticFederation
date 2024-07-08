@@ -53,7 +53,7 @@ public class ActionManager : MonoBehaviour {
                 }
 
                 Vector2Int dest = path[moveQuant];
-                entityManager.MoveEntity(((Civil)selectedEntity), dest);
+                if (!entityManager.MoveEntity(((Civil)selectedEntity), dest)) {return;}
                 ((Civil)selectedEntity).MovePoints -= moveQuant;
                 selectEntityScript.CivilReload(((Civil)selectedEntity).MovePoints, ((Civil)selectedEntity).ActionPoints);
                 gameManager.UpdateGame();
@@ -79,8 +79,8 @@ public class ActionManager : MonoBehaviour {
                     moveQuant = path.Count - 1;
                 }
 
-                Vector2Int dest = path[moveQuant];
-                entityManager.MoveEntity(((Milit)selectedEntity), dest);
+                List<Vector2Int> pathtodest = path.GetRange(0, moveQuant + 1);
+                if (!entityManager.MoveEntity(((Milit)selectedEntity), pathtodest)) {return;}
                 ((Milit)selectedEntity).MovePoints -= moveQuant;
                 selectEntityScript.MilitReload(((Milit)selectedEntity).MovePoints);
             }
@@ -96,12 +96,14 @@ public class ActionManager : MonoBehaviour {
     }
 
     public void SelectCivil(Civil civil) { //milit needs to be integrated next from this
+        if (civil.Owner != -1) {return;}
         selectedEntity = civil;
         selectEntityScript.SetCivil(civil.Name, civil.Description, civil.MovePoints, civil.ActionPoints, entityManager.GrabIcon(civil.IconPath), civil.Actions);
         isMoving = false;
         selectionManager.EntitySelected(civil);
     }
     public void SelectMilit(Milit milit) {
+        if (milit.Owner != -1) {return;}
         selectedEntity = milit;
         selectEntityScript.SetMilit(milit.Name, milit.Description, milit.MovePoints, entityManager.GrabIcon(milit.IconPath));
         isMoving = false;

@@ -68,6 +68,7 @@ public class CityManageController : MonoBehaviour {
     
 
     public void SelectCity(City city) {
+        if (city.Owner != -1) {return;}
         Deselect();
 
         selectedCity = city;

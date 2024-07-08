@@ -57,13 +57,13 @@ public class EntityManager : MonoBehaviour
         }
         gameManager = GetComponent<GameManager>();
         tileMap = gameManager.tileMap;
+        CM = GetComponent<CivilizationManager>();
     }
 
     private void Start() {
         tileMapManager = GetComponent<TileMapManager>();
         scienceManager = GetComponent<ScienceManager>();
         buildingManager = GetComponent<BuildingManager>();
-        CM = GetComponent<CivilizationManager>();
     }
 
     public Sprite GrabIcon(string iconPath) {
@@ -135,12 +135,12 @@ public class EntityManager : MonoBehaviour
     }
 
     private bool IsOccupied(Vector2Int position) {
-        foreach (var entity in activeCivils) {
+        foreach (Civil entity in activeCivils) {
             if (entity.Position == position) {
                 return true;
             }
         }
-        foreach (var entity in activeMilits) {
+        foreach (Milit entity in activeMilits) {
             if (entity.Position == position) {
                 return true;
             }
@@ -148,12 +148,12 @@ public class EntityManager : MonoBehaviour
         return false;
     }
     public object EntityOn(Vector2Int position) {
-        foreach (var entity in activeCivils) {
+        foreach (Civil entity in activeCivils) {
             if (entity.Position == position) {
                 return entity;
             }
         }
-        foreach (var entity in activeMilits) {
+        foreach (Milit entity in activeMilits) {
             if (entity.Position == position) {
                 return entity;
             }
@@ -169,9 +169,33 @@ public class EntityManager : MonoBehaviour
         gameManager.UpdateGame();
         return true;
     }
-    public bool MoveEntity(Milit milit, Vector2Int targetPosition) {
-        if (IsOccupied(targetPosition)) {
-            return false;
+
+    void MilitFight(Milit attacker, Milit defender) {
+        defender.TakeDamage(attacker.AttackDamage);
+        attacker.TakeDamage(defender.AttackDamage);
+        if (attacker.Health <= 0) {
+            KillEntity(attacker);
+        }
+        if (defender.Health <= 0) {
+            KillEntity(defender);
+        }
+    }    
+    public bool MoveEntity(Milit milit, List<Vector2Int> pathtotarget) {
+        Vector2Int targetPosition = pathtotarget[pathtotarget.Count - 1];
+        var occupant = EntityOn(targetPosition);
+        if (occupant != null) { 
+            if (occupant is Civil) {
+                if (((Civil)occupant).Owner == milit.Owner) {
+                    return false;
+                }
+            } else {
+                if (((Milit)occupant).Owner == milit.Owner) {
+                    return false;
+                }
+                IncrementWalk(milit, pathtotarget);
+                MilitFight(milit, (Milit)occupant);
+                return;
+            }
         }
         milit.Position = targetPosition;
         milit.GameObject.transform.position = CoordToPosition(targetPosition);
@@ -375,8 +399,8 @@ public class Milit
         this.Cost = Cost;
     }
 
-    public void Attack(Milit target)
+    public void TakeDamage(int damage)
     {
-        target.Health -= 10;
+        Health -= damage;
     }
 }

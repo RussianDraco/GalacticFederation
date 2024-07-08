@@ -20,7 +20,7 @@ public class CivilizationManager : MonoBehaviour {
 
     public Civilization GetCiv(int ownerId) {
         if (ownerId == -1) {return Player;}
-        return civs[ownerId];
+        return civs[ownerId + 1]; //player will always be at index 0 so an offset is needed
     }
 
     public void NextTurn() {
@@ -40,6 +40,7 @@ public class Civilization { //class for a civ other than the player
     public ResourceIdentity resourceIdentity;
 
     public void Init(GameObject manager) {
+        if (scienceIdentity != null) {return;}
         scienceIdentity = new ScienceIdentity(ownerId, manager, manager.GetComponent<ScienceManager>());
         scienceIdentity.Init();
 
