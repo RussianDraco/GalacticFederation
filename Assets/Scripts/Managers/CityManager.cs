@@ -253,6 +253,7 @@ public class CityManager : MonoBehaviour {
     }
 
     public void AddCityYields(int ownerId) {
+        if (CM == null) { CM = GetComponent<CivilizationManager>(); }
         foreach (City city in CM.GetCiv(ownerId).cityIdentity.cities) {
             city.AddSumYields(yieldManager);
         }

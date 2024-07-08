@@ -6,7 +6,7 @@ public class CivilizationManager : MonoBehaviour {
     public List<Civilization> civs = new List<Civilization>();
     public Civilization Player;
 
-    private void Start() {
+    private void Awake() {
         civs.Add(new Civilization { Name = "Player", ownerId = -1 });
         Player = civs[0];
         civs.Add(new Civilization { Name = "AI 1", ownerId = 0 });
@@ -57,7 +57,7 @@ public class Civilization { //class for a civ other than the player
     public void NextTurn() {
         scienceIdentity.NextTurn(yieldIdentity);
         yieldIdentity.NextTurn();
-        resourceIdentity.NextTurn();
+        resourceIdentity.NextTurn(cityIdentity);
     }
 }
 
@@ -210,7 +210,7 @@ public class EntityIdentity {
 }
 
 public class ResourceIdentity {
-    public Dictionary<Resource, int> resources = new Dictionary<Resource, int>();
+    public Dictionary<string, int> resources = new Dictionary<string, int>();
 
     int Owner;
     GameObject manager;
@@ -221,7 +221,7 @@ public class ResourceIdentity {
 
     public void Start() {
         foreach (Resource resource in manager.GetComponent<ResourceManager>().resources) {
-            resources[resource] = 0;
+            resources[resource.Name] = 0;
         }
     }
 
@@ -231,7 +231,7 @@ public class ResourceIdentity {
         foreach (City city in cityIdentity.cities) {
             foreach (Building building in city.buildings) {
                 if (extractionBuildings.ContainsKey(building.Name)) {
-                    resources[extractionBuildings[building]] += 1;
+                    resources[extractionBuildings[building.Name].Name] += 1;
                 }
             }
         }
@@ -239,7 +239,7 @@ public class ResourceIdentity {
 
     public bool HaveResources(List<ResourceRequirement> list) {
         foreach (ResourceRequirement requirement in list) {
-            if (resources[requirement.resource] < requirement.amount) {
+            if (resources[requirement.Resource.Name] < requirement.Amount) {
                 return false;
             }
         }
@@ -248,7 +248,7 @@ public class ResourceIdentity {
     public bool RemoveResources(List<ResourceRequirement> list) {
         if (HaveResources(list)) {
             foreach (ResourceRequirement requirement in list) {
-                resources[requirement.Resource] -= requirement.Amount;
+                resources[requirement.Resource.Name] -= requirement.Amount;
             }
             return true;
         } else {return false;}

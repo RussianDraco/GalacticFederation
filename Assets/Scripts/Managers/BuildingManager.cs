@@ -9,6 +9,7 @@ public class BuildingManager : MonoBehaviour {
     [HideInInspector] public List<Building> buildings = new List<Building>();
     private ScienceManager scienceManager;
     private CivilizationManager CM;
+    private ResourceManager resourceManager;
     [HideInInspector] public Dictionary<string, Resource> extractionBuildings = new Dictionary<string, Resource>();
 
     void Awake()
@@ -26,6 +27,7 @@ public class BuildingManager : MonoBehaviour {
         }
 
         scienceManager = GetComponent<ScienceManager>();
+        resourceManager = GetComponent<ResourceManager>();
         CM = GetComponent<CivilizationManager>();
     }
 
@@ -107,7 +109,7 @@ public class YieldsHolder {
 }
 
 //buildings that are inside cities
-/*IF ERROR W/ BUILDING: ok listen myself in the future, there is a potential problem with Building class; i think that somewhere in my code i am == comparing a Building from buildings List in BuildingManager to a real building thats part of a city; that might stop working bc now i have parameters in the building class that dont remain the same relative to their original state as recieved from the json file, i.e. position*/
+/*IF ERROR W/ BUILDING: ok listen myself in the future, there is a potential problem with Building class; i think that somewhere in my code i am comparing a Building from buildings List in BuildingManager to a real building thats part of a city; that might stop working bc now i have parameters in the building class that dont remain the same relative to their original state as recieved from the json file, i.e. position*/
 [System.Serializable]
 public class Building {
     public string Name;
@@ -154,6 +156,6 @@ public class Building {
 
 [System.Serializable]
 public class ResourceRequirement {
-    public string Resource;
+    public Resource Resource;
     public int Amount;
 }

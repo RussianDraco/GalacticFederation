@@ -9,9 +9,17 @@
             "Prerequisites": []
         },
         {
+            "Name": "Basic Agriculture",
+            "Description": "Allows the cultivation of basic crops",
+            "Id": 1,
+            "IconPath": "Innovations/basicagriculture",
+            "Cost": 5,
+            "Prerequisites": [0]
+        },
+        {
             "Name": "Laser Weapons",
             "Description": "Permits the creation of laser-based weaponry",
-            "Id": 1,
+            "Id": 2,
             "IconPath": "Innovations/laserweapons",
             "Cost": 7,
             "Prerequisites": [0]
