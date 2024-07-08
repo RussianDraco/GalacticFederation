@@ -35,7 +35,7 @@ public class ToolTipScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.mousePosition != previousMousePosition)
+        if (Vector3.Distance(Input.mousePosition, previousMousePosition) > Time.deltaTime * 5f)
         {
             idleTime = 0f; // Reset idle time
             HideToolTip();

@@ -11,6 +11,7 @@ public class EntityManager : MonoBehaviour
     private TileMapManager tileMapManager;
     private ScienceManager scienceManager;
     private BuildingManager buildingManager;
+    private ActionManager actionManager;
     private CivilizationManager CM;
 
     public float movementSpeed = 5f;
@@ -64,6 +65,7 @@ public class EntityManager : MonoBehaviour
         tileMapManager = GetComponent<TileMapManager>();
         scienceManager = GetComponent<ScienceManager>();
         buildingManager = GetComponent<BuildingManager>();
+        actionManager = GetComponent<ActionManager>();
     }
 
     public Sprite GrabIcon(string iconPath) {
@@ -118,6 +120,7 @@ public class EntityManager : MonoBehaviour
         newMilit.Owner = ownerId;
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
         newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
+        newMilit.GameObject.GetComponent<UnityEngine.UI.Slider>().value = 1.0f;
         activeMilits.Add(newMilit);
         CM.GetCiv(ownerId).entityIdentity.AddMilit(milit);
         gameManager.UpdateGame();
@@ -171,6 +174,8 @@ public class EntityManager : MonoBehaviour
     }
 
     void MilitFight(Milit attacker, Milit defender) {
+        if (attacker.hasAttacked) {return;}
+        attacker.hasAttacked = true;
         defender.TakeDamage(attacker.AttackDamage);
         attacker.TakeDamage(defender.AttackDamage);
         if (attacker.Health <= 0) {
@@ -187,14 +192,24 @@ public class EntityManager : MonoBehaviour
             if (occupant is Civil) {
                 if (((Civil)occupant).Owner == milit.Owner) {
                     return false;
+                } else {
+                    return false; //this can be changed to allow the destruction of other civs' civils
                 }
             } else {
                 if (((Milit)occupant).Owner == milit.Owner) {
                     return false;
                 }
-                IncrementWalk(milit, pathtotarget);
+                
+                if (pathtotarget.Count > 2) {
+                    if (IsOccupied(pathtotarget[pathtotarget.Count - 2])) {
+                        return false;
+                    }
+                    milit.Position = pathtotarget[pathtotarget.Count - 2];
+                    milit.GameObject.transform.position = CoordToPosition(pathtotarget[pathtotarget.Count - 2]);
+                }
                 MilitFight(milit, (Milit)occupant);
-                return;
+                gameManager.UpdateGame();
+                return true;
             }
         }
         milit.Position = targetPosition;
@@ -230,6 +245,9 @@ public class EntityManager : MonoBehaviour
 
     public void KillEntity(object entity)
     {
+        if (actionManager.selectedEntity == entity) {
+            actionManager.Deselection();
+        }
         if (entity is Civil)
         {
             activeCivils.Remove((Civil)entity);
@@ -402,5 +420,6 @@ public class Milit
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        this.GameObject.GetComponent<UnityEngine.UI.Slider>().value = Health / MaxHealth;
     }
 }

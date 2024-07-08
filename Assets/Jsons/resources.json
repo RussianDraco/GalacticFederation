@@ -6,6 +6,13 @@
             "Id": 0,
             "innovationRequirement": 0,
             "extractionBuilding": "Basic Mine"
+        },
+        {
+            "Name": "Silicon",
+            "TerrainType": "siliconmars",
+            "Id": 1,
+            "innovationRequirement": 0,
+            "extractionBuilding": "Silicon Foundry"
         }
     ]
 }

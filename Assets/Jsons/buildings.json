@@ -5,9 +5,14 @@
             "Description": "A dome that can house settlers and generate food",
             "Cost": 4,
             "ExtraType": "habitatdome",
-            "researchRequirement": -1,
+            "researchRequirement": 1,
             "requiredBuildings": [],
-            "resourceRequirements": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Silicon",
+                    "Amount": 4
+                }
+            ],
             "Yields": {
                 "Housing": 2,
                 "Food": 1
@@ -47,6 +52,17 @@
             "resourceRequirements": [],
             "IconPath": "Buildings/basicmine",
             "TerrainType": "ironmars"
+        },
+        {
+            "Name": "Silicon Foundry",
+            "Description": "A foundry that can process silicon",
+            "Cost": 6,
+            "ExtraType": "siliconfoundry",
+            "researchRequirement": 0,
+            "requiredBuildings": [],
+            "resourceRequirements": [],
+            "IconPath": "Buildings/siliconfoundry",
+            "TerrainType": "siliconmars"
         },
         {
             "Name": "Workshop",

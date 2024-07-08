@@ -8,6 +8,8 @@ public class ResourceManager : MonoBehaviour {
 
     private CivilizationManager civilizationManager;
 
+    public Resource GetResource(string name) {return resources.Find(x => x.Name == name);}
+
     void Awake()
     {
         string jsonPath = Application.dataPath + "/Jsons/resources.json";

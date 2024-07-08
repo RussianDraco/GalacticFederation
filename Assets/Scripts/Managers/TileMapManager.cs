@@ -16,6 +16,7 @@ public class TileMapManager : MonoBehaviour
     [Header("Terrain Tiles")]
     public TileBase basicMarsTile;
     public TileBase ironMarsTile;
+    public TileBase siliconMarsTile;
 
     [Header("Building Tiles")]
     public TileBase construction;
@@ -89,6 +90,8 @@ public class TileMapManager : MonoBehaviour
                 return basicMarsTile;
             case "ironmars":
                 return ironMarsTile;
+            case "siliconmars":
+                return siliconMarsTile;
             default:
                 return null;
         }

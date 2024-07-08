@@ -5317,7 +5317,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1845061790}
-  - component: {fileID: 1845061801}
   - component: {fileID: 1845061789}
   - component: {fileID: 1845061793}
   - component: {fileID: 1845061792}
@@ -5329,6 +5328,7 @@ GameObject:
   - component: {fileID: 1845061798}
   - component: {fileID: 1845061799}
   - component: {fileID: 1845061800}
+  - component: {fileID: 1845061801}
   m_Layer: 0
   m_Name: MANAGER
   m_TagString: Untagged

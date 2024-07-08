@@ -158,4 +158,9 @@ public class Building {
 public class ResourceRequirement {
     public Resource Resource;
     public int Amount;
+
+    public ResourceRequirement(string ResourceName, int Amount) {
+        this.Resource = GameObject.Find("MANAGER").GetComponent<ResourceManager>().GetResource(ResourceName);
+        this.Amount = Amount;
+    }
 }
