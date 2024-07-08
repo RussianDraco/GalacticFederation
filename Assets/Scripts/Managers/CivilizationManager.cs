@@ -227,13 +227,30 @@ public class ResourceIdentity {
 
     //might need to optimize resource adding
     public void NextTurn(CityIdentity cityIdentity) {
-        Dictionary<Building, Resource> extractionBuildings = manager.GetComponent<BuildingManager>().extractionBuildings;
+        Dictionary<string, Resource> extractionBuildings = manager.GetComponent<BuildingManager>().extractionBuildings;
         foreach (City city in cityIdentity.cities) {
             foreach (Building building in city.buildings) {
-                if (extractionBuildings.ContainsKey(building)) {
+                if (extractionBuildings.ContainsKey(building.Name)) {
                     resources[extractionBuildings[building]] += 1;
                 }
             }
         }
+    }
+
+    public bool HaveResources(List<ResourceRequirement> list) {
+        foreach (ResourceRequirement requirement in list) {
+            if (resources[requirement.resource] < requirement.amount) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public bool RemoveResources(List<ResourceRequirement> list) {
+        if (HaveResources(list)) {
+            foreach (ResourceRequirement requirement in list) {
+                resources[requirement.Resource] -= requirement.Amount;
+            }
+            return true;
+        } else {return false;}
     }
 }

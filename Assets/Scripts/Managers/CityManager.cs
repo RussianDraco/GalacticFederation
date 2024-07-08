@@ -113,6 +113,22 @@ public class CityManager : MonoBehaviour {
     }
 
     public string ParseLiteralCityOption(string cityOption) {
+        string[] optionParts = cityOption.Split('-');
+        string optionType = optionParts[0];
+        string optionValue = optionParts[1];
+
+        if (optionType == "B") {
+            List<ResourceRequirement> resourceRequirements = buildingManager.GetBuilding(optionValue).resourceRequirements;
+            if (resourceRequirements.Count > 0) {
+                string resourceString = "";
+                foreach (ResourceRequirement resourceRequirement in resourceRequirements) {
+                    resourceString += resourceRequirement.Resource.Name + ":" + resourceRequirement.Amount + ",";
+                }
+                resourceString = resourceString.Remove(resourceString.Length - 1);
+                return cityOption.Replace("B-", "Build the ").Replace("CU-", "Train a ").Replace("MU-", "Train a ") + "\n" + resourceString;
+            }
+        }
+
         return cityOption.Replace("B-", "Build the ").Replace("CU-", "Train a ").Replace("MU-", "Train a ");
     }
 
@@ -167,6 +183,7 @@ public class CityManager : MonoBehaviour {
     Make Milit Unit - "MU-{UnitName}"
     */
     
+    //might need to make available to other civs other than player
     public void CityOptionFunction(string option) {
         string[] optionParts = option.Split('-');
         string optionType = optionParts[0];
@@ -180,6 +197,12 @@ public class CityManager : MonoBehaviour {
                 Building building = buildingManager.buildings.Find(x => x.Name == optionValue);
                 Vector2Int? position = ChooseBuildTile(city, building); //add a function to let user choose/recieve a position within city borders to build the Building there & functionality for Buildings to stand on their own tiles & removing buildings (BUT NOT IF OTHER BUILDINGS REQUIRE THEIR EXISTENCE)
                 if (position == null) {return;}
+                if (building.resourceRequirements.Count > 0) {
+                    if (!CM.Player.resourceIdentity.RemoveResources(building.resourceRequirements)) {
+                        Debug.Log("Not enough resources to build " + building.Name);
+                        return;
+                    }
+                }
                 building.Position = position.Value;
                 city.Production = new BuildingProduction(building);
                 tileMap.AddTileExtra(building.Position, "construction");

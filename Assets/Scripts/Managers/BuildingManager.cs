@@ -154,6 +154,6 @@ public class Building {
 
 [System.Serializable]
 public class ResourceRequirement {
-    public string resource;
-    public int amount;
+    public string Resource;
+    public int Amount;
 }
