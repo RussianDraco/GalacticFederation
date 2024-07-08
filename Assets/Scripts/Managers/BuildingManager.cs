@@ -25,13 +25,13 @@ public class BuildingManager : MonoBehaviour {
         {
             Debug.LogError("JSON file not found: " + jsonPath);
         }
-
-        scienceManager = GetComponent<ScienceManager>();
-        resourceManager = GetComponent<ResourceManager>();
-        CM = GetComponent<CivilizationManager>();
     }
 
     private void Start() {
+        scienceManager = GetComponent<ScienceManager>();
+        resourceManager = GetComponent<ResourceManager>();
+        CM = GetComponent<CivilizationManager>();
+
         foreach (Resource resource in resourceManager.resources) {
             extractionBuildings[GetBuilding(resource.extractionBuilding).Name] = resource;
         }

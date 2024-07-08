@@ -24,8 +24,8 @@ public class CityManager : MonoBehaviour {
         gameManager = GetComponent<GameManager>();
         resourceManager = GetComponent<ResourceManager>();
         tileMapManager = GetComponent<TileMapManager>();
-        CM = GetComponent<CivilizationManager>();
         tileMap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
+        CM = GetComponent<CivilizationManager>();
     }
 
     private bool IsBuildingOn(City city, Vector2Int position) {
@@ -254,6 +254,10 @@ public class CityManager : MonoBehaviour {
 
     public void AddCityYields(int ownerId) {
         if (CM == null) { CM = GetComponent<CivilizationManager>(); }
+        Debug.Log(CM.ToString());
+        Debug.Log(CM.GetCiv(ownerId).ToString());
+        Debug.Log(CM.GetCiv(ownerId).cityIdentity.ToString());
+        Debug.Log(CM.GetCiv(ownerId).cityIdentity.cities.ToString());
         foreach (City city in CM.GetCiv(ownerId).cityIdentity.cities) {
             city.AddSumYields(yieldManager);
         }

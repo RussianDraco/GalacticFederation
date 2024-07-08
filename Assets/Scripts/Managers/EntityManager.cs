@@ -55,10 +55,12 @@ public class EntityManager : MonoBehaviour
         {
             Debug.LogError("JSON file not found: " + jsonPath);
         }
-
         gameManager = GetComponent<GameManager>();
-        tileMapManager = GetComponent<TileMapManager>();
         tileMap = gameManager.tileMap;
+    }
+
+    private void Start() {
+        tileMapManager = GetComponent<TileMapManager>();
         scienceManager = GetComponent<ScienceManager>();
         buildingManager = GetComponent<BuildingManager>();
         CM = GetComponent<CivilizationManager>();

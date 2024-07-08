@@ -10,11 +10,11 @@ public class CivilizationManager : MonoBehaviour {
         civs.Add(new Civilization { Name = "Player", ownerId = -1 });
         Player = civs[0];
         civs.Add(new Civilization { Name = "AI 1", ownerId = 0 });
-
-
+    }
+    void Start() {
         GameObject manager = GameObject.Find("MANAGER");
         foreach (Civilization civ in civs) {
-            civ.Start(manager);
+            civ.Init(manager);
         }
     }
 
@@ -39,19 +39,19 @@ public class Civilization { //class for a civ other than the player
     public EntityIdentity entityIdentity;
     public ResourceIdentity resourceIdentity;
 
-    public void Start(GameObject manager) {
+    public void Init(GameObject manager) {
         scienceIdentity = new ScienceIdentity(ownerId, manager, manager.GetComponent<ScienceManager>());
-        scienceIdentity.Start();
+        scienceIdentity.Init();
 
         yieldIdentity = new YieldIdentity(ownerId, manager);
-        yieldIdentity.Start();
+        yieldIdentity.Init();
 
         cityIdentity = new CityIdentity(ownerId);
 
         entityIdentity = new EntityIdentity(ownerId);
 
         resourceIdentity = new ResourceIdentity(ownerId, manager);
-        resourceIdentity.Start();
+        resourceIdentity.Init();
     }
 
     public void NextTurn() {
@@ -77,7 +77,7 @@ public class ScienceIdentity {
         this.scienceManager = scienceManager;
     }
 
-    public void Start() {
+    public void Init() {
         for (int i = 0; i < scienceManager.innovations.Count; i++) {
             researchedInnovations.Add(false);
         }
@@ -146,8 +146,8 @@ public class YieldIdentity {
         this.manager = manager;
     }
 
-    public void Start() {
-        RecalculateYields(false);
+    public void Init() {
+        //RecalculateYields(false);
     }
 
     void CollectYields() {
@@ -219,7 +219,7 @@ public class ResourceIdentity {
         this.manager = manager;
     }
 
-    public void Start() {
+    public void Init() {
         foreach (Resource resource in manager.GetComponent<ResourceManager>().resources) {
             resources[resource.Name] = 0;
         }

@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
         yieldManager = GetComponent<YieldManager>();
         civilizationManager = GetComponent<CivilizationManager>();
 
+        if (civilizationManager.Player.scienceIdentity == null) {civilizationManager.Player.Init(this.gameObject);}
+
         tileMapManager.Initialize(tileMap);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0), -1);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 1), 0);
