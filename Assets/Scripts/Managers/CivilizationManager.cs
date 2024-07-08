@@ -240,7 +240,7 @@ public class ResourceIdentity {
 
     public bool HaveResources(List<ResourceRequirement> list) {
         foreach (ResourceRequirement requirement in list) {
-            if (resources[requirement.Resource.Name] < requirement.Amount) {
+            if (resources[requirement.ResourceName] < requirement.Amount) {
                 return false;
             }
         }
@@ -249,7 +249,7 @@ public class ResourceIdentity {
     public bool RemoveResources(List<ResourceRequirement> list) {
         if (HaveResources(list)) {
             foreach (ResourceRequirement requirement in list) {
-                resources[requirement.Resource.Name] -= requirement.Amount;
+                resources[requirement.ResourceName] -= requirement.Amount;
             }
             return true;
         } else {return false;}

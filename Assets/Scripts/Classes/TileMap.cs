@@ -20,6 +20,7 @@ public class TileMap
             }
         }
         Tiles[new Vector2Int(1, 1)].TerrainType = "ironmars";
+        Tiles[new Vector2Int(2, 1)].TerrainType = "siliconmars";
     }
 
     public Tile GetTile(Vector2Int position)

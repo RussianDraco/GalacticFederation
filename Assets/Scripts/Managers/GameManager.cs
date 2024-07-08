@@ -35,9 +35,10 @@ public class GameManager : MonoBehaviour
 
         tileMapManager.Initialize(tileMap);
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0), -1);
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 1), 0);
         entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0), -1);
-        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 1), 0);
+        
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(5, 5), 0);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(5, 6), 0);
     }
 
     public void UpdateGame()

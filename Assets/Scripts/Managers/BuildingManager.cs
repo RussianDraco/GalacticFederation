@@ -156,11 +156,11 @@ public class Building {
 
 [System.Serializable]
 public class ResourceRequirement {
-    public Resource Resource;
+    public string ResourceName;
     public int Amount;
 
     public ResourceRequirement(string ResourceName, int Amount) {
-        this.Resource = GameObject.Find("MANAGER").GetComponent<ResourceManager>().GetResource(ResourceName);
+        this.ResourceName = ResourceName;
         this.Amount = Amount;
     }
 }

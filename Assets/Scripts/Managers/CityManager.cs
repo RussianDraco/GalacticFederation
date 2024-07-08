@@ -120,12 +120,12 @@ public class CityManager : MonoBehaviour {
         if (optionType == "B") {
             List<ResourceRequirement> resourceRequirements = buildingManager.GetBuilding(optionValue).resourceRequirements;
             if (resourceRequirements.Count > 0) {
-                string resourceString = "";
+                string resourceString = "[";
                 foreach (ResourceRequirement resourceRequirement in resourceRequirements) {
-                    resourceString += resourceRequirement.Resource.Name + ":" + resourceRequirement.Amount + ",";
+                    resourceString += resourceRequirement.ResourceName + ":" + resourceRequirement.Amount + ",";
                 }
-                resourceString = resourceString.Remove(resourceString.Length - 1);
-                return cityOption.Replace("B-", "Build the ").Replace("CU-", "Train a ").Replace("MU-", "Train a ") + "\n" + resourceString;
+                resourceString = resourceString.Remove(resourceString.Length - 1) + "]";
+                return cityOption.Replace("B-", "Build the ").Replace("CU-", "Train a ").Replace("MU-", "Train a ") + resourceString;
             }
         }
 
