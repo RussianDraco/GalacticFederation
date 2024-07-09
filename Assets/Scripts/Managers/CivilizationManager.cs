@@ -10,8 +10,7 @@ public class CivilizationManager : MonoBehaviour {
         civs.Add(new Civilization { Name = "Player", ownerId = -1 });
         Player = civs[0];
         civs.Add(new Civilization { Name = "AI 1", ownerId = 0 });
-    }
-    void Start() {
+
         GameObject manager = GameObject.Find("MANAGER");
         foreach (Civilization civ in civs) {
             civ.Init(manager);

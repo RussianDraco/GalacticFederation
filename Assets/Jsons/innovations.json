@@ -1,28 +1,36 @@
 {
     "innovations": [
         {
+            "Name": "Habitat Development",
+            "Description": "Allows the development of habitats for settlers",
+            "Id": 0,
+            "IconPath": "Innovations/habitatdevelopment",
+            "Cost": 10,
+            "Prerequisites": []
+        },
+        {
             "Name": "Basic Mining",
             "Description": "Allows the extraction of basic resources from the ground",
-            "Id": 0,
+            "Id": 1,
             "IconPath": "Innovations/basicmining",
-            "Cost": 6,
+            "Cost": 13,
             "Prerequisites": []
         },
         {
             "Name": "Basic Agriculture",
             "Description": "Allows the cultivation of basic crops",
-            "Id": 1,
+            "Id": 2,
             "IconPath": "Innovations/basicagriculture",
-            "Cost": 5,
-            "Prerequisites": [0]
+            "Cost": 12,
+            "Prerequisites": [1]
         },
         {
             "Name": "Laser Weapons",
             "Description": "Permits the creation of laser-based weaponry",
-            "Id": 2,
+            "Id": 3,
             "IconPath": "Innovations/laserweapons",
-            "Cost": 7,
-            "Prerequisites": [0]
+            "Cost": 17,
+            "Prerequisites": [1]
         }
     ]
 }

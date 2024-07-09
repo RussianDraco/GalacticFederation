@@ -5,7 +5,7 @@
             "Description": "A dome that can house settlers and generate food",
             "Cost": 4,
             "ExtraType": "habitatdome",
-            "researchRequirement": 1,
+            "researchRequirement": 2,
             "requiredBuildings": [],
             "resourceRequirements": [
                 {
@@ -47,7 +47,7 @@
             "Description": "A mine that can extract basic resources",
             "Cost": 6,
             "ExtraType": "basicmine",
-            "researchRequirement": 0,
+            "researchRequirement": 1,
             "requiredBuildings": [],
             "resourceRequirements": [],
             "IconPath": "Buildings/basicmine",
@@ -58,7 +58,7 @@
             "Description": "A foundry that can process silicon",
             "Cost": 6,
             "ExtraType": "siliconfoundry",
-            "researchRequirement": 0,
+            "researchRequirement": 1,
             "requiredBuildings": [],
             "resourceRequirements": [],
             "IconPath": "Buildings/siliconfoundry",
@@ -76,6 +76,16 @@
                 "ProductionPoints": 2
             },
             "IconPath": "Buildings/workshop"
+        },
+        {
+            "Name": "Medical Post",
+            "Description": "A place to heal the sick and injured",
+            "Cost": 7,
+            "ExtraType": "medicalpost",
+            "researchRequirement": 0,
+            "requiredBuildings": ["Habitat Dome"],
+            "resourceRequirements": [],
+            "IconPath": "Buildings/medicalpost"
         }
     ]
 }
