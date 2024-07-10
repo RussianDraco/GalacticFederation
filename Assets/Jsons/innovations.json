@@ -31,6 +31,30 @@
             "IconPath": "Innovations/laserweapons",
             "Cost": 17,
             "Prerequisites": [1]
+        },
+        {
+            "Name": "Circuit Boards",
+            "Description": "Allows the development of circuit boards",
+            "Id": 4,
+            "IconPath": "Innovations/circuitboards",
+            "Cost": 16,
+            "Prerequisites": [1]
+        },
+        {
+            "Name": "Microcontrollers",
+            "Description": "Develop micro circuit boards for further technologies",
+            "Id": 5,
+            "IconPath": "Innovations/microcontrollers",
+            "Cost": 20,
+            "Prerequisites": [4]
+        },
+        {
+            "Name": "Cybernetic Enhancements",
+            "Description": "Use of technology in combinance with biology",
+            "Id": 6,
+            "IconPath": "Innovations/cyberneticenhancements",
+            "Cost": 21,
+            "Prerequisites": [5]
         }
     ]
 }
