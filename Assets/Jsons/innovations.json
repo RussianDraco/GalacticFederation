@@ -87,6 +87,38 @@
             "IconPath": "Innovations/nanoengineering",
             "Cost": 28,
             "Prerequisites": [5, 7]
+        },
+        {
+            "Name": "Green Power",
+            "Description": "Develops green energy sources for power generation",
+            "Id": 11,
+            "IconPath": "Innovations/greenpower",
+            "Cost": 27,
+            "Prerequisites": [5, 8]
+        },
+        {
+            "Name": "Space Navigation",
+            "Description": "Allows the development of space navigation technology",
+            "Id": 12,
+            "IconPath": "Innovations/spacenavigation",
+            "Cost": 30,
+            "Prerequisites": [7]
+        },
+        {
+            "Name": "Advanced Research",
+            "Description": "Comprehends advanced research techniques for further advancements",
+            "Id": 13,
+            "IconPath": "Innovations/advancedresearch",
+            "Cost": 35,
+            "Prerequisites": [10]
+        },
+        {
+            "Name": "Hydroponics",
+            "Description": "Allows the advanced cultivation of crops without soil",
+            "Id": 14,
+            "IconPath": "Innovations/hydroponics",
+            "Cost": 30,
+            "Prerequisites": [2, 9]
         }
     ]
 }
