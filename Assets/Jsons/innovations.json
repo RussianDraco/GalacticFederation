@@ -41,20 +41,52 @@
             "Prerequisites": [1]
         },
         {
+            "Name": "Metal Alloying",
+            "Description": "Allows the creation of metal alloys",
+            "Id": 5,
+            "IconPath": "Innovations/metalalloying",
+            "Cost": 24,
+            "Prerequisites": [3]
+        },
+        {
+            "Name": "Robotics",
+            "Description": "Allows the development of robotic technology",
+            "Id": 6,
+            "IconPath": "Innovations/robotics",
+            "Cost": 30,
+            "Prerequisites": [4]
+        },
+        {
             "Name": "Microcontrollers",
             "Description": "Develop micro circuit boards for further technologies",
-            "Id": 5,
+            "Id": 7,
             "IconPath": "Innovations/microcontrollers",
             "Cost": 20,
             "Prerequisites": [4]
         },
         {
-            "Name": "Metal Alloying",
-            "Description": "Allows the creation of metal alloys",
-            "Id": 6,
-            "IconPath": "Innovations/metalalloying",
+            "Name": "Energy Storage",
+            "Description": "Allows the development of energy storage technology",
+            "Id": 8,
+            "IconPath": "Innovations/energystorage",
+            "Cost": 19,
+            "Prerequisites": [4]
+        },
+        {
+            "Name": "Industrial Automation",
+            "Description": "Makes the automation of industrial processes possible",
+            "Id": 9,
+            "IconPath": "Innovations/industrialautomation",
             "Cost": 24,
-            "Prerequisites": [3]
+            "Prerequisites": [6]
+        },
+        {
+            "Name": "Nanoengineering",
+            "Description": "Develops technology at a nano scale for further advancements",
+            "Id": 10,
+            "IconPath": "Innovations/nanoengineering",
+            "Cost": 28,
+            "Prerequisites": [5, 7]
         }
     ]
 }
