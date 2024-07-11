@@ -119,6 +119,38 @@
             "IconPath": "Innovations/hydroponics",
             "Cost": 30,
             "Prerequisites": [2, 9]
+        },
+        {
+            "Name": "Advanced Robotics",
+            "Description": "Develops advanced robotic technology for further advancements",
+            "Id": 15,
+            "IconPath": "Innovations/advancedrobotics",
+            "Cost": 33,
+            "Prerequisites": [6, 13]
+        },
+        {
+            "Name": "Advanced Mining",
+            "Description": "Allows the advanced extraction of resources from the ground",
+            "Id": 16,
+            "IconPath": "Innovations/advancedmining",
+            "Cost": 35,
+            "Prerequisites": [1, 13]
+        },
+        {
+            "Name": "Radioactive Isotopes",
+            "Description": "Allows the use of radioactive isotopes for further advancements",
+            "Id": 17,
+            "IconPath": "Innovations/radioactiveisotopes",
+            "Cost": 36,
+            "Prerequisites": [16]
+        },
+        {
+            "Name": "Cybernetics",
+            "Description": "Develops cybernetic technology combining robotics and biology",
+            "Id": 18,
+            "IconPath": "Innovations/cybernetics",
+            "Cost": 37,
+            "Prerequisites": [7, 15]
         }
     ]
 }
