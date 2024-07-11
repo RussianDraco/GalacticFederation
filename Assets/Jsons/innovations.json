@@ -22,13 +22,13 @@
             "Id": 2,
             "IconPath": "Innovations/basicagriculture",
             "Cost": 12,
-            "Prerequisites": [1]
+            "Prerequisites": [0, 1]
         },
         {
-            "Name": "Laser Weapons",
-            "Description": "Permits the creation of laser-based weaponry",
+            "Name": "Laser Technology",
+            "Description": "Permits the creation of laser-based technology",
             "Id": 3,
-            "IconPath": "Innovations/laserweapons",
+            "IconPath": "Innovations/lasertechnology",
             "Cost": 17,
             "Prerequisites": [1]
         },
@@ -49,12 +49,12 @@
             "Prerequisites": [4]
         },
         {
-            "Name": "Cybernetic Enhancements",
-            "Description": "Use of technology in combinance with biology",
+            "Name": "Metal Alloying",
+            "Description": "Allows the creation of metal alloys",
             "Id": 6,
-            "IconPath": "Innovations/cyberneticenhancements",
-            "Cost": 21,
-            "Prerequisites": [5]
+            "IconPath": "Innovations/metalalloying",
+            "Cost": 24,
+            "Prerequisites": [3]
         }
     ]
 }
