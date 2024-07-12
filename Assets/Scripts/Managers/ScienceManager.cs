@@ -9,6 +9,10 @@ public class ScienceManager : MonoBehaviour {
     public TMP_Text progressText;
     public Image progressImg;
 
+    public Innovation GetInnovation(int id) {
+        return innovations[id];
+    }
+
     void Awake() {
         string jsonPath = Application.dataPath + "/Jsons/innovations.json";
         if (System.IO.File.Exists(jsonPath))

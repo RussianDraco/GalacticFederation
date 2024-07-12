@@ -62,6 +62,16 @@ public class ScienceMenu : MonoBehaviour
         }
     }
 
+    private string ResearchPrerequisites(Innovation innovation) {
+        string prerequisites = "";
+        foreach (int id in innovation.Prerequisites) {
+            if (!CM.Player.scienceIdentity.IsResearched(id)) {
+                prerequisites += scienceManager.innovations[id].Name + ", ";
+            }
+        }
+        return prerequisites.Substring(0, prerequisites.Length - 2);
+    }
+
     public void ResearchClicked(int id)
     {
         if (selectedInnovation == id && !CM.Player.scienceIdentity.IsResearched(id) && CM.Player.scienceIdentity.CanResearch(scienceManager.innovations[id])) {
@@ -83,6 +93,10 @@ public class ScienceMenu : MonoBehaviour
         } else {
             innovationName.text = scienceManager.innovations[id].Name;
         }
-        innovationDescription.text = scienceManager.innovations[id].Description;
+        if (CM.Player.scienceIdentity.CanResearch(scienceManager.innovations[id], true)) {
+            innovationDescription.text = scienceManager.innovations[id].Description;        
+        } else {
+            innovationDescription.text = scienceManager.innovations[id].Description + " (Requires: " + ResearchPrerequisites(scienceManager.innovations[id]) + ")";
+        }
     }
 }

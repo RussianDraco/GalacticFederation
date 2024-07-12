@@ -191,6 +191,14 @@
             "IconPath": "Innovations/quantumcomputing",
             "Cost": 45,
             "Prerequisites": [13, 20]
+        },
+        {
+            "Name": "Fusion Power",
+            "Description": "Unlock the power of nuclear fusion for energy generation",
+            "Id": 24,
+            "IconPath": "Innovations/fusionpower",
+            "Cost": 46,
+            "Prerequisites": [19, 21]
         }
     ]
 }

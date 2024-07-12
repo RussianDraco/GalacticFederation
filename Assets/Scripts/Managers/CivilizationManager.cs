@@ -106,8 +106,8 @@ public class ScienceIdentity {
 
     public bool IsResearched(int innovId) {return researchedInnovations[innovId];}
 
-    public bool CanResearch(Innovation innovation) {
-        if (IsResearched(innovation.Id)) return false; //already researched
+    public bool CanResearch(Innovation innovation, bool onlypreqs = false) {
+        if (IsResearched(innovation.Id) && !onlypreqs) return false; //already researched
 
         foreach (int id in innovation.Prerequisites) {
             if (!researchedInnovations[id]) { //INNOVATIONS.JSON MUST BE ORDERED BY ID
