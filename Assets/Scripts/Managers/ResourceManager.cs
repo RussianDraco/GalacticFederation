@@ -56,13 +56,15 @@ public class ResourceWrapper {
 public class Resource {
     public string Name;
     public string TerrainType;
+    public string IconPath;
     public int Id;
     public int innovationRequirement;
     public string extractionBuilding;
 
-    public Resource(string Name, string TerrainType, int Id, int innovationRequirement, string extractionBuilding) { //maybe switch buildings to id later for efficency
+    public Resource(string Name, string TerrainType, string IconPath, int Id, int innovationRequirement, string extractionBuilding) { //maybe switch buildings to id later for efficency
         this.Name = Name;
         this.TerrainType = TerrainType;
+        this.IconPath = IconPath;
         this.Id = Id;
         this.innovationRequirement = innovationRequirement;
         this.extractionBuilding = extractionBuilding;

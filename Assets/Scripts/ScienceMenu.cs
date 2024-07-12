@@ -47,7 +47,7 @@ public class ScienceMenu : MonoBehaviour
         if (active) {
             innovationsHolder.localPosition = new Vector3(0, 0, 0);
 
-            foreach(Transform child in innovationsHolder.gameObject.transform)
+            foreach (Transform child in innovationsHolder.gameObject.transform)
             {
                 InnovationOptionScript ios = child.GetComponent<InnovationOptionScript>();
                 if (ios == null) continue;

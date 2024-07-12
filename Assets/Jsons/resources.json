@@ -3,6 +3,7 @@
         {
             "Name": "Iron",
             "TerrainType": "ironmars",
+            "IconPath": "Resources/iron",
             "Id": 0,
             "innovationRequirement": 1,
             "extractionBuilding": "Basic Mine"
@@ -10,6 +11,7 @@
         {
             "Name": "Silicon",
             "TerrainType": "siliconmars",
+            "IconPath": "Resources/silicon",
             "Id": 1,
             "innovationRequirement": 1,
             "extractionBuilding": "Silicon Foundry"

@@ -7,15 +7,13 @@ public class MenuManager : MonoBehaviour {
 
     public GameObject xButton;
 
-    //bool scienceMenuOpen = false;
-
     public ScienceMenu scienceMenu;
+    public ResourceMenu resourceMenu;
 
     void Start()
     {
-        //scienceMenuOpen = false;
         scienceMenu.IsActive(false);
-
+        resourceMenu.IsActive(false);
 
         MenuChange(false);
     }
@@ -27,15 +25,20 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void XButton() {
-        //scienceMenuOpen = false;
         scienceMenu.IsActive(false);
+        resourceMenu.IsActive(false);
 
         MenuChange(false);
     }
 
     public void ScienceMenuButton() {
-        //scienceMenuOpen = true;
         scienceMenu.IsActive(true);
+
+        MenuChange(true);
+    }
+
+    public void ResourceMenuButton() {
+        resourceMenu.IsActive(true);
 
         MenuChange(true);
     }
