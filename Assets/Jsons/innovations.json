@@ -151,6 +151,46 @@
             "IconPath": "Innovations/cybernetics",
             "Cost": 37,
             "Prerequisites": [7, 15]
+        },
+        {
+            "Name": "Advanced Alloys",
+            "Description": "Complexifies alloy-making to advanced levels",
+            "Id": 19,
+            "IconPath": "Innovations/advancedalloys",
+            "Cost": 40,
+            "Prerequisites": [5, 16]
+        },
+        {
+            "Name": "Quantum Physics",
+            "Description": "Develops quantum physics for further advancements",
+            "Id": 20,
+            "IconPath": "Innovations/quantumphysics",
+            "Cost": 41,
+            "Prerequisites": [17]
+        },
+        {
+            "Name": "Nuclear Fission",
+            "Description": "Discover the power of nuclear particle fission",
+            "Id": 21,
+            "IconPath": "Innovations/nuclearfission",
+            "Cost": 42,
+            "Prerequisites": [11, 17]
+        },
+        {
+            "Name": "Genetic Engineering",
+            "Description": "Unlock the power of modifying genetic material",
+            "Id": 22,
+            "IconPath": "Innovations/geneticengineering",
+            "Cost": 43,
+            "Prerequisites": [18]
+        },
+        {
+            "Name": "Quantum Computing",
+            "Description": "Develops quantum computing for further advancements",
+            "Id": 23,
+            "IconPath": "Innovations/quantumcomputing",
+            "Cost": 45,
+            "Prerequisites": [13, 20]
         }
     ]
 }
