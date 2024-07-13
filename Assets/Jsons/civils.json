@@ -18,18 +18,6 @@
             "Cost": 5,
             "researchRequirement": -1
 
-        },
-        {
-            "Name": "Stick Man",
-            "Description": "",
-            "EntityId": 1,
-            "IconPath": "Sprites/stickman",
-            "Health": 5,
-            "MaxMovePoints": 3,
-            "MaxActionPoints": 3,
-            "Actions": [],
-            "Cost": 5,
-            "researchRequirement": -1
         }
     ]
 }

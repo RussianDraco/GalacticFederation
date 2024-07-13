@@ -6,6 +6,7 @@ using TMPro;
 public class ResourceMenu : MonoBehaviour {
     public GameObject holder;
     public GameObject resourcePrefab;
+    public Transform iconsHolder;
 
     private CivilizationManager CM;
     private ResourceManager resourceManager;
@@ -27,9 +28,9 @@ public class ResourceMenu : MonoBehaviour {
     {
         holder.SetActive(active);
 
-            //can make more efficent later by stopping deletion every time
+        //can make more efficent later by stopping deletion every time
         if (active) {
-            foreach (Transform child in holder.transform)
+            foreach (Transform child in iconsHolder)
             {
                 Destroy(child.gameObject);
             }
@@ -37,8 +38,8 @@ public class ResourceMenu : MonoBehaviour {
             Dictionary<string, int> playerResources = CM.Player.resourceIdentity.resources;
             foreach (string resourceName in playerResources.Keys)
             {
-                GameObject resourceIcon = Instantiate(resourcePrefab, holder.transform);
-                resourceIcon.GetComponent<ResourceIconScript>().SetResource(GrabIcon(resourceManager.GetResource(resourceName).IconPath), playerResources[resourceName]);
+                GameObject resourceIcon = Instantiate(resourcePrefab, iconsHolder);
+                resourceIcon.GetComponent<ResourceIconScript>().SetResource(GrabIcon(resourceManager.GetResource(resourceName).IconPath), playerResources[resourceName], resourceName);
             }
         }
     }

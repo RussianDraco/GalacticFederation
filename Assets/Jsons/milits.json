@@ -1,15 +1,27 @@
 {
     "milits": [
         {
-            "Name": "War stickman",
-            "Description": "RAH",
+            "Name": "Ragtag Militia",
+            "Description": "A ragtag group of settlers armed with whatever they could find",
             "EntityId": 2,
-            "IconPath": "Sprites/stickmanwar",
-            "Health": 5,
-            "MaxMovePoints": 4,
-            "AttackDamage": 3,
-            "Cost": 5,
-            "researchRequirement": 1,
+            "IconPath": "Sprites/ragtagmilitia",
+            "Health": 4,
+            "MaxMovePoints": 2,
+            "AttackDamage": 2,
+            "Cost": 6,
+            "researchRequirement": -1,
+            "buildingRequirement": ""
+        },
+        {
+            "Name": "Laser Infantry",
+            "Description": "Infantry with laser rifles",
+            "EntityId": 3,
+            "IconPath": "Sprites/laserinfantry",
+            "Health": 8,
+            "MaxMovePoints": 3,
+            "AttackDamage": 5,
+            "Cost": 10,
+            "researchRequirement": 3,
             "buildingRequirement": "Barracks"
         }
     ]

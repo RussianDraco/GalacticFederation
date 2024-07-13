@@ -223,5 +223,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 381bdb667636f11478114ce4c428865d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  amount: {fileID: 0}
+  icon: {fileID: 7601488704818252224}
+  amount: {fileID: 1412172290130794856}

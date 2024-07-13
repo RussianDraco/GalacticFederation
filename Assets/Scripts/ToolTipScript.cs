@@ -141,6 +141,9 @@ public class ToolTipScript : MonoBehaviour
             } else if (rgo.GetComponent<CityOptionScript>()) {
                 ShowToolTip(rgo.GetComponent<CityOptionScript>().ToolTipData);
                 return;
+            } else if (rgo.GetComponent<ResourceIconScript>()) {
+                ShowToolTip(rgo.GetComponent<ResourceIconScript>().ToolTipData);
+                return;
             }
         }
     }
