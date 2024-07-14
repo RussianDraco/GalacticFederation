@@ -15,6 +15,9 @@ public class CityManager : MonoBehaviour {
     private TileMap tileMap;
     public GameObject LineDrawerPrefab;
 
+    public GameObject energyDeficitPrefab;
+    private Dictionary<Vector2Int, GameObject> energyDeficits = new Dictionary<Vector2Int, GameObject>();
+
     private const int CITY_MIN_DIST = 5;
 
     private void Start() {
@@ -26,6 +29,19 @@ public class CityManager : MonoBehaviour {
         tileMapManager = GetComponent<TileMapManager>();
         tileMap = GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap;
         CM = GetComponent<CivilizationManager>();
+    }
+
+    public void SetEnergyDeficit(Vector2Int position, bool deficit) {
+        if (deficit) {
+            if (!energyDeficits.ContainsKey(position)) {
+                energyDeficits[position] = Instantiate(energyDeficitPrefab, tileMap.GetWorldPosition(position), Quaternion.identity);
+            }
+        } else {
+            if (energyDeficits.ContainsKey(position)) {
+                Destroy(energyDeficits[position]);
+                energyDeficits.Remove(position);
+            }
+        }
     }
 
     private bool IsBuildingOn(City city, Vector2Int position) {
@@ -290,8 +306,23 @@ public class City {
 
     public CityYieldsHolder Yields;
 
+    public void YieldRecalculation() {
+        Yields = new CityYieldsHolder();
+        foreach (Building building in buildings) {
+            if (building.Yields.Energy < 0) {
+                if (Yields.Energy + building.Yields.Energy >= 0) {
+                    building.ApplyBuildingEffects(this);
+                    GameObject.Find("MANAGER").GetComponent<CityManager>().SetEnergyDeficit(building.Position, false);
+                } else {
+                    GameObject.Find("MANAGER").GetComponent<CityManager>().SetEnergyDeficit(building.Position, true);
+                }
+            }
+        }
+    }
+
     public void AddSumYields(YieldManager yieldManager) {
         Civilization civ = GameObject.Find("MANAGER").GetComponent<CivilizationManager>().GetCiv(Owner);
+        YieldRecalculation();
         civ.yieldIdentity.sciencePoints += Yields.Science;
         civ.yieldIdentity.goldPoints += Yields.Gold;
     }
@@ -337,7 +368,7 @@ public class BuildingProduction : ICityProduction {
     public void Complete(City city) {
         Debug.Log("Building " + Name + " completed in " + city.Name + " at " + Position.ToString());
         city.buildings.Add((Building)Production);
-        ((Building)Production).ApplyBuildingEffects(city);
+        city.YieldRecalculation();
         GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(Position, ((Building)Production).ExtraType, true);
     }
 

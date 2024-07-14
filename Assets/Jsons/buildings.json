@@ -37,7 +37,7 @@
             "Description": "A place to train soldiers",
             "Cost": 6,
             "ExtraType": "barracks",
-            "researchRequirement": -1,
+            "researchRequirement": 1,
             "requiredBuildings": [],
             "resourceRequirements": [],
             "IconPath": "Buildings/barracks"
@@ -86,6 +86,24 @@
             "requiredBuildings": ["Habitat Dome"],
             "resourceRequirements": [],
             "IconPath": "Buildings/medicalpost"
+        },
+        {
+            "Name": "Solar Panel",
+            "Description": "Generates power from sunlight",
+            "Cost": 11,
+            "ExtraType": "solarpanel",
+            "researchRequirement": 11,
+            "requiredBuildings": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Silicon",
+                    "Amount": 5
+                }
+            ],
+            "Yields": {
+                "Power": 3
+            },
+            "IconPath": "Buildings/solarpanel"
         }
     ]
 }

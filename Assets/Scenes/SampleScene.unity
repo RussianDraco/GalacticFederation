@@ -1051,23 +1051,23 @@ Tilemap:
     m_Data:
       e00: 0
       e01: 0
-      e02: 2.439459e-19
-      e03: 2.439459e-19
+      e02: -2.439459e-19
+      e03: -2.439459e-19
       e10: 0
       e11: 0
-      e12: 5.42e-43
-      e13: 5.42e-43
-      e20: -3.2243565e-21
-      e21: 9.622174e+32
-      e22: -3.419757e-19
-      e23: -1.1201122e-19
-      e30: 4.5905e-41
-      e31: 5.45e-43
-      e32: 5.42e-43
-      e33: 5.45e-43
+      e12: 7.83e-43
+      e13: 7.83e-43
+      e20: 0.0019426383
+      e21: 1.2270254e-28
+      e22: 7.6480267e-29
+      e23: 2.1098595
+      e30: 4.5904e-41
+      e31: 7.88e-43
+      e32: 7.85e-43
+      e33: 7.88e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: 3.487e-41, g: 3.487e-41, b: 3.487e-41, a: 3.487e-41}
+    m_Data: {r: 3.4898e-41, g: 3.4898e-41, b: 3.4898e-41, a: 3.4898e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8713,6 +8713,7 @@ MonoBehaviour:
   cities: []
   cityManageController: {fileID: 1566704212}
   LineDrawerPrefab: {fileID: 7430760778934386094, guid: 50c1e88e3a00e2843a3778450366338e, type: 3}
+  energyDeficitPrefab: {fileID: 2218490083732662592, guid: 65bc42a5f25556540bb28780d2bf9bfb, type: 3}
 --- !u!114 &1845061799
 MonoBehaviour:
   m_ObjectHideFlags: 0

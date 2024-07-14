@@ -173,7 +173,7 @@ public class YieldIdentity {
     }
 }
 public class CityIdentity {
-    public List<City> cities = new List<City>(); //WILL NEED TO IMPLEMENT REMOVAL OF CITIES (DECREASING INDICES ABOVE THE DELETED ID)
+    public List<City> cities = new List<City>();
     
     int Owner;
     public CityIdentity(int Owner) {
