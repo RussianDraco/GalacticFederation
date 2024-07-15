@@ -81,7 +81,12 @@ public class ActionManager : MonoBehaviour {
 
                 List<Vector2Int> pathtodest = path.GetRange(0, moveQuant + 1);
                 if (!entityManager.MoveEntity(((Milit)selectedEntity), pathtodest)) {return;}
-                ((Milit)selectedEntity).MovePoints -= moveQuant;
+                if (selectedEntity == null) {return;}
+                if (((Milit)selectedEntity).hasAttacked) {
+                    ((Milit)selectedEntity).MovePoints = 0;
+                } else {
+                    ((Milit)selectedEntity).MovePoints -= moveQuant;
+                }
                 selectEntityScript.MilitReload(((Milit)selectedEntity).MovePoints);
             }
             if (Input.GetMouseButtonDown(1)) {

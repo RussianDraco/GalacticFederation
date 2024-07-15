@@ -238,6 +238,11 @@ public class CityManager : MonoBehaviour {
         gameManager.UpdateGame();
     }
 
+    public void CityBroken(City city, Milit attacker) {
+        city.Owner = attacker.Owner;
+        city.Health = 1;
+    }
+
     public bool CanDistBuildCity(Vector2Int position) {
         foreach (City city in cities) {
             if (Vector2Int.Distance(city.Position, position) < CITY_MIN_DIST) {
@@ -265,6 +270,7 @@ public class CityManager : MonoBehaviour {
                 }
             }
             city.PopulationGrowth();
+            city.PassiveHealing();
         }
     }
 
@@ -303,11 +309,31 @@ public class City {
     public float ProductionProgress;
     public List<Tile> cityTiles;
     public LineScript borderLine;
+    public float Health = 80.0f;
+    //max health is CityYieldsHolder.Strength
 
     public CityYieldsHolder Yields;
 
+    public void PassiveHealing() {
+        if (Health == Yields.Strength) {return;}
+        else {
+            Health += Yields.Strength / 10;
+            if (Health >= Yields.Strength) {
+                Health = Yields.Strength;
+            }
+        }
+    }
+
+    public void TakeDamage(float dmg, Milit attacker) {
+        Health -= dmg;
+        if (Health <= 0) {
+            GameObject.Find("MANAGER").GetComponent<CityManager>().CityBroken(this, attacker);
+        }
+    }
+
     public void YieldRecalculation() {
         Yields = new CityYieldsHolder();
+        Yields.Strength = 80.0f;
         foreach (Building building in buildings) {
             if (building.Yields.Energy < 0) {
                 if (Yields.Energy + building.Yields.Energy >= 0) {
@@ -416,7 +442,7 @@ public class MilitProduction : ICityProduction {
 public class CityYieldsHolder : YieldsHolder {
     public float Population = 0;
 
-    public CityYieldsHolder(float Population = 1, int Housing = 2, int Food = 1, int ProductionPoints = 1, int Science = 1, int Gold = 1) : base(Housing, Food, ProductionPoints, Science, Gold) {
+    public CityYieldsHolder(float Population = 1, int Housing = 2, float Food = 1, float ProductionPoints = 1, float Science = 1, float Gold = 1, float Energy = 0, float Strength = 80) : base(Housing, Food, ProductionPoints, Science, Gold, Energy, Strength) {
         this.Population = Population;
     }
 }

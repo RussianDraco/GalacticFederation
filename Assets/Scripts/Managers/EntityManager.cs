@@ -12,6 +12,7 @@ public class EntityManager : MonoBehaviour
     private ScienceManager scienceManager;
     private BuildingManager buildingManager;
     private ActionManager actionManager;
+    private CityManager cityManager;
     private CivilizationManager CM;
 
     public float movementSpeed = 5f;
@@ -66,6 +67,7 @@ public class EntityManager : MonoBehaviour
         scienceManager = GetComponent<ScienceManager>();
         buildingManager = GetComponent<BuildingManager>();
         actionManager = GetComponent<ActionManager>();
+        cityManager = GetComponent<CityManager>();
     }
 
     public Sprite GrabIcon(string iconPath) {
@@ -115,7 +117,7 @@ public class EntityManager : MonoBehaviour
         gameManager.UpdateGame();
     }
     public void SpawnMilit(Milit milit, Vector2Int position, int ownerId) {
-        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
+        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.Type, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
         newMilit.Position = position;
         newMilit.Owner = ownerId;
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
@@ -173,11 +175,51 @@ public class EntityManager : MonoBehaviour
         return true;
     }
 
+    void MilitCityAttack(Milit attacker, City city) {
+        if (attacker.hasAttacked) {return;}
+        attacker.hasAttacked = true;
+
+        float city_pain = (float)(attacker.AttackDamage);
+        float attacker_pain = (float)(city.Health) / 8;
+
+        if (attacker.Type == "ranged") {
+            attacker_pain = 0;
+            city_pain *= 0.5f;
+        } else if (attacker.Type == "melee") {
+            attacker_pain *= 1.25f;
+            city_pain *= 0.75f;
+        } else if (attacker.Type == "siegeranged") {
+            attacker_pain = 0;
+        }
+
+        city.TakeDamage(city_pain, attacker);
+        attacker.TakeDamage(attacker_pain);
+        if (attacker.Health <= 0) {
+            KillEntity(attacker);
+        }
+    }
     void MilitFight(Milit attacker, Milit defender) {
         if (attacker.hasAttacked) {return;}
         attacker.hasAttacked = true;
-        defender.TakeDamage(attacker.AttackDamage);
-        attacker.TakeDamage(defender.AttackDamage);
+        
+        float defender_pain = (float)(attacker.AttackDamage);
+        float attacker_pain = (float)(defender.AttackDamage);
+        //calculate damage effects
+        if (attacker.Type == "ranged") {
+            attacker_pain = 0;
+        } else if (attacker.Type == "siegeranged") {
+            attacker_pain = 0;
+            defender_pain *= 0.75f;
+        } else if (attacker.Type == "melee" && (defender.Type == "ranged" || defender.Type == "siegeranged")) {
+            attacker_pain *= 0.75f;
+            defender_pain *= 1.25f;
+        } else if ((attacker.Type == "melee" || attacker.Type == "ranged") && (defender.Type == "siegemelee" || defender.Type == "siegeranged")) {
+            attacker_pain *= 0.85f;
+            defender_pain *= 1.15f;
+        }
+        
+        defender.TakeDamage(defender_pain);
+        attacker.TakeDamage(attacker_pain);
         if (attacker.Health <= 0) {
             KillEntity(attacker);
         }
@@ -187,6 +229,18 @@ public class EntityManager : MonoBehaviour
     }    
     public bool MoveEntity(Milit milit, List<Vector2Int> pathtotarget) {
         Vector2Int targetPosition = pathtotarget[pathtotarget.Count - 1];
+        City city = cityManager.CityOnPosition(targetPosition);
+        if (city != null) {
+            if (city.Owner == milit.Owner) {
+                if (IsOccupied(targetPosition)) {
+                    return false;
+                }
+            } else {
+                MilitCityAttack(milit, city);
+                gameManager.UpdateGame();
+                return true;
+            }
+        }
         var occupant = EntityOn(targetPosition);
         if (occupant != null) { 
             if (occupant is Civil) {
@@ -383,6 +437,7 @@ public class Milit
     public string Description;
     public int EntityId;
     public string IconPath;
+    public string Type; //melee, ranged, siegemelee, siegeranged
     public float Health;
     public float MaxHealth;
     public int MaxMovePoints;
@@ -396,11 +451,12 @@ public class Milit
     public int Cost;
     public string buildingRequirement = "";
 
-    public Milit(string Name, string Description, int EntityId, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int Owner, int researchRequirement = -1, string buildingRequirement = "")
+    public Milit(string Name, string Description, int EntityId, string Type, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int Owner, int researchRequirement = -1, string buildingRequirement = "")
     {
         this.Name = Name;
         this.Description = Description;
         this.EntityId = EntityId;
+        this.Type = Type;
         this.IconPath = IconPath;
         this.Health = Health;
         this.MaxHealth = Health;
@@ -417,7 +473,7 @@ public class Milit
         this.Cost = Cost;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Health -= damage;
         this.GameObject.GetComponent<UnityEngine.UI.Slider>().value = Health / MaxHealth;

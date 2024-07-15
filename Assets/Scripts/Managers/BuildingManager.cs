@@ -91,14 +91,16 @@ public class YieldsHolder {
     public float Science = 0;
     public float Gold = 0;
     public float Energy = 0;
+    public float Strength = 0;
 
-    public YieldsHolder(int Housing = 0, float Food = 0, float ProductionPoints = 0, float Science = 0, float Gold = 0, float Energy = 0) {
+    public YieldsHolder(int Housing = 0, float Food = 0, float ProductionPoints = 0, float Science = 0, float Gold = 0, float Energy = 0, float Strength = 0) {
         this.Housing = Housing;
         this.Food = Food;
         this.ProductionPoints = ProductionPoints;
         this.Science = Science;
         this.Gold = Gold;
         this.Energy = Energy;
+        this.Strength = Strength;
     }
 
     public void AddYields(YieldsHolder yieldsHolder) {
@@ -108,6 +110,7 @@ public class YieldsHolder {
         this.Science += yieldsHolder.Science;
         this.Gold += yieldsHolder.Gold;
         this.Energy += yieldsHolder.Energy;
+        this.Strength += yieldsHolder.Strength;
     }    
 }
 
