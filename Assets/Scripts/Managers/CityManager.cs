@@ -80,6 +80,7 @@ public class CityManager : MonoBehaviour {
         }
         if (buildableTiles.Count == 0) {
             Debug.Log("No buildable tiles for " + building.Name + " in " + city.Name);
+            Notifier.Notify("No buildable tiles for " + building.Name + " in " + city.Name);
             return null;
         }
 

@@ -5,16 +5,17 @@ using UnityEngine;
 public class NotificationManager : MonoBehaviour {
     public GameObject holder;
     public Transform notificationsHolder;
+    public RectTransform notificationsHolderRT;
     public GameObject notificationPrefab;
     [HideInInspector] public List<NotificationScript> notifications = new List<NotificationScript>();
     public float notificationTimeout = 5f;
-    
+
+    private void Start() {
+        CreateNotification("Welcome to the game!");
+    }
+
     private void Update() {
-        if (notifications.Count > 0) {
-            holder.SetActive(true);
-        } else {
-            holder.SetActive(false);
-        }
+        notificationsHolderRT.sizeDelta = new Vector2(288, 6 + 38 * notifications.Count);
     }
 
     public void CreateNotification(string text) {

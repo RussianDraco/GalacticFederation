@@ -15,3 +15,9 @@ public class NotificationScript : MonoBehaviour {
         Destroy(gameObject);
     }
 }
+
+public static class Notifier {
+    public static void Notify(string text) {
+        GameObject.Find("MANAGER").GetComponent<NotificationManager>().CreateNotification(text);
+    }
+}
