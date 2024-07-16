@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class CityManager : MonoBehaviour {
     [HideInInspector] public List<City> cities = new List<City>();
@@ -14,11 +15,26 @@ public class CityManager : MonoBehaviour {
     private CivilizationManager CM;
     private TileMap tileMap;
     public GameObject LineDrawerPrefab;
+    private List<OwnersNames> OwnersNames = new List<OwnersNames>();
 
     public GameObject energyDeficitPrefab;
     private Dictionary<Vector2Int, GameObject> energyDeficits = new Dictionary<Vector2Int, GameObject>();
 
     private const int CITY_MIN_DIST = 5;
+
+    private void Awake() {
+        string jsonPath = Application.dataPath + "/Jsons/citynames.json";
+        if (File.Exists(jsonPath))
+        {
+            string json = File.ReadAllText(jsonPath);
+            OwnersNamesWrapper ownersNamesWrapper = JsonUtility.FromJson<OwnersNamesWrapper>(json);
+            OwnersNames = ownersNamesWrapper.ownersNames;
+        }
+        else
+        {
+            Debug.LogError("JSON file not found: " + jsonPath);
+        }
+    }
 
     private void Start() {
         buildingManager = GetComponent<BuildingManager>();
@@ -87,8 +103,20 @@ public class CityManager : MonoBehaviour {
         return buildableTiles[Random.Range(0, buildableTiles.Count)];
     }
 
-    string GenerateCityName() {
-        return "City " + (cities.Count + 1);
+    string GenerateCityName(int ownerId) {
+        string ownerName = CM.GetCiv(ownerId).Name;
+        OwnersNames ownerNames = OwnersNames.Find(x => x.OwnerName == ownerName);
+        if (ownerNames == null) {
+            return "City " + (cities.Count + 1);
+        } else {
+            int copyNum = Mathf.FloorToInt(cities.Count / ownerNames.CityNames.Count);
+
+            if (copyNum == 0) {
+                return ownerNames.CityNames[cities.Count % ownerNames.CityNames.Count];
+            } else {
+                return ownerNames.CityNames[cities.Count % ownerNames.CityNames.Count] + " " + (copyNum + 1);
+            }
+        }
     }
 
     public City CityOnPosition(Vector2Int position) {
@@ -103,7 +131,7 @@ public class CityManager : MonoBehaviour {
     public void AddCity(Vector2Int position, int ownerId) {
         Civilization civ = CM.GetCiv(ownerId);
         City city = new City();
-        city.Name = GenerateCityName();
+        city.Name = GenerateCityName(ownerId);
         city.Position = position;
         city.buildings = new List<Building>();
         city.Owner = ownerId;
@@ -120,6 +148,7 @@ public class CityManager : MonoBehaviour {
 
         cities.Add(city);
         civ.cityIdentity.AddCity(city);
+        if (ownerId == -1) {Notifier.Notify(city.Name + " was founded");}
         civ.yieldIdentity.RecalculateYields(false);
         RedrawCityBorders();
         gameManager.UpdateGame();
@@ -217,6 +246,7 @@ public class CityManager : MonoBehaviour {
                 if (building.resourceRequirements.Count > 0) {
                     if (!CM.Player.resourceIdentity.RemoveResources(building.resourceRequirements)) {
                         Debug.Log("Not enough resources to build " + building.Name);
+                        Notifier.Notify("Not enough resources to build " + building.Name);
                         return;
                     }
                 }
@@ -395,6 +425,7 @@ public class BuildingProduction : ICityProduction {
 
     public void Complete(City city) {
         Debug.Log("Building " + Name + " completed in " + city.Name + " at " + Position.ToString());
+        Notifier.Notify("Building " + Name + " completed in " + city.Name);
         city.buildings.Add((Building)Production);
         city.YieldRecalculation();
         GameObject.Find("MANAGER").GetComponent<GameManager>().tileMap.AddTileExtra(Position, ((Building)Production).ExtraType, true);
@@ -415,6 +446,7 @@ public class CivilProduction : ICityProduction {
 
     public void Complete(City city) {
         Debug.Log("Civil " + Name + " completed in " + city.Name);
+        Notifier.Notify(Name + " completed in " + city.Name);
         GameObject.Find("MANAGER").GetComponent<EntityManager>().CitySpawn(city, (Civil)Production);
     }
 
@@ -431,6 +463,7 @@ public class MilitProduction : ICityProduction {
 
     public void Complete(City city) {
         Debug.Log("Milit " + Name + " completed in " + city.Name);
+        Notifier.Notify(Name + " completed in " + city.Name);
         GameObject.Find("MANAGER").GetComponent<EntityManager>().CitySpawn(city, (Milit)Production);
     }
 
@@ -447,4 +480,12 @@ public class CityYieldsHolder : YieldsHolder {
     public CityYieldsHolder(float Population = 1, int Housing = 2, float Food = 1, float ProductionPoints = 1, float Science = 1, float Gold = 1, float Energy = 0, float Strength = 80) : base(Housing, Food, ProductionPoints, Science, Gold, Energy, Strength) {
         this.Population = Population;
     }
+}
+
+public class OwnersNamesWrapper {
+    public List<OwnersNames> ownersNames;
+}
+public class OwnersNames {
+    public string OwnerName;
+    public List<string> CityNames;
 }

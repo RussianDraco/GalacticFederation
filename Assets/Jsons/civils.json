@@ -3,7 +3,6 @@
         {
             "Name": "Settlers",
             "Description": "Construct settlements from scratch",
-            "EntityId": 0,
             "IconPath": "Sprites/settlers",
             "Health": 2,
             "MaxMovePoints": 2,

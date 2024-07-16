@@ -117,7 +117,7 @@ public class EntityManager : MonoBehaviour
         gameManager.UpdateGame();
     }
     public void SpawnMilit(Milit milit, Vector2Int position, int ownerId) {
-        var newMilit = new Milit(milit.Name, milit.Description, milit.EntityId, milit.Type, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
+        var newMilit = new Milit(milit.Name, milit.Description, milit.Type, milit.IconPath, milit.Health, milit.MaxMovePoints, milit.AttackDamage, milit.Cost, milit.researchRequirement);
         newMilit.Position = position;
         newMilit.Owner = ownerId;
         newMilit.GameObject = Instantiate(militPrefab, CoordToPosition(position), Quaternion.identity);
@@ -435,7 +435,6 @@ public class Milit
 {
     public string Name;
     public string Description;
-    public int EntityId;
     public string IconPath;
     public string Type; //melee, ranged, siegemelee, siegeranged
     public float Health;
@@ -451,11 +450,10 @@ public class Milit
     public int Cost;
     public string buildingRequirement = "";
 
-    public Milit(string Name, string Description, int EntityId, string Type, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int Owner, int researchRequirement = -1, string buildingRequirement = "")
+    public Milit(string Name, string Description, string Type, string IconPath, float Health, int MaxMovePoints, int AttackDamage, int Cost, int Owner, int researchRequirement = -1, string buildingRequirement = "")
     {
         this.Name = Name;
         this.Description = Description;
-        this.EntityId = EntityId;
         this.Type = Type;
         this.IconPath = IconPath;
         this.Health = Health;

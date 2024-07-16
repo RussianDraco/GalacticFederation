@@ -128,9 +128,11 @@ public class ActionManager : MonoBehaviour {
                     selectEntityScript.CivilReload(((Civil)selectedEntity).MovePoints, ((Civil)selectedEntity).ActionPoints);
                 } else {
                     Debug.Log("Action failed!");
+                    Notifier.Notify("Action failed!");
                 }
             } else {
                 Debug.Log("Not enough action points!");
+                Notifier.Notify("Not enough action points!");
             }
         } else {
             Debug.LogError("RequestCivilAction called without a selected entity OR selected entity is not a Civil!");

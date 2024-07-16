@@ -25,3 +25,9 @@ public class NotificationManager : MonoBehaviour {
         notifications.Add(notificationScript);
     }
 }
+
+public static class Notifier {
+    public static void Notify(string text) {
+        GameObject.Find("MANAGER").GetComponent<NotificationManager>().CreateNotification(text);
+    }
+}

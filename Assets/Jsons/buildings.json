@@ -108,6 +108,20 @@
                 "Energy": 3
             },
             "IconPath": "Buildings/solarpanel"
+        },
+        {
+            "Name": "Factory",
+            "Description": "Increases productive capacity",
+            "Cost": 18,
+            "ExtraType": "factory",
+            "researchRequirement": 9,
+            "requiredBuildings": ["Workshop"],
+            "resourceRequirements": [],
+            "Yields": {
+                "ProductionPoints": 4,
+                "Energy": -2
+            },
+            "IconPath": "Buildings/factory"
         }
     ]
 }

@@ -51,6 +51,9 @@ public class GameManager : MonoBehaviour
     {
         turnNumber++;
         Debug.Log("Turn " + turnNumber);
+        if (turnNumber % 10 == 0) {
+            Notifier.Notify("Turn: " + turnNumber);
+        }
         civilizationManager.NextTurn();
         actionManager.NextTurn();
         entityManager.NextTurn();
