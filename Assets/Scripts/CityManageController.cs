@@ -12,6 +12,7 @@ public class CityManageController : MonoBehaviour {
     public TMPro.TMP_Text productionPointsText;
     public TMPro.TMP_Text goldText;
     public TMPro.TMP_Text scienceText;
+    public TMPro.TMP_Text energyText;
     
     public Transform buildingList;
     public Transform cityOptions;
@@ -96,6 +97,7 @@ public class CityManageController : MonoBehaviour {
         goldText.text = city.Yields.Gold.ToString();
         productionPointsText.text = city.Yields.ProductionPoints.ToString();
         scienceText.text = city.Yields.Science.ToString();
+        energyText.text = city.Yields.Energy.ToString();
 
         cityControllerHolder.SetActive(true);
     }

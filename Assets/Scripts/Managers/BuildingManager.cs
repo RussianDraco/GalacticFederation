@@ -158,6 +158,10 @@ public class Building {
         //apply specific building effects per name
         //match (Name) {case "...": ...}
     }
+
+    public void ApplyNegativeEnergy(City city) {
+        city.Yields.Energy -= this.Yields.Energy;
+    }
 }
 
 [System.Serializable]

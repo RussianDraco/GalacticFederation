@@ -61,6 +61,9 @@
             "researchRequirement": 1,
             "requiredBuildings": [],
             "resourceRequirements": [],
+            "Yields": {
+                "Energy": -1
+            },
             "IconPath": "Buildings/siliconfoundry",
             "TerrainType": "siliconmars"
         },
@@ -73,7 +76,8 @@
             "requiredBuildings": [],
             "resourceRequirements": [],
             "Yields": {
-                "ProductionPoints": 2
+                "ProductionPoints": 2,
+                "Energy": -1
             },
             "IconPath": "Buildings/workshop"
         },
@@ -101,7 +105,7 @@
                 }
             ],
             "Yields": {
-                "Power": 3
+                "Energy": 3
             },
             "IconPath": "Buildings/solarpanel"
         }

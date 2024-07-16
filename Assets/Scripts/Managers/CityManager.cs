@@ -340,6 +340,7 @@ public class City {
                     building.ApplyBuildingEffects(this);
                     GameObject.Find("MANAGER").GetComponent<CityManager>().SetEnergyDeficit(building.Position, false);
                 } else {
+                    Yields.Energy -= building.Yields.Energy;
                     GameObject.Find("MANAGER").GetComponent<CityManager>().SetEnergyDeficit(building.Position, true);
                 }
             }
