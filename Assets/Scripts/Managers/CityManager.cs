@@ -482,10 +482,17 @@ public class CityYieldsHolder : YieldsHolder {
     }
 }
 
+[System.Serializable]
 public class OwnersNamesWrapper {
     public List<OwnersNames> ownersNames;
 }
+[System.Serializable]
 public class OwnersNames {
     public string OwnerName;
     public List<string> CityNames;
+
+    public OwnersNames(string OwnerName, List<string> CityNames) {
+        this.OwnerName = OwnerName;
+        this.CityNames = CityNames;
+    }
 }

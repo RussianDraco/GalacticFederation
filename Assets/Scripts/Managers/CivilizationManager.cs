@@ -37,8 +37,10 @@ public class Civilization { //class for a civ other than the player
     public CityIdentity cityIdentity;
     public EntityIdentity entityIdentity;
     public ResourceIdentity resourceIdentity;
+    public Ai ai;
 
     public void Init(GameObject manager) {
+        if (ownerId != -1) {this.ai = manager.GetComponent<AiManager>().CreateAi(this);}
         if (scienceIdentity != null) {return;}
         scienceIdentity = new ScienceIdentity(ownerId, manager, manager.GetComponent<ScienceManager>());
         scienceIdentity.Init();

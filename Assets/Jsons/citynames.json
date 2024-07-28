@@ -1,0 +1,21 @@
+{
+    "ownersNames": [
+        {
+            "OwnerName": "Player",
+            "CityNames": [
+                "Capital City",
+                "Metropolis",
+                "City of the Future"
+            ]
+        },
+        {
+            "OwnerName": "AI 1",
+            "CityNames": [
+                "Beep Capital",
+                "Robotopolis #1",
+                "Silicon Valley",
+                "Champion City"
+            ]
+        }
+    ]
+}

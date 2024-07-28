@@ -98,6 +98,8 @@ public class ToolTipScript : MonoBehaviour
             if (tile.ExtraType == "City")
             {
                 City city = manager.GetComponent<CityManager>().CityOnPosition(tile.Position);
+                Debug.Log(city.Name);
+                Debug.Log(OwnerName(city.Owner));
                 finalToolTip += "\n" + city.Name + " (" + OwnerName(city.Owner) + ")";
                 if (city.buildings.Count > 0)
                 {
