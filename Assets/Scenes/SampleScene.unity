@@ -8768,6 +8768,7 @@ GameObject:
   - component: {fileID: 1845061800}
   - component: {fileID: 1845061801}
   - component: {fileID: 1845061802}
+  - component: {fileID: 1845061803}
   m_Layer: 0
   m_Name: MANAGER
   m_TagString: Untagged
@@ -8789,6 +8790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapWidth: 10
   mapHeight: 10
+  aiManager: {fileID: 0}
 --- !u!4 &1845061790
 Transform:
   m_ObjectHideFlags: 0
@@ -8989,6 +8991,18 @@ MonoBehaviour:
   notificationPrefab: {fileID: 1334119714977256931, guid: 3d1d8748b4c83e44bb7bdcadd62165bd, type: 3}
   notifications: []
   notificationTimeout: 5
+--- !u!114 &1845061803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845061787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d3b9985b78026489627bdcfd443e37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1850062871
 GameObject:
   m_ObjectHideFlags: 0

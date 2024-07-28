@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private CityManager cityManager;
     private YieldManager yieldManager;
     private CivilizationManager civilizationManager;
+    public AiManager aiManager;
     int turnNumber = 0;
 
     void Awake()
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         cityManager = GetComponent<CityManager>();
         yieldManager = GetComponent<YieldManager>();
         civilizationManager = GetComponent<CivilizationManager>();
+        aiManager = GetComponent<AiManager>();
 
         if (civilizationManager.Player.scienceIdentity == null) {civilizationManager.Player.Init(this.gameObject);}
 
@@ -58,6 +60,7 @@ public class GameManager : MonoBehaviour
         actionManager.NextTurn();
         entityManager.NextTurn();
         cityManager.NextTurn();
+        aiManager.NextTurn();
         UpdateGame();
     }
 }

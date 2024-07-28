@@ -91,6 +91,11 @@ public static class Pathfinding
         return new Vector3Int(x, y, z);
     }
 
+    public static List<Vector2Int> GetNeighorsList(Vector2Int current)
+    {
+        return GetNeighbors(current).ToList();
+    }
+
     private static IEnumerable<Vector2Int> GetNeighbors(Vector2Int current)
     {
         List<Vector2Int> directions;
