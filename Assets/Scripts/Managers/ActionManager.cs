@@ -138,6 +138,13 @@ public class ActionManager : MonoBehaviour {
             Debug.LogError("RequestCivilAction called without a selected entity OR selected entity is not a Civil!");
         }
     }
+    public void RequestCivilAction(Civil civil, CivilAction civilAction) {
+        if (civilAction.ActionPoints <= civil.ActionPoints) {
+            if (CivilActionGod.CallCivilAction(civilAction.FunctionName.Replace(" ", "_"), new object[] { civil, civil.Owner })) {
+                civil.ActionPoints -= civilAction.ActionPoints;
+            }
+        }
+    }
 
     public void MoveButton() {
         isMoving = true;

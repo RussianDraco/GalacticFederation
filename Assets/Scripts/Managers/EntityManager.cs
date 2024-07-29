@@ -113,7 +113,7 @@ public class EntityManager : MonoBehaviour
         newCivil.GameObject = Instantiate(civilPrefab, CoordToPosition(position), Quaternion.identity);
         newCivil.GameObject.GetComponent<CivilScript>().SetCivil(newCivil, GrabIcon(newCivil.IconPath));
         activeCivils.Add(newCivil);
-        CM.GetCiv(ownerId).entityIdentity.AddCivil(civil);
+        CM.GetCiv(ownerId).entityIdentity.AddCivil(newCivil);
         gameManager.UpdateGame();
     }
     public void SpawnMilit(Milit milit, Vector2Int position, int ownerId) {
@@ -124,7 +124,7 @@ public class EntityManager : MonoBehaviour
         newMilit.GameObject.GetComponent<MilitScript>().SetMilit(newMilit, GrabIcon(newMilit.IconPath));
         newMilit.GameObject.GetComponent<UnityEngine.UI.Slider>().value = 1.0f;
         activeMilits.Add(newMilit);
-        CM.GetCiv(ownerId).entityIdentity.AddMilit(milit);
+        CM.GetCiv(ownerId).entityIdentity.AddMilit(newMilit);
         gameManager.UpdateGame();
     }
 

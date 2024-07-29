@@ -196,6 +196,51 @@ public class TileMap
 
         return neighbours;
     }
+    public List<Vector2Int> GetSecondNeighbours(Vector2Int tile) {
+        List<Vector2Int> directions;
+        if (tile.Position.y % 2 == 0) {
+            directions = new List<Vector2Int>
+            {
+                new Vector2Int(-2, 0),
+                new Vector2Int(-2, 1),
+                new Vector2Int(-1, 2),
+                new Vector2Int(0, 2),
+                new Vector2Int(1, 2),
+                new Vector2Int(1, 1),
+                new Vector2Int(2, 0),
+                new Vector2Int(1, -1),
+                new Vector2Int(1, -2),
+                new Vector2Int(0, -2),
+                new Vector2Int(-1, -2),
+                new Vector2Int(-2, -1),
+
+            };
+        } else {
+            directions = new List<Vector2Int>
+            {
+                new Vector2Int(-2, 0),
+                new Vector2Int(-1, 1),
+                new Vector2Int(-1, 2),
+                new Vector2Int(0, 2),
+                new Vector2Int(1, 2),
+                new Vector2Int(2, 1),
+                new Vector2Int(2, 0),
+                new Vector2Int(2, -1),
+                new Vector2Int(1, -2),
+                new Vector2Int(0, -2),
+                new Vector2Int(-1, -2),
+                new Vector2Int(-1, -1),
+            };
+        }
+
+        List<Vector2Int> neighbours = new List<Vector2Int>();
+        foreach (Vector2Int direction in directions) {
+            if (Tiles.ContainsKey(direction + position)) {
+                neighbours.Add(direction + position);
+            }
+        }
+        return neighbours;
+    }
 
     //this function will need to be upgraded to find neighbours from vector2int without conversion; this is also used in Pathfinding.cs
     public List<Vector2> SurroundingPoints(List<Tile> tiles) {
