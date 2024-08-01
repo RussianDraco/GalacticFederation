@@ -13,10 +13,29 @@ public class AiManager : MonoBehaviour {
         return ai;
     }
 
+    void CivCheck() {
+        for (int i = 0; i < ais.Count; i++) {
+            if (ais[i].civilization.cityIdentity.cities.Count == 0) {
+                if (ais[i].civilization.ownerId == -1) {
+                    GameObject.Find("MANAGER").GetComponent<GameManager>().GameOver();
+                    return;
+                }
+                ais.RemoveAt(i);
+                Notifier.Notify(i + " has been defeated!");
+                i--;
+            }
+        }
+        if (ais.Count == 1) {
+            GameObject.Find("MANAGER").GetComponent<GameManager>().PlayerWon();
+            return;
+        }
+    }
+
     public void NextTurn() {
         foreach (Ai ai in ais) {
             ai.NextTurn();
         }
+        CivCheck();
     }
 }
 
@@ -39,6 +58,7 @@ public class Ai {
                 List<CivilAction> acts = civil.Actions;
                 manager.GetComponent<ActionManager>().RequestCivilAction(civil, acts[Random.Range(0, acts.Count)]);
             }
+
             try {
                 if (civil == null) {
                     i--;
@@ -47,31 +67,39 @@ public class Ai {
                 i--;
             }
         }
-        foreach (Milit milit in civilization.entityIdentity.milits) {
+        for (int i = 0; i < civilization.entityIdentity.milits.Count; i++) {
+            Milit milit = civilization.entityIdentity.milits[i];
             manager.GetComponent<EntityManager>().MoveEntity(milit, MilitMovePath(milit.Position, TargetPosition(milit.Position)));
             List<Civil> ctargets = new List<Civil>();
             List<Milit> mtargets = new List<Milit>();
-            foreach (Vector2Int t in manager.GetComponent<GameManager>().tileMap.GetNeighors(milit.Position)) {
-                Civil c = manager.GetComponent<EntityManager>().CivilOnPosition(t);
-                Milit m = manager.GetComponent<EntityManager>().MilitOnPosition(t);
-                if (c != null) {
-                    ctargets.Add(c);
-                }
-                if (m != null) {
-                    mtargets.Add(m);
+            foreach (Vector2Int t in manager.GetComponent<GameManager>().tileMap.GetNeighbours(milit.Position)) {
+                var entity = manager.GetComponent<EntityManager>().EntityOn(t);
+                if (entity != null) {
+                    if (entity is Civil) {
+                        ctargets.Add(entity as Civil);
+                    } else if (entity is Milit) {
+                        mtargets.Add(entity as Milit);
+                    }
                 }
             }
             foreach (Vector2Int t in manager.GetComponent<GameManager>().tileMap.GetSecondNeighbours(milit.Position)) {
-                Civil c = manager.GetComponent<EntityManager>().CivilOnPosition(t);
-                Milit m = manager.GetComponent<EntityManager>().MilitOnPosition(t);
-                if (c != null) {
-                    ctargets.Add(c);
-                }
-                if (m != null) {
-                    mtargets.Add(m);
+                var entity = manager.GetComponent<EntityManager>().EntityOn(t);
+                if (entity != null) {
+                    if (entity is Civil) {
+                        ctargets.Add(entity as Civil);
+                    } else if (entity is Milit) {
+                        mtargets.Add(entity as Milit);
+                    }
                 }
             }
             
+            try {
+                if (milit == null) {
+                    i--;
+                }
+            } catch {
+                i--;
+            }
         }
     }
     void CityManagement() {

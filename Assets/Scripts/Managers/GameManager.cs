@@ -16,10 +16,14 @@ public class GameManager : MonoBehaviour
     private CivilizationManager civilizationManager;
     public AiManager aiManager;
     int turnNumber = 0;
+    public GameObject playerWonScreen;
+    public GameObject gameOverScreen;
 
     void Awake()
     {
-        tileMap = new TileMap(mapWidth, mapHeight);   
+        tileMap = new TileMap(mapWidth, mapHeight); 
+        playerWonScreen.SetActive(false);
+        gameOverScreen.SetActive(false);  
     }
 
     private void Start()
@@ -41,6 +45,14 @@ public class GameManager : MonoBehaviour
         
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(5, 5), 0);
         entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(5, 6), 0);
+    }
+
+    public void PlayerWon() {
+        playerWonScreen.SetActive(true);
+    }
+
+    public void GameOver() {
+        gameOverScreen.SetActive(true);
     }
 
     public void UpdateGame()

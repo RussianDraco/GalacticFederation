@@ -198,7 +198,7 @@ public class TileMap
     }
     public List<Vector2Int> GetSecondNeighbours(Vector2Int tile) {
         List<Vector2Int> directions;
-        if (tile.Position.y % 2 == 0) {
+        if (tile.y % 2 == 0) {
             directions = new List<Vector2Int>
             {
                 new Vector2Int(-2, 0),
@@ -235,8 +235,8 @@ public class TileMap
 
         List<Vector2Int> neighbours = new List<Vector2Int>();
         foreach (Vector2Int direction in directions) {
-            if (Tiles.ContainsKey(direction + position)) {
-                neighbours.Add(direction + position);
+            if (Tiles.ContainsKey(direction + tile)) {
+                neighbours.Add(direction + tile);
             }
         }
         return neighbours;
