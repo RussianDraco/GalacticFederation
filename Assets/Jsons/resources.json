@@ -15,6 +15,30 @@
             "Id": 1,
             "innovationRequirement": 1,
             "extractionBuilding": "Silicon Foundry"
+        },
+        {
+            "Name": "Tin",
+            "TerrainType": "tinmars",
+            "IconPath": "Resources/tin",
+            "Id": 2,
+            "innovationRequirement": 5,
+            "extractionBuilding": "Basic Mine"
+        },
+        {
+            "Name": "Uranium",
+            "TerrainType": "uraniummars",
+            "IconPath": "Resources/uranium",
+            "Id": 3,
+            "innovationRequirement": 17,
+            "extractionBuilding": "Advanced Mine"
+        },
+        {
+            "Name": "Lead",
+            "TerrainType": "leadmars",
+            "IconPath": "Resources/lead",
+            "Id": 4,
+            "innovationRequirement": 19,
+            "extractionBuilding": "Advanced Mine"
         }
     ]
 }

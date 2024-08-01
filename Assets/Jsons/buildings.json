@@ -122,6 +122,62 @@
                 "Energy": -2
             },
             "IconPath": "Buildings/factory"
+        },
+        {
+            "Name": "Advanced Mine",
+            "Description": "A mine that can extract advanced resources",
+            "Cost": 30,
+            "ExtraType": "advancedmine",
+            "researchRequirement": 16,
+            "requiredBuildings": [],
+            "resourceRequirements": [],
+            "Yields": {
+                "Energy": -5,
+                "ProductionPoints": 5
+            },
+            "IconPath": "Buildings/advancedmine"
+        },
+        {
+            "Name": "Nuclear Plant",
+            "Description": "Generates power from nuclear fission",
+            "Cost": 40,
+            "ExtraType": "nuclearplant",
+            "researchRequirement": 21,
+            "requiredBuildings": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Uranium",
+                    "Amount": 30
+                }
+            ],
+            "Yields": {
+                "Energy": 12,
+                "ProductionPoints": 3
+            },
+            "IconPath": "Buildings/nuclearplant"
+        },
+        {
+            "Name": "Fusion Plant",
+            "Description": "Generates power from nuclear fusion",
+            "Cost": 50,
+            "ExtraType": "fusionplant",
+            "researchRequirement": 24,
+            "requiredBuildings": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Uranium",
+                    "Amount": 50
+                },
+                {
+                    "ResourceName": "Lead",
+                    "Amount": 40
+                }
+            ],
+            "Yields": {
+                "Energy": 20,
+                "ProductionPoints": 5
+            },
+            "IconPath": "Buildings/fusionplant"
         }
     ]
 }
