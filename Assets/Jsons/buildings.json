@@ -151,7 +151,7 @@
                 }
             ],
             "Yields": {
-                "Energy": 12,
+                "Energy": 10,
                 "ProductionPoints": 3
             },
             "IconPath": "Buildings/nuclearplant"
@@ -174,10 +174,106 @@
                 }
             ],
             "Yields": {
-                "Energy": 20,
+                "Energy": 15,
                 "ProductionPoints": 5
             },
             "IconPath": "Buildings/fusionplant"
+        },
+        {
+            "Name": "Vertical Farms",
+            "Description": "Agricultural buildings that can produce food",
+            "Cost": 27,
+            "ExtraType": "verticalfarms",
+            "researchRequirement": 14,
+            "requiredBuildings": [],
+            "resourceRequirements": [],
+            "Yields": {
+                "Food": 4,
+                "Energy": -1
+            },
+            "IconPath": "Buildings/verticalfarms"
+        },
+        {
+            "Name": "Quantum Computer",
+            "Description": "A computer that uses quantum technology",
+            "Cost": 60,
+            "ExtraType": "quantumcomputer",
+            "researchRequirement": 23,
+            "requiredBuildings": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Silicon",
+                    "Amount": 50
+                },
+                {
+                    "ResourceName": "Iron",
+                    "Amount": 40
+                },
+                {
+                    "ResourceName": "Tin",
+                    "Amount": 30
+                },
+                {
+                    "ResourceName": "Uranium",
+                    "Amount": 20
+                },
+                {
+                    "ResourceName": "Lead",
+                    "Amount": 10
+                }
+            ],
+            "Yields": {
+                "Science": 10,
+                "ProductionPoints": 5,
+                "Energy": -10
+            },
+            "IconPath": "Buildings/quantumcomputer"
+        },
+        {
+            "Name": "Modern Housing",
+            "Description": "Modern housing for settlers",
+            "Cost": 24,
+            "ExtraType": "modernhousing",
+            "researchRequirement": 7,
+            "requiredBuildings": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Iron",
+                    "Amount": 8
+                }
+            ],
+            "Yields": {
+                "Housing": 4,
+                "Energy": -1
+            },
+            "IconPath": "Buildings/modernhousing"
+        },
+        {
+            "Name": "Efficent Apartments",
+            "Description": "Small, efficient apartments for settlers",
+            "Cost": 34,
+            "ExtraType": "efficentapartments",
+            "researchRequirement": 22,
+            "requiredBuildings": [],
+            "resourceRequirements": [
+                {
+                    "ResourceName": "Iron",
+                    "Amount": 10
+                },
+                {
+                    "ResourceName": "Tin",
+                    "Amount": 5
+                },
+                {
+                    "ResourceName": "Silicon",
+                    "Amount": 5
+                }
+            ],
+            "Yields": {
+                "Housing": 7,
+                "Energy": -2
+            },
+            "IconPath": "Buildings/efficentapartments"
         }
     ]
 }

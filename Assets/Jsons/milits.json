@@ -36,6 +36,19 @@
             "Cost": 15,
             "researchRequirement": 6,
             "buildingRequirement": "Barracks"
+        },
+        {
+            "Name": "Robot Tank",
+            "Description": "A large robot tank",
+            "EntityId": 5,
+            "Type": "siegemelee",
+            "IconPath": "Sprites/robottank",
+            "Health": 22,
+            "MaxMovePoints": 2,
+            "AttackDamage": 10,
+            "Cost": 22,
+            "researchRequirement": 15,
+            "buildingRequirement": "Factory"
         }
     ]
 }
