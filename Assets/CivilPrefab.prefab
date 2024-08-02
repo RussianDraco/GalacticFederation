@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1212332820667255641}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -103,12 +103,18 @@ MonoBehaviour:
     Description: 
     IconPath: 
     Health: 0
+    MaxHealth: 0
     MaxMovePoints: 0
     MovePoints: 0
     Position: {x: 0, y: 0}
     GameObject: {fileID: 0}
     MaxActionPoints: 0
     ActionPoints: 0
+    Actions: []
+    researchRequirement: 0
+    Owner: 0
+    Cost: 0
+    buildingRequirement: 
 --- !u!61 &6050221084874489359
 BoxCollider2D:
   m_ObjectHideFlags: 0

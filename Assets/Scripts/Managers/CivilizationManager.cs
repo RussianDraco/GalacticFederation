@@ -20,8 +20,6 @@ public class CivilizationManager : MonoBehaviour {
 
     public Civilization GetCiv(int ownerId) {
         if (ownerId == -1) {return Player;}
-        Debug.Log(ownerId);
-        Debug.Log(civs.Count);
         return civs[ownerId + 1]; //player will always be at index 0 so an offset is needed
     }
 

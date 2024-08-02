@@ -12,6 +12,9 @@ public class NotificationManager : MonoBehaviour {
 
     private void Start() {
         CreateNotification("Welcome to the game!");
+        CreateNotification("The characters at the bottom left are yours.");
+        CreateNotification("Keep mouse over things to get more info.");
+        CreateNotification("Defeat the cities and settlers of all other civilizations to win.");
     }
 
     private void Update() {

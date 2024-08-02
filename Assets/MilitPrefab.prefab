@@ -85,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6370674784592655434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7793958848251529852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -342,7 +342,7 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &5916360958674552447
@@ -360,8 +360,8 @@ MonoBehaviour:
   milit:
     Name: 
     Description: 
-    EntityId: 0
     IconPath: 
+    Type: 
     Health: 0
     MaxHealth: 0
     MaxMovePoints: 0
@@ -374,7 +374,6 @@ MonoBehaviour:
     Owner: 0
     Cost: 0
     buildingRequirement: 
-  healthBar: {fileID: 5660324443081130795}
 --- !u!61 &8896339249302452785
 BoxCollider2D:
   m_ObjectHideFlags: 0
