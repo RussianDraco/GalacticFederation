@@ -19,8 +19,17 @@ public class TileMap
                 Tiles[position] = new Tile(position, "basicmars"); // Initialize with default terrain type
             }
         }
-        Tiles[new Vector2Int(1, 1)].TerrainType = "ironmars";
-        Tiles[new Vector2Int(2, 1)].TerrainType = "siliconmars";
+        
+        List<Resource> resources = GameObject.Find("MANAGER").GetComponent<ResourceManager>().resources;
+        foreach (Resource resource in resources)
+        {
+            for (int i = 0; i < (int)(Mathf.Round(width * height * 0.07f)); i++) {
+                Vector2Int position = new Vector2Int(Random.Range(0, width), Random.Range(0, height));
+                if (Tiles.ContainsKey(position)) {
+                    Tiles[position].TerrainType = resource.TerrainType;
+                } else {i--;}
+            }
+        }
     }
 
     public Tile GetTile(Vector2Int position)

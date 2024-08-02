@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public int mapWidth = 10;
-    public int mapHeight = 10;
+    public int mapWidth = 50;
+    public int mapHeight = 50;
     public TileMap tileMap;
     private TileMapManager tileMapManager;
     private EntityManager entityManager;
@@ -41,11 +41,27 @@ public class GameManager : MonoBehaviour
         if (civilizationManager.Player.scienceIdentity == null) {civilizationManager.Player.Init(this.gameObject);}
 
         tileMapManager.Initialize(tileMap);
+
         entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(1, 0), -1);
         entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 0), -1);
         
-        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(5, 5), 0);
-        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(5, 6), 0);
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(21, 20), 0);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(20, 20), 0);
+
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(41, 40), 1);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(40, 40), 1);
+
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(21, 0), 2);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(20, 0), 2);
+
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(0, 21), 3);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 20), 3);
+
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(41, 0), 4);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(40, 0), 4);
+
+        entityManager.SpawnCivil(entityManager.civils[0], new Vector2Int(0, 41), 5);
+        entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(0, 40), 5);
     }
 
     void RevertToMenu() {

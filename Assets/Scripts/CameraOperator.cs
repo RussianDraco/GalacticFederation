@@ -3,8 +3,8 @@ using UnityEngine;
 public class CameraOperator : MonoBehaviour {
     private Camera cam;
     public float speed = 2.0f;
-    public Vector2 xBounds = new Vector2(7, 100);
-    public Vector2 yBounds = new Vector2(3, 100);
+    public Vector2 xBounds = new Vector2(7, 135);
+    public Vector2 yBounds = new Vector2(3, 120);
 
     private void Start() {
         cam = Camera.main;

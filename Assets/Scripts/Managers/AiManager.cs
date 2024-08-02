@@ -15,13 +15,14 @@ public class AiManager : MonoBehaviour {
 
     void CivCheck() {
         for (int i = 0; i < ais.Count; i++) {
-            if (ais[i].civilization.cityIdentity.cities.Count == 0) {
+            if (ais[i].civilization.cityIdentity.cities.Count == 0 && ais[i].civilization.entityIdentity.civils.Count == 0) {
                 if (ais[i].civilization.ownerId == -1) {
                     GameObject.Find("MANAGER").GetComponent<GameManager>().GameOver();
                     return;
                 }
+                string name = ais[i].civilization.Name;
                 ais.RemoveAt(i);
-                Notifier.Notify(i + " has been defeated!");
+                Notifier.Notify(name + " has been defeated!");
                 i--;
             }
         }

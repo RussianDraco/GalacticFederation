@@ -6,10 +6,11 @@ public class CivilizationManager : MonoBehaviour {
     public List<Civilization> civs = new List<Civilization>();
     public Civilization Player;
 
-    private void Awake() {
-        civs.Add(new Civilization { Name = "Player", ownerId = -1 });
+    public void SummonCivs(List<string> civnames) { //called after citymanager.start imports the city names from .json
+        foreach (string name in civnames) {
+            civs.Add(new Civilization { Name = name, ownerId = (civs.Count - 1) });
+        }
         Player = civs[0];
-        civs.Add(new Civilization { Name = "AI 1", ownerId = 0 });
 
         GameObject manager = GameObject.Find("MANAGER");
         foreach (Civilization civ in civs) {
@@ -19,6 +20,8 @@ public class CivilizationManager : MonoBehaviour {
 
     public Civilization GetCiv(int ownerId) {
         if (ownerId == -1) {return Player;}
+        Debug.Log(ownerId);
+        Debug.Log(civs.Count);
         return civs[ownerId + 1]; //player will always be at index 0 so an offset is needed
     }
 

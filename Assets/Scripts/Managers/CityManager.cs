@@ -34,6 +34,16 @@ public class CityManager : MonoBehaviour {
         {
             Debug.LogError("JSON file not found: " + jsonPath);
         }
+
+        GetComponent<CivilizationManager>().SummonCivs(AllCivNames());
+    }
+
+    List<string> AllCivNames() {
+        List<string> civNames = new List<string>();
+        foreach (OwnersNames ownerNames in OwnersNames) {
+            civNames.Add(ownerNames.OwnerName);
+        }
+        return civNames;
     }
 
     private void Start() {
