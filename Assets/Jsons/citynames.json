@@ -3,18 +3,106 @@
         {
             "OwnerName": "Player",
             "CityNames": [
-                "Capital City",
-                "Metropolis",
-                "City of the Future"
+                "Starbase Alpha",
+                "Nova Prime",
+                "Andromeda Station",
+                "Pulsar Colony",
+                "Nebula Outpost",
+                "Celestial City",
+                "Orion Hub",
+                "Quasar Citadel",
+                "Galactic Port",
+                "Supernova Center"
             ]
         },
         {
-            "OwnerName": "AI 1",
+            "OwnerName": "Cybernetic Empire",
             "CityNames": [
-                "Beep Capital",
-                "Robotopolis #1",
-                "Silicon Valley",
-                "Champion City"
+                "Mechapolis",
+                "Cyberia",
+                "Automaton City",
+                "Binary Borough",
+                "Silicon Haven",
+                "Robotic Heights",
+                "AI Metropolis",
+                "Quantum Quarters",
+                "Droid District",
+                "Neural Nexus"
+            ]
+        },
+        {
+            "OwnerName": "Astro Colonizers",
+            "CityNames": [
+                "Zenith Colony",
+                "Exoplanet Town",
+                "Starship Bay",
+                "Astral Reach",
+                "Interstellar Port",
+                "Comet Base",
+                "Celestial Shores",
+                "Satellite City",
+                "Starlight Station",
+                "Galaxy Gateway"
+            ]
+        },
+        {
+            "OwnerName": "Mechanical Dynasty",
+            "CityNames": [
+                "Techtonia",
+                "Circuitville",
+                "Gearworks",
+                "Alloy Acres",
+                "Nanobot Town",
+                "Servo City",
+                "Cogwheel Center",
+                "Electra Metropolis",
+                "Gyrobot Grove",
+                "Mechanus"
+            ]
+        },
+        {
+            "OwnerName": "Android Alliance",
+            "CityNames": [
+                "Androidia",
+                "Synthetic City",
+                "Botville",
+                "Circuit Town",
+                "Bio-City",
+                "Machina",
+                "Cybertron",
+                "Robotropolis",
+                "Digital Domain",
+                "Holo-Haven"
+            ]
+        },
+        {
+            "OwnerName": "Cosmic Republic",
+            "CityNames": [
+                "Cosmic City",
+                "Stellar Station",
+                "Spaceport",
+                "Comet Colony",
+                "Meteor Metropolis",
+                "Astronautopolis",
+                "Spacefarer",
+                "Nebular Nexus",
+                "Orbitville",
+                "Spacelane"
+            ]
+        },
+        {
+            "OwnerName": "Robotic Union",
+            "CityNames": [
+                "Mechanopolis",
+                "Techton",
+                "Cyburb",
+                "Robotica",
+                "Digitropolis",
+                "Byteburg",
+                "Nano City",
+                "Quantum Qube",
+                "Mechanoia",
+                "Synth City"
             ]
         }
     ]

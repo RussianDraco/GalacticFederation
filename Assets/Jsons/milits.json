@@ -49,6 +49,19 @@
             "Cost": 22,
             "researchRequirement": 15,
             "buildingRequirement": "Factory"
+        },
+        {
+            "Name": "Quantum Robot",
+            "Description": "A robot with quantum technology",
+            "EntityId": 6,
+            "Type": "melee",
+            "IconPath": "Sprites/quantumrobot",
+            "Health": 30,
+            "MaxMovePoints": 3,
+            "AttackDamage": 19,
+            "Cost": 30,
+            "researchRequirement": 23,
+            "buildingRequirement": "Fusion Plant"
         }
     ]
 }

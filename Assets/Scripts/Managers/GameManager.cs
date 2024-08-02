@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
     private CityManager cityManager;
     private YieldManager yieldManager;
     private CivilizationManager civilizationManager;
-    public AiManager aiManager;
+    private AiManager aiManager;
     int turnNumber = 0;
     public GameObject playerWonScreen;
     public GameObject gameOverScreen;
@@ -47,12 +48,24 @@ public class GameManager : MonoBehaviour
         entityManager.SpawnMilit(entityManager.milits[0], new Vector2Int(5, 6), 0);
     }
 
+    void RevertToMenu() {
+        SceneManager.LoadScene("Menu");
+    }
+    private IEnumerator SleepCoroutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+    }
+
     public void PlayerWon() {
         playerWonScreen.SetActive(true);
+        StartCoroutine(SleepCoroutine(3f));
+        RevertToMenu();
     }
 
     public void GameOver() {
         gameOverScreen.SetActive(true);
+        StartCoroutine(SleepCoroutine(3f));
+        RevertToMenu();
     }
 
     public void UpdateGame()
